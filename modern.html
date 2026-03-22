@@ -1,0 +1,1194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS⚡ CUET Mock — 2047 Interface</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   CORE VARIABLES & RESET
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#040812;
+  --deep:#060d1a;
+  --surface:#0a1628;
+  --glass:rgba(10,22,40,0.85);
+  --border:rgba(0,212,255,0.2);
+  --border-bright:rgba(0,212,255,0.6);
+  --cyan:#00d4ff;
+  --cyan-d:#0099cc;
+  --cyan-glow:rgba(0,212,255,0.15);
+  --neon:#39ff14;
+  --neon-d:#2acc10;
+  --neon-glow:rgba(57,255,20,0.15);
+  --magenta:#ff0090;
+  --mag-glow:rgba(255,0,144,0.15);
+  --gold:#ffd700;
+  --gold-glow:rgba(255,215,0,0.15);
+  --text:#e0f4ff;
+  --text-m:rgba(224,244,255,0.6);
+  --text-d:rgba(224,244,255,0.35);
+  --red:#ff3c3c;
+  --orange:#ff8c00;
+  --answered:#39ff14;
+  --not-ans:#ff3c3c;
+  --marked:#bf5af2;
+  --not-vis:rgba(224,244,255,0.2);
+  --font-display:'Orbitron',sans-serif;
+  --font-body:'Exo 2',sans-serif;
+  --font-mono:'Share Tech Mono',monospace;
+}
+html,body{height:100%;overflow:hidden;background:var(--void);color:var(--text);font-family:var(--font-body)}
+/* Custom cursor */
+body{cursor:none}
+#cursor{position:fixed;width:20px;height:20px;border:2px solid var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;transform:translate(-50%,-50%);transition:transform 0.1s,opacity 0.2s;mix-blend-mode:screen}
+#cursor-dot{position:fixed;width:4px;height:4px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:999999;transform:translate(-50%,-50%)}
+#cursor.click{transform:translate(-50%,-50%) scale(1.8);border-color:var(--neon)}
+/* Scanlines */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:99998;animation:scan 8s linear infinite}
+@keyframes scan{0%{background-position:0 0}100%{background-position:0 100%}}
+/* Particle canvas */
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+/* Screens */
+.screen{display:none;position:fixed;inset:0;z-index:10}
+.screen.active{display:flex}
+/* Toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--glass);border:1px solid var(--cyan);color:var(--cyan);padding:10px 24px;border-radius:4px;font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;z-index:99990;opacity:0;transition:all .35s;backdrop-filter:blur(20px)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ═══════════════════════════════════════════
+   SHARED COMPONENTS
+═══════════════════════════════════════════ */
+.nx-panel{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:4px;
+  backdrop-filter:blur(20px);
+  position:relative;
+  overflow:hidden;
+}
+.nx-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  animation:scanline-top 3s linear infinite;
+}
+@keyframes scanline-top{0%{opacity:0;transform:scaleX(0)}20%{opacity:1}80%{opacity:1}100%{opacity:0;transform:scaleX(1)}}
+.nx-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 24px;border:1px solid var(--cyan);border-radius:4px;
+  background:transparent;color:var(--cyan);font-family:var(--font-display);
+  font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  cursor:none;transition:all .2s;position:relative;overflow:hidden;
+}
+.nx-btn::before{content:'';position:absolute;inset:0;background:var(--cyan-glow);opacity:0;transition:opacity .2s}
+.nx-btn:hover::before{opacity:1}
+.nx-btn:hover{box-shadow:0 0 20px rgba(0,212,255,.3),inset 0 0 20px rgba(0,212,255,.05)}
+.nx-btn.green{border-color:var(--neon);color:var(--neon)}
+.nx-btn.green::before{background:var(--neon-glow)}
+.nx-btn.green:hover{box-shadow:0 0 20px rgba(57,255,20,.3)}
+.nx-btn.mag{border-color:var(--magenta);color:var(--magenta)}
+.nx-btn.mag::before{background:var(--mag-glow)}
+.nx-btn.mag:hover{box-shadow:0 0 20px rgba(255,0,144,.3)}
+.nx-btn:disabled{opacity:.35;pointer-events:none}
+.nx-input{
+  width:100%;background:rgba(0,212,255,.04);border:1px solid var(--border);
+  border-radius:4px;padding:12px 16px;color:var(--text);font-family:var(--font-body);
+  font-size:14px;outline:none;transition:all .2s;
+}
+.nx-input:focus{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(0,212,255,.1),0 0 20px rgba(0,212,255,.05)}
+.nx-input::placeholder{color:var(--text-d);font-family:var(--font-mono);font-size:12px;letter-spacing:.05em}
+.nx-label{font-family:var(--font-mono);font-size:11px;color:var(--cyan);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;display:block}
+/* Glitch text */
+.glitch{position:relative}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
+.glitch::before{color:var(--cyan);animation:glitch1 3s infinite;clip-path:polygon(0 0,100% 0,100% 35%,0 35%);opacity:.8}
+.glitch::after{color:var(--magenta);animation:glitch2 3s infinite;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);opacity:.8}
+@keyframes glitch1{0%,90%,100%{transform:translateX(0)}92%{transform:translateX(-3px)}96%{transform:translateX(3px)}}
+@keyframes glitch2{0%,90%,100%{transform:translateX(0)}91%{transform:translateX(3px)}95%{transform:translateX(-3px)}}
+/* Progress bar */
+.nx-progress{height:4px;background:rgba(0,212,255,.1);border-radius:2px;overflow:hidden}
+.nx-progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--neon));border-radius:2px;transition:width .5s ease;box-shadow:0 0 8px rgba(0,212,255,.5)}
+
+/* ═══════════════════════════════════════════
+   HOLOGRAPHIC GRID BG
+═══════════════════════════════════════════ */
+.holo-grid{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);
+  background-size:50px 50px;
+  animation:grid-pulse 4s ease-in-out infinite;
+}
+@keyframes grid-pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.holo-orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:1}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(0,212,255,.08),transparent);top:-200px;right:-200px;animation:orb-drift 8s ease-in-out infinite}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(255,0,144,.06),transparent);bottom:-100px;left:-100px;animation:orb-drift 10s ease-in-out infinite reverse}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(57,255,20,.05),transparent);top:50%;left:50%;animation:orb-drift 6s ease-in-out infinite 2s}
+@keyframes orb-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-20px)}}
+
+/* ═══════════════════════════════════════════
+   SCREEN 1: LOGIN
+═══════════════════════════════════════════ */
+#login-screen{flex-direction:column;align-items:center;justify-content:center}
+.login-wrap{width:440px;max-width:95vw;position:relative;z-index:10;animation:fadeUp .6s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.login-header{text-align:center;margin-bottom:32px}
+.nexus-logo{font-family:var(--font-display);font-size:42px;font-weight:900;letter-spacing:.1em;color:var(--cyan);text-shadow:0 0 30px rgba(0,212,255,.6),0 0 60px rgba(0,212,255,.3);margin-bottom:4px}
+.nexus-sub{font-family:var(--font-mono);font-size:11px;color:var(--text-d);letter-spacing:.3em;text-transform:uppercase}
+.exam-type-tag{display:inline-block;margin-top:12px;border:1px solid rgba(0,212,255,.3);padding:4px 16px;border-radius:2px;font-family:var(--font-mono);font-size:10px;color:var(--text-m);letter-spacing:.2em;position:relative}
+.exam-type-tag::before{content:'';position:absolute;top:-1px;left:10px;width:30px;height:2px;background:var(--void)}
+.exam-type-tag::after{content:'';position:absolute;bottom:-1px;right:10px;width:30px;height:2px;background:var(--void)}
+.login-panel{padding:28px}
+.photo-zone{display:flex;align-items:center;gap:16px;margin-bottom:22px;padding:16px;border:1px dashed rgba(0,212,255,.2);border-radius:4px;cursor:none;transition:border-color .2s}
+.photo-zone:hover{border-color:rgba(0,212,255,.5)}
+.photo-preview{width:60px;height:60px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;background:rgba(0,212,255,.05);overflow:hidden;flex-shrink:0;position:relative}
+.photo-preview img{width:100%;height:100%;object-fit:cover}
+.photo-preview .scan-ring{position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--cyan);animation:rotate-ring 4s linear infinite;opacity:.4}
+@keyframes rotate-ring{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.photo-info{flex:1}
+.photo-info .pi-title{font-family:var(--font-mono);font-size:11px;color:var(--cyan);letter-spacing:.1em}
+.photo-info .pi-sub{font-size:11px;color:var(--text-d);margin-top:2px}
+.form-row{margin-bottom:16px}
+.pass-wrap{position:relative}
+.pass-wrap .nx-input{padding-right:44px}
+.pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-d);cursor:none;font-size:14px;padding:0}
+.pass-toggle:hover{color:var(--cyan)}
+.login-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:11px}
+.remember-row{display:flex;align-items:center;gap:8px;color:var(--text-m);cursor:none}
+.nx-checkbox{width:14px;height:14px;accent-color:var(--cyan);cursor:none}
+.forgot-link{color:var(--cyan);font-family:var(--font-mono);letter-spacing:.05em;cursor:none;text-decoration:none}
+.forgot-link:hover{text-shadow:0 0 10px var(--cyan)}
+.login-divider{display:flex;align-items:center;gap:12px;margin:18px 0;font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.2em}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+/* Past history on login */
+.history-panel{margin-top:20px;padding:16px 20px;border-top:1px solid var(--border)}
+.history-title{font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
+.history-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(0,212,255,.05)}
+.history-row:last-child{border-bottom:none}
+.hr-name{font-size:12px;color:var(--text-m)}
+.hr-score{font-family:var(--font-mono);font-size:12px;color:var(--neon);font-weight:700}
+.hr-date{font-family:var(--font-mono);font-size:10px;color:var(--text-d)}
+.history-empty{font-size:12px;color:var(--text-d);text-align:center;padding:8px;font-family:var(--font-mono)}
+
+/* ═══════════════════════════════════════════
+   SCREEN 2: INSTRUCTIONS
+═══════════════════════════════════════════ */
+#instr-screen{flex-direction:column;overflow:hidden}
+.nx-topbar{
+  height:56px;flex-shrink:0;
+  background:rgba(4,8,18,.95);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;position:relative;z-index:20;
+  backdrop-filter:blur(20px);
+}
+.ntb-logo{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--cyan);letter-spacing:.1em;text-shadow:0 0 15px rgba(0,212,255,.4)}
+.ntb-right{display:flex;align-items:center;gap:16px}
+.ntb-cand{display:flex;align-items:center;gap:10px}
+.ntb-av{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-size:13px;background:rgba(0,212,255,.1);overflow:hidden;flex-shrink:0}
+.ntb-av img{width:100%;height:100%;object-fit:cover}
+.ntb-name{font-size:13px;color:var(--text);font-weight:500}
+.ntb-id{font-family:var(--font-mono);font-size:10px;color:var(--text-d)}
+.instr-body{flex:1;overflow-y:auto;padding:24px;position:relative;z-index:10}
+.instr-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1100px;margin:0 auto}
+.instr-grid .full{grid-column:1/-1}
+.icard{padding:20px 22px}
+.icard h3{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--cyan);letter-spacing:.12em;margin-bottom:14px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.icard h3 .icon{font-size:16px;filter:drop-shadow(0 0 4px var(--cyan))}
+.icard ol,.icard ul{padding-left:18px}
+.icard li{font-size:13px;color:var(--text-m);line-height:1.8;margin-bottom:2px}
+.icard li strong{color:var(--text)}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat-box{text-align:center;padding:14px 10px;background:rgba(0,212,255,.04);border:1px solid var(--border);border-radius:4px}
+.stat-box .sn{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--cyan)}
+.stat-box .sl{font-family:var(--font-mono);font-size:9px;color:var(--text-d);letter-spacing:.15em;margin-top:3px}
+.leg-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.leg2{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text-m)}
+.lb2{width:24px;height:24px;border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000}
+.agree-row{display:flex;align-items:flex-start;gap:12px;padding:14px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.25);border-radius:4px;cursor:none;margin-top:4px}
+.agree-row input{width:16px;height:16px;accent-color:var(--cyan);margin-top:1px;cursor:none;flex-shrink:0}
+.agree-row label{font-size:13px;color:var(--text-m);cursor:none;line-height:1.6}
+.instr-footer{padding:16px 24px;border-top:1px solid var(--border);background:rgba(4,8,18,.9);display:flex;justify-content:center;gap:16px;flex-shrink:0;z-index:20;position:relative}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,.3);border-radius:2px}
+
+/* ═══════════════════════════════════════════
+   SCREEN 3: EXAM
+═══════════════════════════════════════════ */
+#exam-screen{flex-direction:column;height:100vh;overflow:hidden}
+.exam-topbar{
+  height:54px;flex-shrink:0;
+  background:rgba(4,8,18,.97);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;position:relative;z-index:20;backdrop-filter:blur(20px);
+}
+.etb-l{display:flex;align-items:center;gap:14px}
+.etb-logo{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--cyan);letter-spacing:.08em;text-shadow:0 0 12px rgba(0,212,255,.4)}
+.sec-chip{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3);padding:4px 12px;border-radius:2px;font-family:var(--font-mono);font-size:10px;color:var(--cyan);letter-spacing:.15em}
+.etb-r{display:flex;align-items:center;gap:12px}
+.cand-chip{display:flex;align-items:center;gap:8px}
+.cav-small{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-size:12px;overflow:hidden;background:rgba(0,212,255,.08);flex-shrink:0}
+.cav-small img{width:100%;height:100%;object-fit:cover}
+.cname-small{font-size:12px;color:var(--text);font-weight:500;white-space:nowrap;max-width:100px;overflow:hidden;text-overflow:ellipsis}
+/* TIMER */
+.timer-hud{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.4);border:1px solid rgba(0,212,255,.25);border-radius:4px;padding:5px 12px}
+.timer-label{font-family:var(--font-mono);font-size:9px;color:var(--text-d);letter-spacing:.15em;text-transform:uppercase}
+.timer-val{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--cyan);letter-spacing:.06em;min-width:62px;text-align:center;text-shadow:0 0 10px rgba(0,212,255,.4)}
+.timer-val.warn{color:var(--orange);text-shadow:0 0 10px rgba(255,140,0,.5);animation:pulse-warn .8s ease-in-out infinite}
+.timer-val.danger{color:var(--red);text-shadow:0 0 15px rgba(255,60,60,.6);animation:pulse-warn .4s ease-in-out infinite}
+@keyframes pulse-warn{0%,100%{opacity:1}50%{opacity:.5}}
+/* PROGRESS ROW */
+.exam-progress-row{height:28px;flex-shrink:0;background:rgba(4,8,18,.8);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;gap:14px;font-family:var(--font-mono);font-size:11px;color:var(--text-d)}
+.prog-bar-wrap{flex:1;height:4px;background:rgba(0,212,255,.08);border-radius:2px;overflow:hidden}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--neon));border-radius:2px;transition:width .4s ease;box-shadow:0 0 6px rgba(0,212,255,.4)}
+.prog-text{white-space:nowrap;color:var(--cyan)}
+/* MAIN CONTENT */
+.exam-main{flex:1;display:flex;overflow:hidden;position:relative}
+/* Q PANEL */
+.qpanel{flex:1;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border)}
+.qpanel-hdr{flex-shrink:0;padding:10px 16px;background:rgba(4,8,18,.8);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.qhdr-left{display:flex;align-items:center;gap:10px}
+.q-id{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--cyan)}
+.q-subject{font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.1em}
+.q-difficulty{display:flex;gap:3px}
+.diff-dot{width:6px;height:6px;border-radius:50%}
+.q-content{flex:1;overflow-y:auto;padding:18px 20px}
+.q-direction-box{background:rgba(255,140,0,.05);border:1px solid rgba(255,140,0,.2);border-left:3px solid var(--orange);padding:12px 14px;margin-bottom:16px;border-radius:0 4px 4px 0}
+.q-direction-box .d-head{font-family:var(--font-mono);font-size:10px;color:var(--orange);letter-spacing:.15em;margin-bottom:6px}
+.q-direction-box p{font-size:12.5px;color:rgba(255,200,100,.8);line-height:1.65}
+.q-text-box{font-size:14.5px;line-height:1.75;color:var(--text);margin-bottom:20px;font-weight:400}
+.opts-list{display:flex;flex-direction:column;gap:8px}
+.opt-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 15px;border:1px solid rgba(0,212,255,.15);border-radius:4px;
+  cursor:none;transition:all .15s;background:rgba(0,212,255,.02);
+  position:relative;overflow:hidden;
+}
+.opt-item::before{content:'';position:absolute;inset:0;background:var(--cyan-glow);opacity:0;transition:opacity .15s}
+.opt-item:hover::before{opacity:1}
+.opt-item:hover{border-color:rgba(0,212,255,.5)}
+.opt-item.sel{border-color:var(--cyan);background:rgba(0,212,255,.07)}
+.opt-item.sel::before{opacity:1}
+.opt-letter{
+  width:26px;height:26px;border-radius:3px;flex-shrink:0;
+  border:1px solid rgba(0,212,255,.3);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:11px;font-weight:700;color:var(--cyan);
+  transition:all .15s;margin-top:1px;
+}
+.opt-item.sel .opt-letter{background:var(--cyan);color:var(--void);border-color:var(--cyan);box-shadow:0 0 12px rgba(0,212,255,.4)}
+.opt-text{font-size:13.5px;line-height:1.55;color:var(--text-m);transition:color .15s}
+.opt-item:hover .opt-text,.opt-item.sel .opt-text{color:var(--text)}
+/* PALETTE */
+.palette{width:270px;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;background:rgba(4,8,18,.9)}
+.pal-top{padding:14px;border-bottom:1px solid var(--border)}
+.pal-cand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pal-av{width:46px;height:46px;border-radius:50%;border:2px solid var(--cyan);background:rgba(0,212,255,.08);display:flex;align-items:center;justify-content:center;font-size:19px;overflow:hidden;flex-shrink:0;position:relative}
+.pal-av::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px dashed rgba(0,212,255,.3);animation:rotate-ring 6s linear infinite}
+.pal-av img{width:100%;height:100%;object-fit:cover}
+.pal-name{font-size:13px;font-weight:600;color:var(--text)}
+.pal-uid{font-family:var(--font-mono);font-size:10px;color:var(--text-d);margin-top:1px}
+/* Stats mini */
+.pal-stats-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px}
+.psm{text-align:center;padding:6px 4px;border-radius:3px;border:1px solid transparent}
+.psm-num{font-family:var(--font-display);font-size:14px;font-weight:700}
+.psm-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.1em;margin-top:1px;opacity:.7}
+.psm.green{border-color:rgba(57,255,20,.2);background:rgba(57,255,20,.05)}
+.psm.green .psm-num{color:var(--neon)}
+.psm.red{border-color:rgba(255,60,60,.2);background:rgba(255,60,60,.05)}
+.psm.red .psm-num{color:var(--red)}
+.psm.gray{border-color:rgba(224,244,255,.08);background:rgba(224,244,255,.03)}
+.psm.gray .psm-num{color:var(--text-m)}
+/* Legend */
+.pal-legend{padding:8px 14px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.pleg{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--text-d);font-family:var(--font-mono)}
+.pldot{width:18px;height:18px;border-radius:2px;flex-shrink:0}
+.pld-an{background:var(--answered);box-shadow:0 0 4px rgba(57,255,20,.4)}
+.pld-na{background:var(--not-ans);box-shadow:0 0 4px rgba(255,60,60,.3)}
+.pld-mk{background:var(--marked);box-shadow:0 0 4px rgba(191,90,242,.3)}
+.pld-nv{background:rgba(224,244,255,.1);border:1px solid rgba(224,244,255,.15)}
+.pal-sec-lbl{padding:6px 14px;font-family:var(--font-mono);font-size:9px;color:var(--text-d);letter-spacing:.15em;background:rgba(0,212,255,.03);border-bottom:1px solid var(--border)}
+.pgrid{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start}
+.pqb{
+  width:32px;height:32px;border-radius:3px;border:none;cursor:none;
+  font-family:var(--font-display);font-size:10px;font-weight:700;
+  transition:transform .1s,box-shadow .15s;display:flex;align-items:center;justify-content:center;
+}
+.pqb:hover{transform:scale(1.12)}
+.pqb.cur{box-shadow:0 0 0 2px var(--void),0 0 0 3px var(--cyan),0 0 12px rgba(0,212,255,.5)!important}
+.s-nv{background:rgba(224,244,255,.08);color:rgba(224,244,255,.4);border:1px solid rgba(224,244,255,.1)}
+.s-na{background:rgba(255,60,60,.15);color:var(--red);border:1px solid rgba(255,60,60,.3)}
+.s-an{background:rgba(57,255,20,.15);color:var(--neon);border:1px solid rgba(57,255,20,.3)}
+.s-mk{background:rgba(191,90,242,.15);color:var(--marked);border:1px solid rgba(191,90,242,.3)}
+.s-ma{background:rgba(57,255,20,.08);color:var(--neon);border:1px dashed rgba(57,255,20,.4);position:relative}
+.s-ma::after{content:'◆';position:absolute;top:-3px;right:-3px;font-size:7px;color:var(--marked)}
+.pal-btns{padding:8px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:5px}
+.pab{padding:7px;border-radius:3px;background:transparent;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;cursor:none;transition:all .15s;text-align:center;border:1px solid var(--border);color:var(--text-d)}
+.pab:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,.05)}
+.pab.pri{border-color:var(--neon);color:var(--neon);background:rgba(57,255,20,.05)}
+.pab.pri:hover{background:rgba(57,255,20,.12)}
+.pab:disabled{opacity:.3;pointer-events:none}
+/* FOOTER */
+.exam-footer{height:50px;flex-shrink:0;background:rgba(4,8,18,.95);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px}
+.ef-l,.ef-r{display:flex;gap:7px}
+.efb{padding:7px 14px;border-radius:3px;border:1px solid var(--border);background:transparent;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--text-d);cursor:none;transition:all .15s;text-transform:uppercase}
+.efb:hover{border-color:var(--cyan);color:var(--cyan)}
+.efb.mark{border-color:rgba(191,90,242,.4);color:var(--marked)}.efb.mark:hover{background:rgba(191,90,242,.08)}
+.efb.clear{border-color:rgba(255,140,0,.4);color:var(--orange)}.efb.clear:hover{background:rgba(255,140,0,.08)}
+.efb.save{border-color:rgba(0,212,255,.4);color:var(--cyan)}.efb.save:hover{background:rgba(0,212,255,.08)}
+.efb.sub{border-color:var(--neon);color:var(--neon);background:rgba(57,255,20,.06)}.efb.sub:hover{background:rgba(57,255,20,.15)}
+.efb:disabled{opacity:.3;pointer-events:none}
+
+/* MODAL */
+.moverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.moverlay.open{display:flex}
+.mbox{width:460px;max-width:92vw;padding:26px;position:relative;animation:fadeUp .3s ease}
+.mbox h3{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--cyan);letter-spacing:.1em;margin-bottom:12px;text-shadow:0 0 15px rgba(0,212,255,.3)}
+.mstats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+.mstat{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid var(--border);border-radius:3px;background:rgba(0,212,255,.03)}
+.msd{width:18px;height:18px;border-radius:2px;flex-shrink:0}
+.msi{font-size:12px;color:var(--text-m)}.msi b{display:block;font-family:var(--font-display);font-size:18px;color:var(--text)}
+.mwarn{background:rgba(255,140,0,.06);border:1px solid rgba(255,140,0,.25);border-radius:3px;padding:9px 13px;font-size:12px;color:rgba(255,200,80,.8);margin-bottom:14px;font-family:var(--font-mono)}
+.mbtns{display:flex;gap:10px;justify-content:flex-end}
+
+/* ═══════════════════════════════════════════
+   SCREEN 4: RESULT
+═══════════════════════════════════════════ */
+#result-screen{flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;padding:28px 16px}
+.rcard{width:700px;max-width:96vw;position:relative;z-index:10;animation:fadeUp .6s ease;padding:32px}
+.rcard-header{text-align:center;margin-bottom:28px}
+.r-logo{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--cyan);letter-spacing:.15em;margin-bottom:8px;opacity:.6}
+.r-title{font-family:var(--font-display);font-size:26px;font-weight:900;color:var(--text);letter-spacing:.05em;margin-bottom:4px}
+.r-subtitle{font-family:var(--font-mono);font-size:11px;color:var(--text-d);letter-spacing:.2em}
+/* Score display */
+.score-holo{display:flex;align-items:center;justify-content:center;gap:32px;margin:24px 0}
+.score-circle-wrap{position:relative;width:150px;height:150px}
+.score-circle-svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.score-circle-bg{fill:none;stroke:rgba(0,212,255,.1);stroke-width:6}
+.score-circle-fill{fill:none;stroke-width:6;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset 2s ease;filter:drop-shadow(0 0 6px rgba(0,212,255,.5))}
+.score-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sc-num{font-family:var(--font-display);font-size:30px;font-weight:900;color:var(--cyan);text-shadow:0 0 20px rgba(0,212,255,.5);line-height:1}
+.sc-tot{font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.1em;margin-top:2px}
+.score-right{flex:1;max-width:280px}
+/* Grade badge */
+.grade-display{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.grade-badge{width:80px;height:80px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.gb-letter{font-family:var(--font-display);font-size:36px;font-weight:900;line-height:1}
+.gb-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.15em;margin-top:2px}
+.grade-info .gi-name{font-family:var(--font-display);font-size:15px;font-weight:700;margin-bottom:4px}
+.grade-info .gi-desc{font-size:12px;color:var(--text-m);line-height:1.5}
+/* Percentile */
+.percentile-bar{margin-top:12px}
+.pb-label{font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.1em;margin-bottom:5px;display:flex;justify-content:space-between}
+.pb-track{height:8px;background:rgba(0,212,255,.08);border-radius:4px;overflow:hidden}
+.pb-fill{height:100%;border-radius:4px;transition:width 2s ease 0.5s}
+/* Stats */
+.r-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
+.rst{text-align:center;padding:14px 8px;border-radius:4px;border:1px solid var(--border);background:rgba(0,212,255,.02)}
+.rst-num{font-family:var(--font-display);font-size:22px;font-weight:700}
+.rst-lbl{font-family:var(--font-mono);font-size:8.5px;color:var(--text-d);letter-spacing:.12em;margin-top:3px}
+/* Section analysis */
+.section-analysis{margin:20px 0}
+.sa-title{font-family:var(--font-display);font-size:12px;color:var(--cyan);letter-spacing:.12em;margin-bottom:12px;text-transform:uppercase}
+.sa-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:13px}
+.sa-label{width:160px;flex-shrink:0;color:var(--text-m)}
+.sa-bar{flex:1;height:8px;background:rgba(0,212,255,.08);border-radius:4px;overflow:hidden}
+.sa-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--cyan),var(--neon));transition:width 1.5s ease}
+.sa-val{width:40px;text-align:right;font-family:var(--font-mono);font-size:11px;color:var(--cyan)}
+/* Achievements */
+.achievements{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.ach{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:4px;border:1px solid;font-size:12px;background:rgba(0,0,0,.2)}
+.ach.gold{border-color:rgba(255,215,0,.3);color:var(--gold)}
+.ach.cyan{border-color:rgba(0,212,255,.3);color:var(--cyan)}
+.ach.neon{border-color:rgba(57,255,20,.3);color:var(--neon)}
+.ach.mag{border-color:rgba(255,0,144,.3);color:var(--magenta)}
+.r-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.rfooter{text-align:center;margin-top:18px;font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.1em;line-height:1.8}
+
+/* AI INSIGHT bubble */
+.ai-insight{margin:16px 0;padding:14px 16px;background:rgba(191,90,242,.04);border:1px solid rgba(191,90,242,.2);border-radius:4px;position:relative}
+.ai-insight::before{content:'⬡ AI ANALYSIS';position:absolute;top:-8px;left:14px;background:var(--deep);padding:0 8px;font-family:var(--font-mono);font-size:9px;color:var(--marked);letter-spacing:.15em}
+.ai-text{font-size:12.5px;color:rgba(191,90,242,.9);line-height:1.7;font-style:italic}
+
+/* Fullscreen overlay */
+#fs-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:99999;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px}
+#fs-ov.show{display:flex}
+#fs-ov h2{font-family:var(--font-display);font-size:22px;color:var(--orange);letter-spacing:.1em}
+#fs-ov p{font-size:13px;color:var(--text-m);max-width:380px;line-height:1.6;font-family:var(--font-mono)}
+</style>
+</head>
+<body>
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+<!-- BG EFFECTS -->
+<canvas id="particles"></canvas>
+<div class="holo-grid"></div>
+<div class="holo-orb orb1"></div>
+<div class="holo-orb orb2"></div>
+<div class="holo-orb orb3"></div>
+<div id="toast"></div>
+<div id="fs-ov">
+  <h2>⚠ FULLSCREEN BREACH</h2>
+  <p>NEXUS CBT requires fullscreen mode. Violations tracked: <strong id="fs-cnt" style="color:var(--red)">0</strong>/3</p>
+  <button class="nx-btn" onclick="enterFS()">↗ RESTORE FULLSCREEN</button>
+</div>
+<div class="moverlay" id="sub-modal">
+  <div class="mbox nx-panel">
+    <h3>⚡ CONFIRM SUBMISSION</h3>
+    <p style="font-size:12px;color:var(--text-d);font-family:var(--font-mono);margin-bottom:4px;letter-spacing:.05em">REVIEW YOUR ATTEMPT BEFORE FINALIZING —</p>
+    <div class="mstats" id="modal-stats"></div>
+    <div class="mwarn">⚠ THIS ACTION IS IRREVERSIBLE. YOUR RESPONSES WILL BE LOCKED AND EVALUATED.</div>
+    <div class="mbtns">
+      <button class="nx-btn" onclick="closeModal()">CANCEL</button>
+      <button class="nx-btn green" onclick="finalSubmit()">SUBMIT ◈</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SCREEN 1: LOGIN ════════════ -->
+<div id="login-screen" class="screen active">
+  <div class="login-wrap" style="position:relative;z-index:10">
+    <div class="login-header">
+      <div class="nexus-logo glitch" data-text="NEXUS CBT">NEXUS CBT</div>
+      <div class="nexus-sub">Neural Examination System v4.7</div>
+      <div class="exam-type-tag">◈ CUET · NTA PATTERN · 2047 EDITION</div>
+    </div>
+    <div class="nx-panel">
+      <div class="login-panel">
+        <!-- Photo upload -->
+        <div class="photo-zone" onclick="document.getElementById('photo-inp').click()" id="photo-zone">
+          <div class="photo-preview" id="photo-prev"><span id="photo-icon">◉</span><div class="scan-ring"></div></div>
+          <div class="photo-info">
+            <div class="pi-title">BIOMETRIC PHOTO — OPTIONAL</div>
+            <div class="pi-sub">Click to upload candidate photo (JPG/PNG)</div>
+          </div>
+          <input type="file" id="photo-inp" accept="image/*" style="display:none" onchange="loadPhoto(event)">
+        </div>
+        <div class="form-row">
+          <label class="nx-label">CANDIDATE ID / EMAIL</label>
+          <input class="nx-input" id="l-id" type="text" placeholder="Enter your Login ID or email" autocomplete="off">
+        </div>
+        <div class="form-row">
+          <label class="nx-label">SECURE ACCESS CODE</label>
+          <div class="pass-wrap">
+            <input class="nx-input" id="l-pass" type="password" placeholder="Enter password" autocomplete="off">
+            <button class="pass-toggle" id="pt" onclick="togglePass()">👁</button>
+          </div>
+        </div>
+        <div class="login-meta">
+          <div class="remember-row">
+            <input type="checkbox" class="nx-checkbox" id="remember"> 
+            <label for="remember" style="font-size:11px;color:var(--text-d);font-family:var(--font-mono);cursor:none">KEEP SESSION ACTIVE</label>
+          </div>
+          <a class="forgot-link" style="font-size:10px;letter-spacing:.08em">RECOVER ACCESS</a>
+        </div>
+        <button class="nx-btn" style="width:100%;padding:14px;font-size:13px" onclick="doLogin()">◈ INITIALIZE SESSION</button>
+      </div>
+      <div class="history-panel">
+        <div class="history-title">◎ PREVIOUS ATTEMPTS · NEURAL CACHE</div>
+        <div id="history-list"></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:14px;font-family:var(--font-mono);font-size:9px;color:var(--text-d);letter-spacing:.15em;line-height:1.8">
+      NEXUS CBT v4.7 · THUNDER⚡ EDUCATION SYSTEMS<br>
+      DESIGNED BY @thundertechnologyofficial · FOR @thunderstudy_official<br>
+      MADE BY WONDERMAYANK
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SCREEN 2: INSTRUCTIONS ════════════ -->
+<div id="instr-screen" class="screen" style="flex-direction:column">
+  <div class="nx-topbar">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="ntb-logo">NEXUS⚡CBT</div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.1em">CUET MOCK · INSTRUCTIONS</div>
+    </div>
+    <div class="ntb-right">
+      <div class="ntb-cand">
+        <div class="ntb-av" id="i-av"><span id="i-av-txt">◉</span></div>
+        <div><div class="ntb-name" id="i-name">—</div><div class="ntb-id" id="i-id">—</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="instr-body" style="position:relative;z-index:10">
+    <div class="instr-grid" style="max-width:1100px;margin:0 auto">
+      <!-- Stats -->
+      <div class="icard nx-panel full">
+        <div class="stat-grid">
+          <div class="stat-box"><div class="sn">50</div><div class="sl">TOTAL QUESTIONS</div></div>
+          <div class="stat-box"><div class="sn" style="color:var(--neon)">60</div><div class="sl">MINUTES DURATION</div></div>
+          <div class="stat-box"><div class="sn" style="color:var(--gold)">200</div><div class="sl">MAXIMUM MARKS</div></div>
+          <div class="stat-box"><div class="sn" style="color:var(--magenta)">−1</div><div class="sl">NEGATIVE MARKING</div></div>
+          <div class="stat-box"><div class="sn">+4</div><div class="sl">CORRECT MARKS</div></div>
+          <div class="stat-box"><div class="sn" style="color:var(--text-d)">0</div><div class="sl">UNATTEMPTED</div></div>
+        </div>
+      </div>
+      <div class="icard nx-panel">
+        <h3><span class="icon">⬡</span>GENERAL DIRECTIVES</h3>
+        <ol>
+          <li>This examination contains <strong>50 questions</strong> from General Studies, Current Affairs, Logical Reasoning and Language Comprehension.</li>
+          <li>Duration: <strong>60 minutes</strong>. Timer begins when you start the exam.</li>
+          <li>Each correct answer: <strong>+4 marks</strong>. Wrong answer: <strong>−1 mark</strong>. Unattempted: 0.</li>
+          <li>Maximum Score: <strong>200 marks</strong>.</li>
+          <li>You may navigate freely between questions during the exam.</li>
+          <li>Use Mark for Review to flag questions for revisiting.</li>
+        </ol>
+      </div>
+      <div class="icard nx-panel">
+        <h3><span class="icon">◎</span>PALETTE STATUS LEGEND</h3>
+        <div class="leg-grid2">
+          <div class="leg2"><div class="lb2" style="background:rgba(224,244,255,.12);border:1px solid rgba(224,244,255,.2);color:rgba(224,244,255,.5)">1</div>Not yet visited</div>
+          <div class="leg2"><div class="lb2" style="background:rgba(255,60,60,.2);border:1px solid rgba(255,60,60,.4);color:var(--red)">1</div>Visited, unanswered</div>
+          <div class="leg2"><div class="lb2" style="background:rgba(57,255,20,.2);border:1px solid rgba(57,255,20,.4);color:var(--neon)">1</div>Answered</div>
+          <div class="leg2"><div class="lb2" style="background:rgba(191,90,242,.2);border:1px solid rgba(191,90,242,.4);color:var(--marked)">1</div>Marked for Review</div>
+          <div class="leg2"><div class="lb2" style="background:rgba(57,255,20,.1);border:1px dashed rgba(57,255,20,.4);color:var(--neon)">1</div>Answered + Marked</div>
+        </div>
+        <div style="margin-top:14px;font-size:12px;color:var(--text-d);font-family:var(--font-mono);line-height:1.8">
+          ◈ Answered + Marked questions<br>WILL be evaluated normally.<br>◈ Final submission is permanent.
+        </div>
+      </div>
+      <div class="icard nx-panel">
+        <h3><span class="icon">⟐</span>SUBJECT DISTRIBUTION</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="sa-row"><div class="sa-label" style="font-size:12px">General Studies</div><div class="sa-bar"><div class="sa-fill" style="width:28%;transition:none"></div></div><div class="sa-val">14Q</div></div>
+          <div class="sa-row"><div class="sa-label" style="font-size:12px">Current Affairs</div><div class="sa-bar"><div class="sa-fill" style="width:22%;transition:none;background:linear-gradient(90deg,var(--neon),var(--cyan))"></div></div><div class="sa-val">11Q</div></div>
+          <div class="sa-row"><div class="sa-label" style="font-size:12px">Logical Reasoning</div><div class="sa-bar"><div class="sa-fill" style="width:26%;transition:none;background:linear-gradient(90deg,var(--magenta),var(--marked))"></div></div><div class="sa-val">13Q</div></div>
+          <div class="sa-row"><div class="sa-label" style="font-size:12px">Language & Comprehension</div><div class="sa-bar"><div class="sa-fill" style="width:24%;transition:none;background:linear-gradient(90deg,var(--gold),var(--orange))"></div></div><div class="sa-val">12Q</div></div>
+        </div>
+      </div>
+      <div class="icard nx-panel">
+        <h3><span class="icon">⚡</span>SYSTEM PROTOCOLS</h3>
+        <ol>
+          <li>Exam must be in <strong>fullscreen mode</strong>. 3 violations = auto-submit.</li>
+          <li>Do not use browser back button or refresh during the exam.</li>
+          <li>Your responses are auto-saved continuously.</li>
+          <li>Results are stored on this device and accessible from the login screen.</li>
+          <li>After submission, an <strong>AI performance analysis</strong> is generated.</li>
+          <li>Your <strong>percentile rank</strong> and <strong>grade</strong> are calculated instantly.</li>
+        </ol>
+      </div>
+      <div class="icard nx-panel full">
+        <div class="agree-row" onclick="toggleAgree()">
+          <input type="checkbox" id="ag-cb" style="width:16px;height:16px;accent-color:var(--cyan);cursor:none">
+          <label for="ag-cb">I confirm that I have read all instructions and agree to comply with all examination regulations. I acknowledge that any violation may result in automatic disqualification.</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="instr-footer">
+    <button class="nx-btn" onclick="showScreen('login-screen')">← BACK</button>
+    <button class="nx-btn green" id="start-btn" onclick="startExam()" disabled>INITIATE EXAM ◈</button>
+  </div>
+</div>
+
+<!-- ════════════ SCREEN 3: EXAM ════════════ -->
+<div id="exam-screen" class="screen" style="flex-direction:column;height:100vh;overflow:hidden">
+  <div class="exam-topbar">
+    <div class="etb-l">
+      <div class="etb-logo">NEXUS⚡CBT</div>
+      <div class="sec-chip">◈ CUET · GENERAL TEST</div>
+    </div>
+    <div class="etb-r">
+      <div class="cand-chip">
+        <div class="cav-small" id="e-av"><span id="e-av-txt">◉</span></div>
+        <div class="cname-small" id="e-name">—</div>
+      </div>
+      <div class="timer-hud">
+        <div><div class="timer-label">TIME REMAINING</div><div class="timer-val" id="timer-v">60:00</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="exam-progress-row">
+    <span id="prog-txt" class="prog-text">0/50</span>
+    <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-fill" style="width:0%"></div></div>
+    <span id="prog-pct" style="color:var(--text-d)">0%</span>
+  </div>
+  <div class="exam-main">
+    <!-- Q PANEL -->
+    <div class="qpanel">
+      <div class="qpanel-hdr">
+        <div class="qhdr-left">
+          <div class="q-id" id="qh-id">Q — / 50</div>
+          <div class="q-subject" id="qh-subj">GENERAL STUDIES</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="q-difficulty" id="q-diff"></div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-d)">DIFFICULTY</div>
+        </div>
+      </div>
+      <div class="q-content" id="qcontent"></div>
+    </div>
+    <!-- PALETTE -->
+    <div class="palette">
+      <div class="pal-top">
+        <div class="pal-cand">
+          <div class="pal-av" id="p-av"><span id="p-av-txt">◉</span></div>
+          <div>
+            <div class="pal-name" id="p-name">—</div>
+            <div class="pal-uid" id="p-uid">—</div>
+          </div>
+        </div>
+        <div class="pal-stats-mini">
+          <div class="psm green"><div class="psm-num" id="ps-an">0</div><div class="psm-lbl">ANSWERED</div></div>
+          <div class="psm red"><div class="psm-num" id="ps-na">0</div><div class="psm-lbl">UNANSWERED</div></div>
+          <div class="psm gray"><div class="psm-num" id="ps-nv">50</div><div class="psm-lbl">NOT VISITED</div></div>
+        </div>
+      </div>
+      <div class="pal-legend">
+        <div class="pleg"><div class="pldot pld-an"></div>ANSWERED</div>
+        <div class="pleg"><div class="pldot pld-na"></div>NOT ANS</div>
+        <div class="pleg"><div class="pldot pld-mk"></div>MARKED</div>
+        <div class="pleg"><div class="pldot pld-nv"></div>NOT VISITED</div>
+      </div>
+      <div class="pal-sec-lbl">◈ QUESTION NAVIGATOR — SECTION A</div>
+      <div class="pgrid" id="pgrid"></div>
+      <div class="pal-btns">
+        <button class="pab" onclick="toast2('Question paper available post submission.')">⟐ QUESTION PAPER</button>
+        <button class="pab pri" onclick="openModal()">◈ SUBMIT TEST</button>
+      </div>
+    </div>
+  </div>
+  <div class="exam-footer">
+    <div class="ef-l">
+      <button class="efb mark" onclick="markRev()">◆ MARK &amp; NEXT</button>
+      <button class="efb clear" onclick="clearR()">⊘ CLEAR</button>
+    </div>
+    <div class="ef-r">
+      <button class="efb save" onclick="saveNext()">✦ SAVE &amp; NEXT</button>
+      <button class="efb sub" onclick="openModal()">◈ SUBMIT TEST</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SCREEN 4: RESULT ════════════ -->
+<div id="result-screen" class="screen" style="flex-direction:column;align-items:center;overflow-y:auto;padding:28px 16px">
+  <div class="rcard nx-panel" style="position:relative;z-index:10">
+    <div class="rcard-header">
+      <div class="r-logo">◈ NEXUS CBT · CUET MOCK EXAMINATION</div>
+      <div class="r-title glitch" id="r-title" data-text="EVALUATION COMPLETE">EVALUATION COMPLETE</div>
+      <div class="r-subtitle" id="r-sub">CANDIDATE PERFORMANCE REPORT</div>
+    </div>
+    <!-- Score + Grade -->
+    <div class="score-holo">
+      <div class="score-circle-wrap">
+        <svg class="score-circle-svg" viewBox="0 0 140 140">
+          <circle class="score-circle-bg" cx="70" cy="70" r="65"/>
+          <circle class="score-circle-fill" id="score-arc" cx="70" cy="70" r="65"/>
+        </svg>
+        <div class="score-center">
+          <div class="sc-num" id="r-score">0</div>
+          <div class="sc-tot">/ 200</div>
+        </div>
+      </div>
+      <div class="score-right">
+        <div class="grade-display">
+          <div class="grade-badge" id="grade-badge">
+            <div class="gb-letter" id="grade-letter">—</div>
+            <div class="gb-lbl" id="grade-lbl">GRADE</div>
+          </div>
+          <div class="grade-info">
+            <div class="gi-name" id="grade-name">—</div>
+            <div class="gi-desc" id="grade-desc">—</div>
+          </div>
+        </div>
+        <div class="percentile-bar">
+          <div class="pb-label">
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.1em">ESTIMATED PERCENTILE</span>
+            <span style="font-family:var(--font-display);font-size:12px;color:var(--cyan)" id="percentile-val">—</span>
+          </div>
+          <div class="pb-track"><div class="pb-fill" id="perc-bar" style="width:0%"></div></div>
+        </div>
+        <div style="margin-top:10px">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.1em;margin-bottom:4px">ACCURACY RATE</div>
+          <div class="nx-progress"><div class="nx-progress-fill" id="acc-bar" style="width:0%"></div></div>
+          <div style="font-family:var(--font-display);font-size:12px;color:var(--neon);margin-top:4px;text-align:right" id="acc-val">0%</div>
+        </div>
+      </div>
+    </div>
+    <!-- Stats row -->
+    <div class="r-stats">
+      <div class="rst"><div class="rst-num" id="r-cor" style="color:var(--neon)">0</div><div class="rst-lbl">CORRECT</div></div>
+      <div class="rst"><div class="rst-num" id="r-wrg" style="color:var(--red)">0</div><div class="rst-lbl">WRONG</div></div>
+      <div class="rst"><div class="rst-num" id="r-skp" style="color:var(--text-d)">0</div><div class="rst-lbl">SKIPPED</div></div>
+      <div class="rst"><div class="rst-num" id="r-atm" style="color:var(--cyan)">0</div><div class="rst-lbl">ATTEMPTED</div></div>
+    </div>
+    <!-- Section analysis -->
+    <div class="section-analysis">
+      <div class="sa-title">◈ SUBJECT-WISE ANALYSIS</div>
+      <div id="sa-bars"></div>
+    </div>
+    <!-- AI Insight -->
+    <div class="ai-insight">
+      <div class="ai-text" id="ai-text">Analyzing performance patterns...</div>
+    </div>
+    <!-- Achievements -->
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-d);letter-spacing:.15em;margin-bottom:8px">◎ ACHIEVEMENTS UNLOCKED</div>
+    <div class="achievements" id="achievements"></div>
+    <!-- Actions -->
+    <div class="r-actions">
+      <button class="nx-btn" onclick="location.reload()">↺ NEW ATTEMPT</button>
+      <button class="nx-btn green" onclick="showReview()">⟐ REVIEW ANSWERS</button>
+    </div>
+    <div class="rfooter">
+      NEXUS CBT v4.7 · THUNDER⚡ EDUCATION SYSTEMS<br>
+      DESIGNED BY @thundertechnologyofficial · FOR @thunderstudy_official · MADE BY WONDERMAYANK
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════ */
+const cur=document.getElementById('cursor');
+const curDot=document.getElementById('cursor-dot');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curDot.style.left=mx+'px';curDot.style.top=my+'px'});
+function animCursor(){cx+=(mx-cx)*.15;cy+=(my-cy)*.15;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(animCursor)}
+animCursor();
+document.addEventListener('mousedown',()=>cur.classList.add('click'));
+document.addEventListener('mouseup',()=>cur.classList.remove('click'));
+
+/* ═══════════════════════════════════════
+   PARTICLE CANVAS
+═══════════════════════════════════════ */
+(function(){
+  const c=document.getElementById('particles');
+  const ctx=c.getContext('2d');
+  let pts=[];
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<80;i++) pts.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,size:Math.random()*1.5+.5,alpha:Math.random()*.5+.1});
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=c.width;if(p.x>c.width)p.x=0;
+      if(p.y<0)p.y=c.height;if(p.y>c.height)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,212,255,${p.alpha})`;ctx.fill();
+    });
+    pts.forEach((p,i)=>{
+      pts.slice(i+1).forEach(q=>{
+        const d=Math.hypot(p.x-q.x,p.y-q.y);
+        if(d<100){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(0,212,255,${.05*(1-d/100)})`;ctx.lineWidth=.5;ctx.stroke()}
+      });
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══════════════════════════════════════
+   QUESTION BANK — 50 QUESTIONS
+═══════════════════════════════════════ */
+const SUBJECTS=['General Studies','Current Affairs','Logical Reasoning','Language & Comprehension'];
+const QS=[
+  // GENERAL STUDIES (14)
+  {s:0,diff:2,t:"The Constitution of India was adopted on:",o:["15 August 1947","26 November 1949","26 January 1950","2 October 1949"],a:1},
+  {s:0,diff:1,t:"Who is known as the 'Father of the Indian Constitution'?",o:["Jawaharlal Nehru","Sardar Patel","B.R. Ambedkar","Mahatma Gandhi"],a:2},
+  {s:0,diff:2,t:"Which article of the Indian Constitution deals with the Right to Equality?",o:["Article 19","Article 14","Article 21","Article 32"],a:1},
+  {s:0,diff:3,t:"The Preamble to the Indian Constitution was borrowed from which country?",o:["USA","UK","Canada","Australia"],a:0},
+  {s:0,diff:2,t:"ISRO's first satellite launched from Indian soil was:",o:["Aryabhata","Bhaskara","Rohini RS-1","APPLE"],a:2},
+  {s:0,diff:2,t:"The Tropic of Cancer passes through how many Indian states?",o:["6","7","8","9"],a:2},
+  {s:0,diff:1,t:"Which is the largest state of India by area?",o:["Maharashtra","Madhya Pradesh","Uttar Pradesh","Rajasthan"],a:3},
+  {s:0,diff:3,t:"Photosynthesis primarily occurs in which part of a plant?",o:["Root","Stem","Chloroplast","Mitochondria"],a:2},
+  {s:0,diff:2,t:"The chemical formula of washing soda is:",o:["Na₂SO₄","NaHCO₃","Na₂CO₃·10H₂O","NaCl"],a:2},
+  {s:0,diff:2,t:"Which planet has the highest number of natural satellites?",o:["Jupiter","Saturn","Uranus","Neptune"],a:1},
+  {s:0,diff:1,t:"The SI unit of electric current is:",o:["Volt","Ohm","Ampere","Watt"],a:2},
+  {s:0,diff:3,t:"Which Amendment introduced the 'Right to Education' as a fundamental right?",o:["86th","91st","73rd","44th"],a:0},
+  {s:0,diff:2,t:"The Bhakra-Nangal Dam is built on which river?",o:["Beas","Sutlej","Ravi","Chenab"],a:1},
+  {s:0,diff:2,t:"Who invented the World Wide Web?",o:["Bill Gates","Tim Berners-Lee","Vint Cerf","Dennis Ritchie"],a:1},
+  // CURRENT AFFAIRS (11)
+  {s:1,diff:2,t:"India's G20 Presidency year was:",o:["2022","2023","2024","2021"],a:1},
+  {s:1,diff:2,t:"Operation Sindoor was a military action by India targeting:",o:["Bangladesh","Myanmar","Terror infrastructure in Pakistan","China border posts"],a:2},
+  {s:1,diff:3,t:"The first country to make Bitcoin legal tender is:",o:["USA","Germany","El Salvador","Japan"],a:2},
+  {s:1,diff:2,t:"BRICS expanded its membership in 2024. How many countries joined?",o:["4","5","6","7"],a:1},
+  {s:1,diff:2,t:"Which Indian city hosted the 2023 G20 Summit?",o:["Mumbai","Chennai","New Delhi","Bengaluru"],a:2},
+  {s:1,diff:3,t:"The Chandrayaan-3 mission's landing site on the Moon is named:",o:["Nehru Point","Shiv Shakti","Vikram Station","Pragyan Crater"],a:1},
+  {s:1,diff:2,t:"The 2024 Paris Olympics mascot was called:",o:["Phryge","Mimi","Colette","Lumi"],a:0},
+  {s:1,diff:2,t:"Which country launched the world's first AI-generated national anthem?",o:["Japan","South Korea","China","UAE"],a:3},
+  {s:1,diff:1,t:"Who became the Prime Minister of the UK after Rishi Sunak in 2024?",o:["Boris Johnson","Keir Starmer","Liz Truss","Jeremy Hunt"],a:1},
+  {s:1,diff:3,t:"UPI transactions in India surpassed how many billion in 2023?",o:["50","83","100","120"],a:2},
+  {s:1,diff:2,t:"SAARC was established in which year?",o:["1980","1983","1985","1988"],a:2},
+  // LOGICAL REASONING (13)
+  {s:2,diff:2,t:"In a certain code, COMPUTER = RFGIJSVF. What does MEDICINE stand for?",o:["NFEJDJOF","MFEJDJOF","NFEJDNOF","NGEJEENF"],a:0},
+  {s:2,diff:1,t:"Find the next term: 2, 6, 18, 54, __",o:["108","162","216","270"],a:1},
+  {s:2,diff:2,t:"If A is the brother of B, B is the sister of C, C is the son of D. How is A related to D?",o:["Son","Daughter","Grandson","Child"],a:0},
+  {s:2,diff:3,t:"Five friends P, Q, R, S, T sit in a row. Q is to the right of P. T is to the left of R. S is between Q and T. R is at the rightmost. Who is in the middle?",o:["Q","S","T","P"],a:1},
+  {s:2,diff:2,t:"Complete: ACE, BDF, CEG, DFH, __",o:["EGI","EHI","EGH","FGI"],a:0},
+  {s:2,diff:1,t:"Odd one out: 81, 64, 36, 25, 18",o:["81","64","18","25"],a:2},
+  {s:2,diff:2,t:"'Pen' is to 'Write' as 'Knife' is to:",o:["Cut","Metal","Sharp","Cook"],a:0},
+  {s:2,diff:3,t:"A train 150m long passes a pole in 15 sec. It will pass a 300m platform in:",o:["25 sec","30 sec","40 sec","45 sec"],a:3},
+  {s:2,diff:2,t:"In a clock showing 3:00, what is the angle between the hour and minute hands?",o:["60°","75°","90°","120°"],a:2},
+  {s:2,diff:2,t:"If ROSE = 6251 and TULIP = 34219, LOTUS = ?",o:["26341","93241","26431","26431"],a:0},
+  {s:2,diff:3,t:"All A are B. Some B are C. No C is D. Conclusion: Some A are not D is:",o:["Definitely True","Definitely False","Probably True","Data insufficient"],a:3},
+  {s:2,diff:2,t:"Arrange in order: (1)Digestion (2)Hunger (3)Eating (4)Energy (5)Sleep",o:["2,3,1,4,5","2,1,3,4,5","3,1,2,4,5","1,2,3,4,5"],a:0},
+  {s:2,diff:1,t:"3, 5, 11, 29, 83, __",o:["225","245","247","281"],a:2},
+  // LANGUAGE & COMPREHENSION (12)
+  {s:3,diff:1,t:"Choose the word closest in meaning to EPHEMERAL:",o:["Eternal","Fleeting","Abundant","Crucial"],a:1},
+  {s:3,diff:2,t:"Identify the correctly spelled word:",o:["Consciencious","Conscientious","Consciencous","Conscientous"],a:1},
+  {s:3,diff:2,t:"She ___ to the office before her team arrived. (Perfect tense)",o:["goes","had gone","has gone","went"],a:1},
+  {s:3,diff:1,t:"The antonym of BENIGN is:",o:["Kind","Malignant","Gentle","Harmless"],a:1},
+  {s:3,diff:2,t:"'A blessing in disguise' means:",o:["A hidden curse","Something good that wasn't recognized at first","A dangerous situation","A lucky coincidence"],a:1},
+  {d:"Read the passage: 'Artificial Intelligence is reshaping every sector of society. From healthcare diagnostics to financial modeling, AI systems now perform tasks once exclusive to human experts. Critics warn of job displacement; proponents argue that AI creates more opportunities than it destroys.'",
+   s:3,diff:2,t:"What is the primary theme of the passage?",o:["Healthcare revolution","AI's societal transformation","Financial modeling advances","Robotic automation"],a:1},
+  {d:"Same passage as above.",s:3,diff:2,t:"According to critics, AI threatens to:",o:["Improve healthcare","Replace human jobs","Create new sectors","Advance education"],a:1},
+  {s:3,diff:3,t:"Choose the correct voice: 'The novel was written by the author in 2010.'",o:["Active voice","Passive voice","Interrogative voice","Imperative voice"],a:1},
+  {s:3,diff:2,t:"Synonym of MAGNANIMOUS:",o:["Petty","Generous","Cowardly","Selfish"],a:1},
+  {s:3,diff:1,t:"'To hit the nail on the head' means:",o:["Cause injury","Do exactly right","Work hard","Miss the point"],a:1},
+  {s:3,diff:3,t:"Choose the correct sentence:",o:["Neither she nor her friends was present","Neither she nor her friends were present","Neither she nor her friends is present","Neither she nor her friends has present"],a:1},
+  {s:3,diff:2,t:"The figure of speech in 'The wind whispered through the trees' is:",o:["Simile","Metaphor","Personification","Alliteration"],a:2},
+];
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let cName='',cUID='',photoDataUrl='',examRunning=false,resultData=null,fsViol=0;
+let curQ=0;
+const S={
+  ans: new Array(50).fill(null),
+  st:  new Array(50).fill('nv'), // nv na an mk ma
+  tLeft: 60*60,
+  timer: null
+};
+
+/* LOGIN */
+function loadPhoto(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    photoDataUrl=ev.target.result;
+    const prev=document.getElementById('photo-prev');
+    prev.innerHTML=`<img src="${photoDataUrl}"><div class="scan-ring"></div>`;
+  };
+  r.readAsDataURL(f);
+}
+function togglePass(){
+  const i=document.getElementById('l-pass');
+  const t=document.getElementById('pt');
+  i.type=i.type==='password'?'text':'password';
+  t.textContent=i.type==='password'?'👁':'🙈';
+}
+function doLogin(){
+  const id=document.getElementById('l-id').value.trim();
+  const pw=document.getElementById('l-pass').value.trim();
+  if(!id){toast2('⚠ CANDIDATE ID REQUIRED');return;}
+  if(!pw){toast2('⚠ ACCESS CODE REQUIRED');return;}
+  cName=id;cUID='CUET-'+id.toUpperCase().replace(/\s/g,'-').substring(0,8)+'-2047';
+  setAvatars();
+  document.getElementById('i-name').textContent=id;
+  document.getElementById('i-id').textContent=cUID;
+  showScreen('instr-screen');
+}
+function setAvatars(){
+  const letter=cName.charAt(0).toUpperCase();
+  // instructions screen
+  const iav=document.getElementById('i-av');
+  // exam screen
+  if(photoDataUrl){
+    document.getElementById('i-av').innerHTML=`<img src="${photoDataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+    document.getElementById('e-av').innerHTML=`<img src="${photoDataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+    document.getElementById('p-av').innerHTML=`<img src="${photoDataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;position:relative;z-index:1">`;
+  } else {
+    ['i-av-txt','e-av-txt','p-av-txt'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=letter;});
+  }
+  document.getElementById('e-name').textContent=cName;
+  document.getElementById('p-name').textContent=cName;
+  document.getElementById('p-uid').textContent=cUID;
+}
+function toggleAgree(){
+  const cb=document.getElementById('ag-cb');cb.checked=!cb.checked;
+  document.getElementById('start-btn').disabled=!cb.checked;
+}
+
+/* HISTORY */
+function loadHistory(){
+  try{
+    const all=JSON.parse(localStorage.getItem('nexusCUEThistory')||'[]');
+    const el=document.getElementById('history-list');
+    if(!all.length){el.innerHTML='<div class="history-empty">◎ NO CACHED ATTEMPTS FOUND</div>';return;}
+    el.innerHTML=[...all].reverse().slice(0,4).map(a=>`
+      <div class="history-row">
+        <div><div class="hr-name">${a.name}</div><div class="hr-date">${a.date}</div></div>
+        <div class="hr-score">${a.score}/200</div>
+        <div style="font-family:var(--font-mono);font-size:10px;padding:2px 8px;border-radius:2px;border:1px solid;${gradeColor(a.score)}">${calcGrade(a.score).letter}</div>
+      </div>`).join('');
+  }catch(e){}
+}
+function gradeColor(score){
+  if(score>=180)return'color:var(--gold);border-color:rgba(255,215,0,.4)';
+  if(score>=150)return'color:var(--neon);border-color:rgba(57,255,20,.4)';
+  if(score>=120)return'color:var(--cyan);border-color:rgba(0,212,255,.4)';
+  if(score>=90)return'color:var(--orange);border-color:rgba(255,140,0,.4)';
+  return'color:var(--red);border-color:rgba(255,60,60,.4)';
+}
+
+/* GRADE CALCULATION */
+function calcGrade(score){
+  if(score>=180)return{letter:'O',name:'OUTSTANDING',desc:'Top 1% of candidates. Exceptional performance across all domains.',color:'#ffd700',bg:'rgba(255,215,0,.12)',perc:99};
+  if(score>=160)return{letter:'A+',name:'DISTINCTION',desc:'Excellent command over all subjects. University-ready.',color:'#39ff14',bg:'rgba(57,255,20,.1)',perc:92};
+  if(score>=140)return{letter:'A',name:'EXCELLENT',desc:'Strong performance. Minor gaps in a few areas.',color:'#00d4ff',bg:'rgba(0,212,255,.1)',perc:82};
+  if(score>=120)return{letter:'B+',name:'VERY GOOD',desc:'Above average. Focus on weaker subjects for improvement.',color:'#00b4d8',bg:'rgba(0,180,216,.1)',perc:70};
+  if(score>=100)return{letter:'B',name:'GOOD',desc:'Satisfactory performance. Consistent practice needed.',color:'#ff8c00',bg:'rgba(255,140,0,.1)',perc:58};
+  if(score>=80)return{letter:'C',name:'AVERAGE',desc:'Below average. Significant improvement needed.',color:'#ff6b35',bg:'rgba(255,107,53,.1)',perc:42};
+  if(score>=60)return{letter:'D',name:'BELOW AVERAGE',desc:'Major gaps identified. Focused study required.',color:'#ff5555',bg:'rgba(255,85,85,.1)',perc:28};
+  return{letter:'F',name:'FAIL',desc:'Insufficient marks. Please reattempt after thorough preparation.',color:'#ff3c3c',bg:'rgba(255,60,60,.1)',perc:10};
+}
+
+/* START EXAM */
+function startExam(){
+  examRunning=true;
+  showScreen('exam-screen');
+  S.st[0]='na';
+  renderQ();renderPal();updatePalStats();
+  startTimer();
+  enterFS();setupFS();
+}
+
+/* TIMER */
+function startTimer(){
+  updTimer(S.tLeft);
+  S.timer=setInterval(()=>{S.tLeft--;updTimer(S.tLeft);if(S.tLeft<=0){clearInterval(S.timer);finalSubmit();}},1000);
+}
+function updTimer(sec){
+  const m=String(Math.floor(sec/60)).padStart(2,'0');
+  const s=String(sec%60).padStart(2,'0');
+  const el=document.getElementById('timer-v');
+  el.textContent=`${m}:${s}`;
+  el.className='timer-val';
+  if(sec<=120)el.classList.add('danger');
+  else if(sec<=300)el.classList.add('warn');
+}
+
+/* RENDER Q */
+function renderQ(){
+  const q=QS[curQ];
+  document.getElementById('qh-id').textContent=`Q ${curQ+1} / 50`;
+  document.getElementById('qh-subj').textContent=SUBJECTS[q.s];
+  // Difficulty dots
+  const diff=q.diff||1;
+  document.getElementById('q-diff').innerHTML=[1,2,3].map(i=>`<div class="diff-dot" style="background:${i<=diff?(diff===3?'var(--red)':diff===2?'var(--orange)':'var(--neon)'):'rgba(255,255,255,.1)'}"></div>`).join('');
+  // Progress
+  const atm=S.st.filter(s=>s==='an'||s==='ma').length;
+  const pct=Math.round((atm/50)*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-txt').textContent=atm+'/50';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  let h='';
+  if(q.d) h+=`<div class="q-direction-box"><div class="d-head">▸ PASSAGE / DIRECTIONS</div><p>${q.d}</p></div>`;
+  h+=`<div class="q-text-box">${q.t}</div><div class="opts-list">`;
+  q.o.forEach((o,i)=>{
+    const sel=S.ans[curQ]===i?'sel':'';
+    h+=`<div class="opt-item ${sel}" onclick="pick(${i})">
+      <div class="opt-letter">${String.fromCharCode(65+i)}</div>
+      <div class="opt-text">${o}</div>
+    </div>`;
+  });
+  h+='</div>';
+  document.getElementById('qcontent').innerHTML=h;
+  document.getElementById('qcontent').scrollTop=0;
+}
+function pick(i){
+  S.ans[curQ]=i;
+  if(S.st[curQ]==='nv'||S.st[curQ]==='na')S.st[curQ]='an';
+  else if(S.st[curQ]==='mk')S.st[curQ]='ma';
+  renderQ();renderPal();updatePalStats();
+}
+
+/* PALETTE */
+function renderPal(){
+  const m={nv:'s-nv',na:'s-na',an:'s-an',mk:'s-mk',ma:'s-ma'};
+  document.getElementById('pgrid').innerHTML=QS.map((_,i)=>`<button class="pqb ${m[S.st[i]]||'s-nv'}${i===curQ?' cur':''}" onclick="jumpQ(${i})">${i+1}</button>`).join('');
+}
+function updatePalStats(){
+  const an=S.st.filter(s=>s==='an'||s==='ma').length;
+  const na=S.st.filter(s=>s==='na').length;
+  const nv=S.st.filter(s=>s==='nv').length;
+  document.getElementById('ps-an').textContent=an;
+  document.getElementById('ps-na').textContent=na;
+  document.getElementById('ps-nv').textContent=nv;
+}
+function jumpQ(i){if(S.st[i]==='nv')S.st[i]='na';curQ=i;renderQ();renderPal();}
+
+/* ACTIONS */
+function saveNext(){S.st[curQ]=S.ans[curQ]===null?'na':'an';adv();}
+function markRev(){S.st[curQ]=S.ans[curQ]===null?'mk':'ma';adv();}
+function clearR(){S.ans[curQ]=null;if(['an','ma'].includes(S.st[curQ]))S.st[curQ]='na';renderQ();renderPal();}
+function adv(){if(curQ<49){curQ++;if(S.st[curQ]==='nv')S.st[curQ]='na';renderQ();renderPal();updatePalStats();}else toast2('⚡ Last question reached.');}
+
+/* MODAL */
+function openModal(){
+  const an=S.st.filter(s=>s==='an'||s==='ma').length;
+  const na=S.st.filter(s=>s==='na').length;
+  const mk=S.st.filter(s=>s==='mk').length;
+  const nv=S.st.filter(s=>s==='nv').length;
+  document.getElementById('modal-stats').innerHTML=`
+    <div class="mstat"><div class="msd" style="background:var(--answered)"></div><div class="msi"><b>${an}</b>ANSWERED</div></div>
+    <div class="mstat"><div class="msd" style="background:var(--not-ans)"></div><div class="msi"><b>${na}</b>NOT ANSWERED</div></div>
+    <div class="mstat"><div class="msd" style="background:var(--marked)"></div><div class="msi"><b>${mk}</b>MARKED REVIEW</div></div>
+    <div class="mstat"><div class="msd" style="background:rgba(224,244,255,.1);border:1px solid rgba(224,244,255,.2)"></div><div class="msi"><b>${nv}</b>NOT VISITED</div></div>`;
+  document.getElementById('sub-modal').classList.add('open');
+}
+function closeModal(){document.getElementById('sub-modal').classList.remove('open');}
+
+/* SUBMIT */
+function finalSubmit(){
+  if(S.timer)clearInterval(S.timer);
+  closeModal();examRunning=false;
+  if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+  // Score
+  let cor=0,wrg=0,skp=0;
+  // Track subject scores
+  const subjectData=SUBJECTS.map(()=>({cor:0,tot:0}));
+  QS.forEach((q,i)=>{
+    subjectData[q.s].tot++;
+    const ans=S.ans[i];
+    if(ans===null)skp++;
+    else if(ans===q.a){cor++;subjectData[q.s].cor++;}
+    else wrg++;
+  });
+  const score=Math.max(0,(cor*4)-(wrg*1));
+  const atm=cor+wrg;
+  const acc=atm>0?Math.round((cor/atm)*100):0;
+  const grade=calcGrade(score);
+  const now=new Date();
+  resultData={name:cName,uid:cUID,score,cor,wrg,skp,atm,acc,grade,subjectData,date:now.toLocaleDateString('en-IN'),time:now.toLocaleTimeString('en-IN')};
+  // Save to LS
+  try{
+    const prev=JSON.parse(localStorage.getItem('nexusCUEThistory')||'[]');
+    prev.push({name:cName,score,date:now.toLocaleDateString('en-IN')});
+    localStorage.setItem('nexusCUEThistory',JSON.stringify(prev.slice(-20)));
+  }catch(e){}
+  populateResult(resultData);
+  showScreen('result-screen');
+}
+
+function populateResult(rd){
+  document.getElementById('r-sub').textContent='CANDIDATE: '+rd.name+' · '+rd.uid+' · '+rd.date;
+  document.getElementById('r-score').textContent=rd.score;
+  document.getElementById('r-cor').textContent=rd.cor;
+  document.getElementById('r-wrg').textContent=rd.wrg;
+  document.getElementById('r-skp').textContent=rd.skp;
+  document.getElementById('r-atm').textContent=rd.atm;
+  // Score arc
+  const arc=document.getElementById('score-arc');
+  const pct=rd.score/200;
+  const arcColor=rd.score>=160?'#ffd700':rd.score>=140?'#39ff14':rd.score>=100?'#00d4ff':rd.score>=80?'#ff8c00':'#ff3c3c';
+  arc.style.stroke=arcColor;
+  setTimeout(()=>arc.style.strokeDashoffset=408-(408*pct),100);
+  // Grade badge
+  const gb=document.getElementById('grade-badge');
+  gb.style.background=rd.grade.bg;
+  gb.style.border='2px solid '+rd.grade.color;
+  gb.style.boxShadow=`0 0 20px ${rd.grade.color}40`;
+  document.getElementById('grade-letter').textContent=rd.grade.letter;
+  document.getElementById('grade-letter').style.color=rd.grade.color;
+  document.getElementById('grade-lbl').style.color=rd.grade.color;
+  document.getElementById('grade-name').textContent=rd.grade.name;
+  document.getElementById('grade-name').style.color=rd.grade.color;
+  document.getElementById('grade-desc').textContent=rd.grade.desc;
+  // Percentile
+  document.getElementById('percentile-val').textContent=rd.grade.perc+'th Percentile';
+  setTimeout(()=>{
+    document.getElementById('perc-bar').style.width=rd.grade.perc+'%';
+    document.getElementById('perc-bar').style.background=`linear-gradient(90deg,${rd.grade.color},var(--cyan))`;
+  },300);
+  // Accuracy
+  document.getElementById('acc-val').textContent=rd.acc+'%';
+  setTimeout(()=>document.getElementById('acc-bar').style.width=rd.acc+'%',300);
+  // Subject bars
+  const colors=['var(--cyan)','var(--neon)','var(--magenta)','var(--gold)'];
+  document.getElementById('sa-bars').innerHTML=rd.subjectData.map((sd,i)=>{
+    const pct=sd.tot>0?Math.round((sd.cor/sd.tot)*100):0;
+    return`<div class="sa-row">
+      <div class="sa-label">${SUBJECTS[i]}</div>
+      <div class="sa-bar"><div class="sa-fill" id="sab-${i}" style="width:0%;background:${colors[i]}"></div></div>
+      <div class="sa-val">${sd.cor}/${sd.tot}</div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>rd.subjectData.forEach((sd,i)=>{
+    const el=document.getElementById('sab-'+i);
+    if(el){const p=sd.tot>0?Math.round((sd.cor/sd.tot)*100):0;el.style.width=p+'%';}
+  }),400);
+  // AI insight
+  const insights=[
+    rd.acc>=80?`Outstanding accuracy of ${rd.acc}%. You demonstrate mastery-level retention. Focus on speed optimization in future attempts.`:
+    rd.acc>=60?`Solid accuracy at ${rd.acc}%. Your conceptual foundation is strong. Increase practice in weaker subject areas to improve further.`:
+    `Accuracy stands at ${rd.acc}%. Prioritize conceptual clarity over rote memorization. Regular mock tests will significantly improve performance.`,
+  ];
+  const weakSub=rd.subjectData.reduce((a,b,i)=>(rd.subjectData[a].tot>0?rd.subjectData[a].cor/rd.subjectData[a].tot:1)>(b.tot>0?b.cor/b.tot:1)?i:a,0);
+  document.getElementById('ai-text').textContent=insights[0]+` Neural analysis identifies "${SUBJECTS[weakSub]}" as your primary improvement zone. Targeted revision of this domain could add 15–30 marks to your score.`;
+  // Achievements
+  const achs=[];
+  if(rd.cor===50)achs.push({cls:'gold',icon:'👑',text:'PERFECT SCORE'});
+  if(rd.score>=160)achs.push({cls:'gold',icon:'🏆',text:'DISTINCTION'});
+  if(rd.acc>=80)achs.push({cls:'neon',icon:'⚡',text:'HIGH ACCURACY'});
+  if(rd.atm>=45)achs.push({cls:'cyan',icon:'◈',text:'MAXIMUM ATTEMPT'});
+  if(rd.skp===0)achs.push({cls:'mag',icon:'◆',text:'ZERO SKIPS'});
+  if(rd.cor>=40)achs.push({cls:'neon',icon:'🌟',text:'40+ CORRECT'});
+  if(achs.length===0)achs.push({cls:'gray',icon:'◉',text:'KEEP PRACTICING'});
+  document.getElementById('achievements').innerHTML=achs.map(a=>`<div class="ach ${a.cls}">${a.icon} ${a.text}</div>`).join('');
+}
+
+function showReview(){
+  // Jump back to exam screen in review mode
+  curQ=0;
+  showScreen('exam-screen');
+  // freeze timer display
+  document.getElementById('timer-v').textContent='REVIEW';
+  document.getElementById('timer-v').style.color='var(--gold)';
+  document.getElementById('timer-v').style.fontSize='14px';
+  // disable answer picking - just show
+  renderQ();renderPal();
+  toast2('◎ REVIEW MODE — Answers shown in green. Not editable.');
+  // Re-render with correct answers highlighted
+  setTimeout(()=>{
+    const qc=document.getElementById('qcontent');
+    const opts=qc.querySelectorAll('.opt-item');
+    const q=QS[curQ];
+    opts.forEach((el,i)=>{
+      if(i===q.a) el.style.cssText+=';border-color:var(--neon)!important;background:rgba(57,255,20,.1)!important';
+      if(S.ans[curQ]===i&&i!==q.a) el.style.cssText+=';border-color:var(--red)!important;background:rgba(255,60,60,.08)!important';
+    });
+  },100);
+}
+
+/* FULLSCREEN */
+function enterFS(){
+  const el=document.documentElement;
+  if(el.requestFullscreen)el.requestFullscreen().catch(()=>{});
+  else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+  document.getElementById('fs-ov').classList.remove('show');
+}
+function setupFS(){
+  document.addEventListener('fullscreenchange',()=>{
+    if(!document.fullscreenElement&&examRunning){
+      fsViol++;document.getElementById('fs-cnt').textContent=fsViol;
+      if(fsViol>=3){toast2('⚠ 3 VIOLATIONS — AUTO-SUBMIT');setTimeout(()=>finalSubmit(),1500);}
+      else document.getElementById('fs-ov').classList.add('show');
+    }
+  });
+}
+
+/* UTILS */
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+let _tt;
+function toast2(msg){
+  const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
+  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),3500);
+}
+document.addEventListener('keydown',e=>{
+  if(examRunning&&(e.key==='F5'||(e.ctrlKey&&['r','w','t'].includes(e.key))||e.altKey))e.preventDefault();
+});
+// Init
+loadHistory();
+</script>
+</body>
+</html>
