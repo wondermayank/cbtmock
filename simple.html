@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thunder⚡ Mock</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --nav-width: 276px;
+            --blue: #0052a5;
+            --blue-d: #003d7a;
+            --blue-l: #e8f0fb;
+            --blue-ll: #f0f6ff;
+            --cyan: #00b4d8;
+            --green: #2e7d32;
+            --green-l: #e8f5e9;
+            --red: #c62828;
+            --red-l: #ffebee;
+            --orange: #e65100;
+            --purple: #6a1b9a;
+            --border: #d0dae8;
+            --bg: #eef2f8;
+            --text: #1a2b3c;
+            --text-m: #4a5568;
+            --text-s: #6b7a90;
+            --header-h: 58px;
+            --radius: 10px;
+            --shadow: 0 2px 12px rgba(0,30,80,0.08);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; font-family: 'Noto Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+
+        /* ── SCREENS ── */
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* ══════════════════════════════════════
+           INSTRUCTION SCREEN
+        ══════════════════════════════════════ */
+        #instr-screen {
+            min-height: 100vh;
+            background: linear-gradient(160deg, #001533 0%, #003d7a 50%, #005ab5 100%);
+            position: relative; overflow: hidden;
+        }
+        #instr-screen::before {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3Ccircle cx='0' cy='0' r='20'/%3E%3Ccircle cx='80' cy='80' r='20'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* glowing orbs */
+        #instr-screen::after {
+            content: ''; position: absolute; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0,180,216,0.08) 0%, transparent 70%);
+            top: -100px; right: -100px; pointer-events: none;
+        }
+
+        /* sticky top bar on instruction screen */
+        .instr-topbar {
+            position: sticky; top: 0; z-index: 10;
+            background: rgba(0,0,0,0.35); backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 0 24px; height: 52px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .instr-topbar-brand {
+            font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700;
+            color: #fff; letter-spacing: 0.06em; display: flex; align-items: center; gap: 7px;
+        }
+        .instr-topbar-tag {
+            font-size: 10.5px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em;
+        }
+
+        .instr-wrap {
+            position: relative; z-index: 2;
+            max-width: 820px; margin: 0 auto;
+            padding: 36px 20px 56px;
+        }
+
+        /* hero */
+        .instr-hero {
+            text-align: center; margin-bottom: 32px;
+            animation: fadeUp 0.5s ease both;
+        }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .instr-hero .bolt-wrap {
+            width: 72px; height: 72px; margin: 0 auto 14px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 34px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .instr-hero h1 {
+            font-family: 'Rajdhani', sans-serif; font-size: 34px; font-weight: 700;
+            color: #fff; letter-spacing: 0.04em; margin-bottom: 4px;
+        }
+        .instr-hero .sub {
+            font-size: 11.5px; color: rgba(255,255,255,0.5);
+            letter-spacing: 0.14em; text-transform: uppercase;
+        }
+
+        /* exam info strip */
+        .exam-info-strip {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+            background: rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden;
+            margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.1);
+            animation: fadeUp 0.5s 0.1s ease both;
+        }
+        .eis-cell {
+            background: rgba(255,255,255,0.05); padding: 14px 10px; text-align: center;
+        }
+        .eis-val {
+            font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700;
+            color: #fff; line-height: 1;
+        }
+        .eis-lbl { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 3px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+        /* two-col layout for cards */
+        .instr-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;
+            animation: fadeUp 0.5s 0.15s ease both;
+        }
+        .instr-grid-full {
+            animation: fadeUp 0.5s 0.2s ease both;
+        }
+        @media (max-width: 640px) { .instr-grid { grid-template-columns: 1fr; } }
+
+        .instr-card {
+            background: rgba(255,255,255,0.96); border-radius: 12px; padding: 20px 22px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+        .instr-card h5 {
+            font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700;
+            color: var(--blue); margin-bottom: 12px;
+            padding-bottom: 8px; border-bottom: 2px solid var(--blue-l);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .instr-card ol, .instr-card ul { padding-left: 18px; }
+        .instr-card li {
+            font-size: 12.5px; color: var(--text-m); line-height: 1.8; margin-bottom: 2px;
+        }
+        .instr-card li strong { color: var(--text); }
+
+        /* marks cells */
+        .marks-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px;
+        }
+        .marks-cell {
+            border-radius: 8px; padding: 12px 8px; text-align: center; border: 1.5px solid;
+        }
+        .marks-cell.mc-green { background: var(--green-l); border-color: #a5d6a7; }
+        .marks-cell.mc-red   { background: var(--red-l);   border-color: #ef9a9a; }
+        .marks-cell.mc-gray  { background: #f5f5f5;        border-color: #e0e0e0; }
+        .marks-cell .val {
+            font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700;
+        }
+        .marks-cell.mc-green .val { color: var(--green); }
+        .marks-cell.mc-red   .val { color: var(--red); }
+        .marks-cell.mc-gray  .val { color: var(--text-m); }
+        .marks-cell .lbl { font-size: 10.5px; color: var(--text-m); margin-top: 3px; }
+
+        /* legend */
+        .legend-row {
+            display: flex; flex-direction: column; gap: 7px; margin-top: 4px;
+        }
+        .legend-item {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 12.5px; color: var(--text-m);
+            background: #f8faff; border-radius: 7px; padding: 6px 10px;
+        }
+        .leg-dot {
+            width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px; font-weight: 700; color: #fff;
+        }
+
+        /* agree + start */
+        .instr-agree {
+            display: flex; align-items: center; gap: 12px;
+            background: rgba(255,255,255,0.95); border: 1.5px solid rgba(0,82,165,0.4);
+            border-radius: 10px; padding: 14px 18px; margin-bottom: 16px;
+            cursor: pointer; box-shadow: 0 4px 16px rgba(0,82,165,0.12);
+            animation: fadeUp 0.5s 0.25s ease both;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .instr-agree:hover { border-color: var(--blue); box-shadow: 0 4px 20px rgba(0,82,165,0.2); }
+        .instr-agree input { width: 18px; height: 18px; accent-color: var(--blue); cursor: pointer; flex-shrink: 0; }
+        .instr-agree label { font-size: 13px; font-weight: 600; color: var(--text); cursor: pointer; }
+
+        .instr-start-btn {
+            display: block; width: 100%; max-width: 280px; margin: 0 auto;
+            padding: 15px; border: none; border-radius: 10px;
+            background: linear-gradient(90deg, #0052a5, #00b4d8);
+            color: #fff; font-family: 'Rajdhani', sans-serif;
+            font-size: 19px; font-weight: 700; letter-spacing: 0.1em;
+            cursor: pointer; box-shadow: 0 8px 28px rgba(0,82,165,0.45);
+            transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+            opacity: 0.38; pointer-events: none;
+            animation: fadeUp 0.5s 0.3s ease both;
+        }
+        .instr-start-btn.ready { opacity: 1; pointer-events: all; }
+        .instr-start-btn.ready:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,82,165,0.55); }
+
+        /* ══════════════════════════════════════
+           EXAM SCREEN
+        ══════════════════════════════════════ */
+        #exam-screen { height: 100vh; display: none; flex-direction: column; overflow: hidden; }
+        #exam-screen.active { display: flex; }
+
+        /* TOP NAV */
+        .exam-nav {
+            height: var(--header-h); flex-shrink: 0;
+            background: linear-gradient(90deg, var(--blue-d) 0%, var(--blue) 60%, #0069cc 100%);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px; gap: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+        }
+        .nav-brand {
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700;
+            color: #fff; letter-spacing: 0.05em; white-space: nowrap; flex-shrink: 0;
+        }
+        .nav-brand .bolt {
+            width: 30px; height: 30px; background: rgba(255,255,255,0.15);
+            border-radius: 7px; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .nav-center { flex: 1; display: flex; justify-content: center; }
+        .nav-section-select {
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22);
+            color: #fff; font-size: 12.5px; font-weight: 600; padding: 6px 14px;
+            border-radius: 7px; cursor: pointer; outline: none;
+            font-family: 'Noto Sans', sans-serif; max-width: 220px; letter-spacing: 0.02em;
+        }
+        .nav-section-select option { background: var(--blue-d); color: #fff; }
+        .nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+        /* timer */
+        .timer-pill {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px; padding: 5px 14px;
+        }
+        .timer-icon { font-size: 13px; opacity: 0.7; }
+        .timer-pill .val {
+            font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700;
+            color: #fff; min-width: 58px; text-align: center; letter-spacing: 0.05em;
+        }
+        .timer-pill .val.warn { color: #ffcc02; animation: blink 1s infinite; }
+        .timer-pill .val.danger { color: #ff5252; animation: blink 0.5s infinite; }
+        @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+        .nav-btn {
+            padding: 7px 14px; border-radius: 7px; font-size: 12.5px; font-weight: 600;
+            border: none; cursor: pointer; font-family: 'Noto Sans', sans-serif;
+            display: flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap;
+        }
+        .btn-lang { background: rgba(255,255,255,0.13); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.18); }
+        .btn-lang:hover { background: rgba(255,255,255,0.22); }
+        .btn-submit-nav { background: #2e7d32; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .btn-submit-nav:hover { background: #1b5e20; }
+
+        /* PROGRESS + SUBBAR */
+        .progress-bar-wrap { height: 3px; background: rgba(0,82,165,0.12); flex-shrink: 0; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); transition: width 0.3s ease; width: 0%; }
+
+        .exam-subbar {
+            height: 36px; flex-shrink: 0;
+            background: #fff; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 18px; font-size: 12px; color: var(--text-m);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .subbar-left { display: flex; align-items: center; gap: 12px; }
+        .sec-badge {
+            background: var(--blue); color: #fff;
+            font-size: 10px; font-weight: 700;
+            padding: 2px 10px; border-radius: 10px; letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .q-counter { font-weight: 600; color: var(--blue); }
+        .subbar-marks { display: flex; align-items: center; gap: 8px; }
+        .mark-pill {
+            font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+        }
+        .mark-pos { color: var(--green); background: var(--green-l); }
+        .mark-neg { color: var(--red); background: var(--red-l); }
+
+        /* MAIN AREA */
+        .exam-main { flex: 1; display: flex; overflow: hidden; }
+
+        /* QUESTION PANEL */
+        .q-panel {
+            flex: 1; display: flex; flex-direction: column; overflow: hidden;
+            margin-right: var(--nav-width); transition: margin-right 0.3s;
+        }
+        .q-panel-inner {
+            flex: 1; overflow-y: auto; padding: 18px 20px; background: var(--bg);
+        }
+
+        /* question card */
+        .q-card {
+            background: #fff; border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow); overflow: hidden;
+        }
+        .q-card-header {
+            background: var(--blue-ll); padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #dce8fa;
+        }
+        .q-num-badge {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .q-num-circle {
+            width: 30px; height: 30px; border-radius: 50%;
+            background: var(--blue); color: #fff;
+            font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .q-num-text {
+            font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700;
+            color: var(--blue);
+        }
+        .q-card-header .q-marks { display: flex; gap: 8px; align-items: center; }
+        .q-marks-pill {
+            font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
+        }
+        .qmp-pos { background: var(--green-l); color: var(--green); border: 1px solid #c8e6c9; }
+        .qmp-neg { background: var(--red-l); color: var(--red); border: 1px solid #ffcdd2; }
+
+        .q-card-body { padding: 20px 22px; }
+        .question-text {
+            font-size: 14.5px; line-height: 1.8; color: var(--text);
+            margin-bottom: 20px; font-weight: 500;
+        }
+        .question-text img { max-width: 100%; height: auto; border-radius: 6px; margin-top: 8px; }
+        .question-text p { margin-bottom: 4px; }
+
+        /* OPTIONS */
+        .options-list { display: flex; flex-direction: column; gap: 9px; }
+        .opt-row {
+            display: flex; align-items: center; gap: 0;
+            border: 1.5px solid var(--border); border-radius: 9px;
+            cursor: pointer; transition: all 0.15s; background: #fafbfd;
+            overflow: hidden;
+        }
+        .opt-row:hover { border-color: var(--blue); background: var(--blue-ll); box-shadow: 0 2px 8px rgba(0,82,165,0.08); }
+        .opt-row.selected { border-color: var(--blue); background: var(--blue-ll); box-shadow: 0 2px 10px rgba(0,82,165,0.12); }
+        .opt-row.correct-ans { border-color: var(--green); background: var(--green-l); }
+        .opt-row.wrong-ans { border-color: var(--red); background: var(--red-l); }
+
+        /* letter badge */
+        .opt-badge {
+            width: 42px; min-width: 42px; align-self: stretch;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700;
+            color: var(--text-s); background: rgba(0,0,0,0.03);
+            border-right: 1px solid var(--border); transition: all 0.15s;
+        }
+        .opt-row:hover .opt-badge { color: var(--blue); background: rgba(0,82,165,0.06); border-right-color: #dce8fa; }
+        .opt-row.selected .opt-badge { color: #fff; background: var(--blue); border-right-color: var(--blue); }
+        .opt-row.correct-ans .opt-badge { color: #fff; background: var(--green); border-right-color: var(--green); }
+        .opt-row.wrong-ans .opt-badge { color: #fff; background: var(--red); border-right-color: var(--red); }
+
+        .opt-label { font-size: 13.5px; line-height: 1.6; color: var(--text); padding: 11px 14px; flex: 1; }
+        .opt-label img { max-width: 100%; height: auto; display: block; margin-top: 4px; }
+        .opt-label p { margin: 0; }
+
+        /* check icon on right */
+        .opt-check {
+            width: 36px; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; opacity: 0; transition: opacity 0.15s; color: var(--blue);
+        }
+        .opt-row.selected .opt-check { opacity: 1; }
+        .opt-row.correct-ans .opt-check { opacity: 1; color: var(--green); }
+        .opt-row.wrong-ans .opt-check { opacity: 1; color: var(--red); }
+
+        /* SOLUTION BOX */
+        .solution-box {
+            margin-top: 18px; border-radius: 10px; border: 1px solid;
+            overflow: hidden;
+        }
+        .solution-box .sol-head {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 14px; font-weight: 700; font-size: 12.5px;
+            letter-spacing: 0.03em;
+        }
+        .solution-box .sol-body { padding: 12px 14px; font-size: 13px; line-height: 1.7; }
+        .solution-box img { max-width: 100%; height: auto; margin-top: 8px; border-radius: 4px; }
+        .solution-box.correct { border-color: #c8e6c9; }
+        .solution-box.correct .sol-head { background: var(--green-l); color: var(--green); }
+        .solution-box.incorrect { border-color: #ffcdd2; }
+        .solution-box.incorrect .sol-head { background: var(--red-l); color: var(--red); }
+        .solution-box.skipped { border-color: #ffe082; }
+        .solution-box.skipped .sol-head { background: #fff8e1; color: #f57f17; }
+
+        /* FOOTER NAV */
+        .q-footer {
+            height: 54px; flex-shrink: 0;
+            background: #fff; border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 18px; gap: 8px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+        }
+        .f-btn {
+            padding: 8px 15px; border-radius: 8px; font-size: 12.5px;
+            font-weight: 600; cursor: pointer; border: 1.5px solid transparent;
+            font-family: 'Noto Sans', sans-serif; transition: all 0.15s;
+            display: flex; align-items: center; gap: 6px; white-space: nowrap;
+        }
+        .f-btn-prev { background: #fff; color: var(--blue); border-color: var(--border); }
+        .f-btn-prev:hover { border-color: var(--blue); background: var(--blue-ll); }
+        .f-btn-next { background: var(--blue); color: #fff; }
+        .f-btn-next:hover { background: var(--blue-d); }
+        .f-btn-clear { background: #fff; color: var(--text-m); border-color: var(--border); }
+        .f-btn-clear:hover { background: #f5f5f5; color: var(--red); border-color: var(--red); }
+        .f-btn-mrk { background: #f3e5f5; color: var(--purple); border-color: #ce93d8; }
+        .f-btn-mrk:hover { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+        /* SIDEBAR PALETTE */
+        .sidebar {
+            width: var(--nav-width); position: fixed; top: var(--header-h); right: 0;
+            height: calc(100vh - var(--header-h));
+            background: #fff; border-left: 1px solid var(--border);
+            display: flex; flex-direction: column; z-index: 100;
+            box-shadow: -3px 0 16px rgba(0,30,80,0.07); transition: right 0.3s;
+        }
+        .sidebar-top {
+            background: linear-gradient(135deg, var(--blue-d), var(--blue));
+            padding: 13px 14px; flex-shrink: 0;
+        }
+        .sidebar-title {
+            font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700;
+            color: #fff; margin-bottom: 9px; letter-spacing: 0.04em;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .palette-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .pl-item { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: rgba(255,255,255,0.78); }
+        .pl-dot {
+            width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 8px; font-weight: 700; color: #fff;
+        }
+
+        /* stats bar */
+        .stats-bar {
+            padding: 9px 12px; background: #f7faff; border-bottom: 1px solid var(--border);
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; flex-shrink: 0;
+        }
+        .stat-cell { text-align: center; }
+        .stat-cell .sn {
+            font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; line-height: 1;
+        }
+        .stat-cell .sl { font-size: 9px; color: var(--text-s); margin-top: 2px; letter-spacing: 0.03em; }
+
+        .sidebar-sec-label {
+            padding: 7px 14px; background: var(--blue-ll);
+            font-size: 10.5px; font-weight: 700; color: var(--blue);
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between;
+            text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0;
+        }
+
+        .palette-grid {
+            flex: 1; overflow-y: auto; padding: 12px;
+            display: flex; flex-wrap: wrap; gap: 7px; align-content: flex-start;
+        }
+        .pq {
+            width: 36px; height: 36px; border-radius: 50%; border: none;
+            font-size: 11.5px; font-weight: 700; color: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.1s, box-shadow 0.15s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        .pq:hover { transform: scale(1.12); }
+        .pq.active { box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--blue) !important; transform: scale(1.05); }
+        .pq-nv { background: #cfd8dc; color: #546e7a; box-shadow: none; }
+        .pq-na { background: var(--red); }
+        .pq-ans { background: var(--green); }
+        .pq-mrk { background: var(--purple); }
+        .pq-mrk-ans { background: #7b1fa2; position: relative; }
+        .pq-mrk-ans::after {
+            content: '✓'; position: absolute; bottom: -2px; right: -2px;
+            background: var(--green); width: 14px; height: 14px; border-radius: 50%;
+            font-size: 8px; line-height: 14px; text-align: center;
+            border: 1.5px solid #fff; color: #fff;
+        }
+
+        .sidebar-btns { padding: 10px 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+        .pal-btn {
+            padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600;
+            cursor: pointer; border: 1.5px solid var(--border); background: #fff;
+            color: var(--blue); text-align: center; transition: all 0.15s;
+            font-family: 'Noto Sans', sans-serif;
+        }
+        .pal-btn:hover { background: var(--blue-ll); border-color: var(--blue); }
+        .pal-btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: 0 3px 10px rgba(0,82,165,0.25); }
+        .pal-btn.primary:hover { background: var(--blue-d); }
+
+        /* MOBILE TOGGLE */
+        .mob-palette-btn {
+            display: none; position: fixed; bottom: 70px; right: 14px;
+            width: 48px; height: 48px; background: var(--blue); color: #fff;
+            border: none; border-radius: 50%; font-size: 18px; z-index: 200;
+            box-shadow: 0 4px 16px rgba(0,82,165,0.45); cursor: pointer;
+            align-items: center; justify-content: center;
+        }
+
+        /* MODALS */
+        .results-modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,10,30,0.6);
+            z-index: 9999; align-items: center; justify-content: center;
+            backdrop-filter: blur(3px);
+        }
+        .results-modal-overlay.show { display: flex; }
+        .results-modal {
+            background: #fff; border-radius: 16px; width: 480px; max-width: 93vw;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.35); overflow: hidden;
+            animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes popIn { from{opacity:0;transform:scale(0.88) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)} }
+        .rm-header {
+            background: linear-gradient(135deg, var(--blue-d), var(--blue));
+            padding: 22px 24px 28px; text-align: center; position: relative;
+        }
+        .rm-header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 24px;
+            background: #fff; border-radius: 24px 24px 0 0;
+        }
+        .rm-header h3 {
+            font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700;
+            color: #fff; margin-bottom: 2px;
+        }
+        .rm-header p { font-size: 12px; color: rgba(255,255,255,0.65); }
+        .score-ring {
+            width: 110px; height: 110px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin: -24px auto 12px; position: relative; z-index: 2;
+            box-shadow: 0 8px 32px rgba(0,82,165,0.35);
+            border: 4px solid #fff;
+        }
+        .score-ring .sval {
+            font-family: 'Rajdhani', sans-serif; font-size: 30px; font-weight: 700;
+            color: #fff; line-height: 1;
+        }
+        .score-ring .slbl { font-size: 9px; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.1em; }
+        .rm-body { padding: 8px 24px 20px; }
+        .rm-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+        .rm-stat {
+            border-radius: 10px; padding: 14px 10px; text-align: center; border: 1px solid var(--border);
+            background: var(--bg);
+        }
+        .rm-stat .rval {
+            font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; line-height: 1;
+        }
+        .rm-stat .rlbl { font-size: 11px; color: var(--text-s); margin-top: 4px; }
+        .rm-footer {
+            padding: 14px 24px 20px; display: flex; gap: 10px; justify-content: flex-end;
+        }
+        .rm-btn {
+            padding: 11px 24px; border-radius: 9px; font-size: 13.5px; font-weight: 700;
+            cursor: pointer; border: none; font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 0.05em; transition: all 0.15s;
+        }
+        .rm-btn-review { background: var(--blue); color: #fff; box-shadow: 0 4px 14px rgba(0,82,165,0.3); }
+        .rm-btn-review:hover { background: var(--blue-d); }
+        .rm-btn-close { background: var(--bg); color: var(--text-m); border: 1px solid var(--border); }
+
+        /* scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c8d6e8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9eb3cc; }
+
+        @media (max-width: 768px) {
+            .sidebar { right: -100%; box-shadow: none; }
+            .q-panel { margin-right: 0 !important; }
+            .mob-palette-btn { display: flex; }
+            .sidebar.open { right: 0; box-shadow: -4px 0 24px rgba(0,0,0,0.2); }
+            .nav-brand span:not(.bolt) { display: none; }
+            .exam-subbar .subbar-marks { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════ INSTRUCTION SCREEN ══════════════ -->
+<div id="instr-screen" class="screen active">
+
+    <!-- Sticky top bar -->
+    <div class="instr-topbar">
+        <div class="instr-topbar-brand"><span>⚡</span> Thunder Mock</div>
+        <div class="instr-topbar-tag">SSC · CGL · CHSL · MTS · CPO</div>
+    </div>
+
+    <div class="instr-wrap">
+
+        <!-- Hero -->
+        <div class="instr-hero">
+            <div class="bolt-wrap">⚡</div>
+            <h1>Thunder Mock Test</h1>
+            <div class="sub">Computer Based Test · Reasoning Section</div>
+        </div>
+
+        <!-- Exam info strip -->
+        <div class="exam-info-strip">
+            <div class="eis-cell">
+                <div class="eis-val">25</div>
+                <div class="eis-lbl">Questions</div>
+            </div>
+            <div class="eis-cell">
+                <div class="eis-val">50</div>
+                <div class="eis-lbl">Total Marks</div>
+            </div>
+            <div class="eis-cell">
+                <div class="eis-val">18</div>
+                <div class="eis-lbl">Minutes</div>
+            </div>
+            <div class="eis-cell">
+                <div class="eis-val">−0.5</div>
+                <div class="eis-lbl">Negative Mark</div>
+            </div>
+        </div>
+
+        <!-- Two-column cards -->
+        <div class="instr-grid">
+
+            <!-- General Instructions -->
+            <div class="instr-card">
+                <h5><i class="fas fa-clipboard-list fa-sm"></i> General Instructions</h5>
+                <ol>
+                    <li>Duration is <strong>18 minutes</strong>. Timer auto-submits at <strong>0:00</strong>.</li>
+                    <li>Paper has <strong>25 questions</strong> worth <strong>50 marks</strong>.</li>
+                    <li>Navigate freely using the palette or Prev/Next buttons.</li>
+                    <li>Click an option to select it. Click again to deselect.</li>
+                    <li>Use <strong>Clear Response</strong> to remove your answer.</li>
+                    <li>Use <strong>Mark for Review</strong> to flag a question.</li>
+                    <li>Do <strong>not</strong> refresh the page — progress may be lost.</li>
+                </ol>
+            </div>
+
+            <!-- Marking Scheme + Legend stacked -->
+            <div style="display:flex;flex-direction:column;gap:14px">
+                <div class="instr-card">
+                    <h5><i class="fas fa-star fa-sm"></i> Marking Scheme</h5>
+                    <div class="marks-grid">
+                        <div class="marks-cell mc-green">
+                            <div class="val">+2</div>
+                            <div class="lbl">Correct</div>
+                        </div>
+                        <div class="marks-cell mc-red">
+                            <div class="val">−0.5</div>
+                            <div class="lbl">Wrong</div>
+                        </div>
+                        <div class="marks-cell mc-gray">
+                            <div class="val">0</div>
+                            <div class="lbl">Skipped</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instr-card">
+                    <h5><i class="fas fa-th fa-sm"></i> Status Legend</h5>
+                    <div class="legend-row">
+                        <div class="legend-item"><div class="leg-dot" style="background:#cfd8dc;color:#546e7a">1</div>Not yet visited</div>
+                        <div class="legend-item"><div class="leg-dot" style="background:var(--red)">1</div>Visited, not answered</div>
+                        <div class="legend-item"><div class="leg-dot" style="background:var(--green)">1</div>Answered</div>
+                        <div class="legend-item"><div class="leg-dot" style="background:#6a1b9a">1</div>Marked for review</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agree + Start -->
+        <div class="instr-grid-full">
+            <div class="instr-agree" onclick="toggleAgree()">
+                <input type="checkbox" id="agree-cb">
+                <label for="agree-cb">I have read all the instructions carefully and agree to abide by the rules of this examination.</label>
+            </div>
+            <button class="instr-start-btn" id="start-btn" onclick="startTest()">
+                <i class="fas fa-play" style="font-size:13px"></i> &nbsp;START TEST
+            </button>
+            <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.3);margin-top:22px">Thunder⚡ Mock · Made by WonderMayank · @thunderstudy_official</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- ══════════════ EXAM SCREEN ══════════════ -->
+<div id="exam-screen" class="screen">
+
+    <!-- TOP NAV -->
+    <nav class="exam-nav">
+        <div class="nav-brand">
+            <div class="bolt">⚡</div>
+            <span>Thunder Mock</span>
+        </div>
+        <div class="nav-center">
+            <select class="nav-section-select" id="section-selector" onchange="switchSection(this.value)">
+                <option value="all">All Sections</option>
+            </select>
+        </div>
+        <div class="nav-right">
+            <div class="timer-pill">
+                <span class="timer-icon">⏱</span>
+                <div class="val" id="timer-display">18:00</div>
+            </div>
+            <button class="nav-btn btn-lang" onclick="toggleLanguage()" id="lang-btn">
+                <i class="fas fa-language"></i> हिंदी
+            </button>
+            <button class="nav-btn btn-submit-nav" onclick="openSubmitModal()">
+                <i class="fas fa-paper-plane"></i> Submit
+            </button>
+        </div>
+    </nav>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+
+    <!-- SUBBAR -->
+    <div class="exam-subbar">
+        <div class="subbar-left">
+            <span style="color:var(--text-s)">Section:</span>
+            <span class="sec-badge" id="section-badge">REASONING</span>
+            <span class="q-counter" id="q-counter">Q 1 of 25</span>
+        </div>
+        <div class="subbar-marks">
+            <span class="mark-pill mark-pos">+2 Correct</span>
+            <span class="mark-pill mark-neg">−0.5 Wrong</span>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="exam-main">
+        <!-- Question Panel -->
+        <div class="q-panel" id="q-panel">
+            <div class="q-panel-inner" id="q-panel-inner"></div>
+            <!-- Footer -->
+            <div class="q-footer">
+                <div style="display:flex;gap:7px">
+                    <button class="f-btn f-btn-mrk" onclick="markForReview()">
+                        <i class="fas fa-bookmark fa-xs"></i> Mark &amp; Next
+                    </button>
+                    <button class="f-btn f-btn-clear" onclick="clearResponse()">
+                        <i class="fas fa-times fa-xs"></i> Clear
+                    </button>
+                </div>
+                <div style="display:flex;gap:7px">
+                    <button class="f-btn f-btn-prev" onclick="prevQ()">
+                        <i class="fas fa-chevron-left fa-xs"></i> Prev
+                    </button>
+                    <button class="f-btn f-btn-next" onclick="nextQ()">
+                        Next <i class="fas fa-chevron-right fa-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Palette -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-title"><i class="fas fa-th fa-xs"></i> Question Palette</div>
+                <div class="palette-legend">
+                    <div class="pl-item"><div class="pl-dot pq-ans"></div> Answered</div>
+                    <div class="pl-item"><div class="pl-dot pq-na"></div> Not Answered</div>
+                    <div class="pl-item"><div class="pl-dot pq-mrk"></div> Marked</div>
+                    <div class="pl-item"><div class="pl-dot pq-nv"></div> Not Visited</div>
+                </div>
+            </div>
+            <div class="stats-bar">
+                <div class="stat-cell">
+                    <div class="sn" style="color:var(--green)" id="stat-ans">0</div>
+                    <div class="sl">Answered</div>
+                </div>
+                <div class="stat-cell">
+                    <div class="sn" style="color:var(--red)" id="stat-na">0</div>
+                    <div class="sl">Not Ans.</div>
+                </div>
+                <div class="stat-cell">
+                    <div class="sn" style="color:var(--purple)" id="stat-mrk">0</div>
+                    <div class="sl">Marked</div>
+                </div>
+                <div class="stat-cell">
+                    <div class="sn" style="color:#90a4ae" id="stat-nv">25</div>
+                    <div class="sl">Not Visited</div>
+                </div>
+            </div>
+            <div class="sidebar-sec-label">
+                <span id="pal-sec-label">REASONING</span>
+                <span id="pal-sec-count">Q 1–24</span>
+            </div>
+            <div class="palette-grid" id="palette-grid"></div>
+            <div class="sidebar-btns">
+                <button class="pal-btn primary" onclick="openSubmitModal()">
+                    <i class="fas fa-paper-plane fa-xs"></i> &nbsp;Submit Test
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile palette toggle -->
+<button class="mob-palette-btn" id="mob-palette-btn" onclick="toggleSidebar()">
+    <i class="fas fa-th"></i>
+</button>
+
+<!-- SUBMIT CONFIRM MODAL -->
+<div class="results-modal-overlay" id="submit-modal">
+    <div class="results-modal">
+        <div class="rm-header">
+            <h3>⚠ Submit Test?</h3>
+            <p>Review your attempt summary before submitting.</p>
+        </div>
+        <div class="rm-body">
+            <div class="rm-stats" id="pre-submit-stats"></div>
+            <div style="background:#fff8e1;border:1px solid #ffa000;border-radius:8px;padding:10px 14px;font-size:12.5px;color:#5d4037;margin-top:4px">
+                ⚠ Once submitted, you <strong>cannot</strong> change your answers. Make sure you have reviewed all questions.
+            </div>
+        </div>
+        <div class="rm-footer">
+            <button class="rm-btn rm-btn-close" onclick="closeSubmitModal()">Go Back</button>
+            <button class="rm-btn rm-btn-review" onclick="submitTest()">Yes, Submit</button>
+        </div>
+    </div>
+</div>
+
+<!-- RESULTS MODAL -->
+<div class="results-modal-overlay" id="results-modal">
+    <div class="results-modal">
+        <div class="rm-header">
+            <h3>🏆 Test Submitted!</h3>
+            <p>Thunder⚡ Mock — SSC Reasoning</p>
+            <div class="score-ring">
+                <div class="sval" id="rm-score">0</div>
+                <div class="slbl">Score / 50</div>
+            </div>
+        </div>
+        <div class="rm-body">
+            <div class="rm-stats">
+                <div class="rm-stat">
+                    <div class="rval" style="color:var(--green)" id="rm-correct">0</div>
+                    <div class="rlbl">✅ Correct</div>
+                </div>
+                <div class="rm-stat">
+                    <div class="rval" style="color:var(--red)" id="rm-wrong">0</div>
+                    <div class="rlbl">❌ Incorrect</div>
+                </div>
+                <div class="rm-stat">
+                    <div class="rval" style="color:var(--orange)" id="rm-skip">0</div>
+                    <div class="rlbl">⏭ Skipped</div>
+                </div>
+            </div>
+        </div>
+        <div class="rm-footer">
+            <button class="rm-btn rm-btn-review" onclick="reviewTest()">📋 Review Answers</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* ══════════════════════════════════════
+   DATA
+══════════════════════════════════════ */
+const questions = [];
+const sections = {};
+let currentLang = "en";
+let currentQ = 0;
+let answers = {};
+let qStatus = {}; // not-visited | not-answered | answered | marked | marked-answered
+let submitted = false;
+let totalTime = 18 * 60;
+let timerInterval = null;
+
+function initData() {
+    sections["6"] = { name: "Reasoning", short: "REASONING", qRange: "Q 1–24", start: 0, end: 23 };
+    sections["misc"] = { name: "Miscellaneous", short: "MISC", qRange: "Q 25", start: 24, end: 24 };
+
+    document.getElementById('section-selector').innerHTML += `<option value="6">Reasoning</option><option value="misc">Miscellaneous</option>`;
+
+    const raw = [
+        { id:"1", section:"6", en:" <p>1. In a certain language, CAPTAIN is written as 3172195. How will REFER be written in the same language? ", hi:"<p>1. एक निश्चित भाषा में CAPTAIN को 3172195 लिखा जाता है | इसी भाषा में REFER को कैसे लिखा जाएगा ?</p>", opts_en:["15651","15659","95659","65956"], opts_hi:["15651","15659","95659","65956"], sol_en:"(c) Positional values used; two-digit positional values are digit-summed. REFER: R=18→9, E=5, F=6, E=5, R=18→9 → 95659", sol_hi:"(c) अक्षरों के स्थितीय मानों का उपयोग किया जाता है। REFER: 95659", correct:"c", pos:2, neg:0.5 },
+        { id:"2", section:"6", en:" <p>2. Find the alternative figure which contains figure (X) as its part.</p><p><img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image16.png'/></p>", hi:"<p>2. वह चित्र ढूंढें जिसमें चित्र X छुपा हुआ है।</p><p><img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image16.png'></p>", opts_en:["<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image19.png'/>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image5.png'/>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image4.png'/>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image9.png'/>"], opts_hi:["<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image19.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image5.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image4.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image9.png'>"], sol_en:"(a) Option A contains figure X as its part.", sol_hi:"(a) विकल्प A में चित्र X छुपा है।", correct:"a", pos:2, neg:0.5 },
+        { id:"3", section:"6", en:"<p>3. A figure of transparent sheet with a pattern is given. Select the option that shows how the pattern would appear when folded at the dotted line.</p><p><img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image24.png'></p>", hi:"<p>3. बिंदीदार रेखा पर पारदर्शी शीट को मोड़ने पर पैटर्न कैसा दिखेगा?</p><p><img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image24.png'></p>", opts_en:["<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image3.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image8.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image23.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image22.png'>"], opts_hi:["<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image3.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image8.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image23.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image22.png'>"], sol_en:"(a) When folded along the dotted line, the pattern matches option (a).", sol_hi:"(a) बिंदीदार रेखा पर मोड़ने पर पैटर्न विकल्प (a) से मेल खाता है।", correct:"a", pos:2, neg:0.5 },
+        { id:"4", section:"6", en:"<p>4. Five articles — bat, ball, fan, table and chair — are kept one above the other. The bat is four places above the fan. The table is between the ball and the chair. The chair is three places below the bat. Which article is at the second position from the top?</p>", hi:"<p>4. पांच वस्तुएं — बल्ला, गेंद, पंखा, मेज और कुर्सी — एक के ऊपर एक रखी गयी हैं। बल्ला पंखे से चार स्थान ऊपर है। मेज, गेंद तथा कुर्सी के बीच है। कुर्सी, बल्ले से तीन स्थान नीचे है। ऊपर से दूसरे स्थान पर कौन सी वस्तु है?</p>", opts_en:["Fan","Table","Ball","Chair"], opts_hi:["पंखा","मेज","गेंद","कुर्सी"], sol_en:"(c) Order from top: BAT, BALL, TABLE, CHAIR, FAN. So Ball is 2nd from top.", sol_hi:"(c) ऊपर से क्रम: BAT, BALL, TABLE, CHAIR, FAN। अतः गेंद ऊपर से दूसरे स्थान पर है।", correct:"c", pos:2, neg:0.5 },
+        { id:"5", section:"6", en:"<p>5. Select the set related in the same way as (21, 84, 2).</p>", hi:"<p>5. वह सेट ढूंढें जो (21, 84, 2) की तरह संबंधित हो।</p>", opts_en:["(9, 54, 3)","(63, 126, 2)","(13, 104, 8)","(18, 144, 3)"], opts_hi:["(9, 54, 3)","(63, 126, 2)","(13, 104, 8)","(18, 144, 3)"], sol_en:"(a) Logic: (1st × 3rd) × 2 = 2nd. (21×2)×2=84 ✓; (9×3)×2=54 ✓", sol_hi:"(a) तर्क: (पहला × तीसरा) × 2 = दूसरा। (9×3)×2=54 ✓", correct:"a", pos:2, neg:0.5 },
+        { id:"6", section:"6", en:"<p>6. Three of the four letter clusters are alike; find the odd one.</p>", hi:"<p>6. तीन अक्षर समूह एक ही प्रकार से सम्बंधित हैं; भिन्न पहचानें।</p>", opts_en:["SVYB","AXUR","MRWB","LRVA"], opts_hi:["SVYB","AXUR","MRWB","LRVA"], sol_en:"(d) Except LRVA, all others have odd gaps between alphabets (+3,+3,+3 pattern).", sol_hi:"(d) LRVA को छोड़कर बाकी सभी में अंतराल विषम हैं।", correct:"d", pos:2, neg:0.5 },
+        { id:"7", section:"6", en:"<p>7. Three of the following four numbers are alike; find the odd one out.</p>", hi:"<p>7. तीन संख्याएं एक जैसी हैं; अलग वाली संख्या चुनें।</p>", opts_en:["123","789","483","567"], opts_hi:["123","789","483","567"], sol_en:"(c) 1+2+3=6 ✓; 7+8+9=24 ✓; 5+6+7=18 ✓; 4+8+3=15 ✗ (not divisible by 6).", sol_hi:"(c) 483 में अंकों का योग 15 है, जो 6 से विभाज्य नहीं।", correct:"c", pos:2, neg:0.5 },
+        { id:"8", section:"6", en:"<p>8. D is the son of C and brother of E. E is the niece of F. C is the sister of B and aunt of A. The father of B has two kids — a son and a daughter. If A is the son of F, how is F related to D?</p>", hi:"<p>8. D, C का बेटा है और E का भाई है। E, F की भतीजी है। C, B की बहन और A की आंटी है। B के पिता के दो बच्चे हैं। यदि A, F का बेटा है तो F, D से किस प्रकार संबंधित है?</p>", opts_en:["Cousin","Aunt","Maternal Aunt","Sister"], opts_hi:["चचेरा/ममेरा","आंटी","मामी","बहन"], sol_en:"(c) According to the family tree, F is the Maternal Aunt (मामी) of D.", sol_hi:"(c) पारिवारिक वृक्ष के अनुसार, F, D की मामी है।", correct:"c", pos:2, neg:0.5 },
+        { id:"9", section:"6", en:"<p>9. Arrange in a logical food-chain order: 1. Snake &nbsp; 2. Mongoose &nbsp; 3. Frog &nbsp; 4. Moth</p>", hi:"<p>9. खाद्य श्रृंखला क्रम में सजाएं: 1. सांप &nbsp; 2. नेवला &nbsp; 3. मेंढक &nbsp; 4. कीट</p>", opts_en:["(1,2,3,4)","(4,3,1,2)","(3,2,1,4)","(1,4,2,3)"], opts_hi:["(1,2,3,4)","(4,3,1,2)","(3,2,1,4)","(1,4,2,3)"], sol_en:"(b) Food chain: Moth→Frog→Snake→Mongoose i.e. 4,3,1,2.", sol_hi:"(b) खाद्य श्रृंखला: कीट→मेंढक→सांप→नेवला अर्थात् 4,3,1,2.", correct:"b", pos:2, neg:0.5 },
+        { id:"10", section:"6", en:"<p>10. Select the Venn diagram representing: Pentagon, Octagon, Figure.</p>", hi:"<p>10. पंचभुज, अष्टभुज, आकृति के लिए सही वेन आरेख चुनें।</p>", opts_en:["<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image13.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image30.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image18.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image28.png'>"], opts_hi:["<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image13.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image30.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image18.png'>","<img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image28.png'>"], sol_en:"(a) Pentagon and Octagon are both types of Figures — two separate circles inside a larger one.", sol_hi:"(a) पंचभुज और अष्टभुज दोनों आकृतियाँ हैं।", correct:"a", pos:2, neg:0.5 },
+        { id:"11", section:"6", en:"<p>11. Two positions of the same dice are shown. Which number will be at the top if 2 is at the bottom?</p><p><img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image17.png'></p>", hi:"<p>11. एक ही पासे की दो अवस्थाएं दी गयी हैं। यदि तल पर 2 है तो शीर्ष पर कौन सी संख्या होगी?</p><p><img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image17.png'></p>", opts_en:["5","2","4","6"], opts_hi:["5","2","4","6"], sol_en:"(d) 3 is common; moving from 3: 1↔4, 6↔2. So if 2 is at bottom, 6 is at top.", sol_hi:"(d) 3 उभयनिष्ठ है; 1↔4, 6↔2। अतः 2 तल पर है तो 6 शीर्ष पर होगा।", correct:"d", pos:2, neg:0.5 },
+        { id:"12", section:"6", en:"<p>12. 'PROFESSOR' is related to 'EDUCATION' in the same way as 'LAWYER' is related to:</p>", hi:"<p>12. 'प्रोफेसर' : 'शिक्षा' :: 'वकील' : ?</p>", opts_en:["Judge","Justice","Arbitration","Communication"], opts_hi:["न्यायाधीश","न्याय","मध्यस्तता","सम्प्रेषण"], sol_en:"(b) Professor → Education (field of work); Lawyer → Justice (field of work).", sol_hi:"(b) वकील न्याय की मांग से जुड़ा है।", correct:"b", pos:2, neg:0.5 },
+        { id:"13", section:"6", en:"<p>13. Three of the following four words are alike; find the odd one out.</p>", hi:"<p>13. तीन शब्द एक जैसे हैं; विषम ढूंढें।</p>", opts_en:["Barrier","Boulder","Rock","Ascetic"], opts_hi:["अवरोध","शिलाखंड","चट्टान","तपस्वी"], sol_en:"(d) 'Ascetic' means a self-disciplined person. All others are physical obstacles.", sol_hi:"(d) 'तपस्वी' एक व्यक्ति है; बाकी सब भौतिक अवरोध हैं।", correct:"d", pos:2, neg:0.5 },
+        { id:"14", section:"6", en:"<p>14. Statements: All rocks are oceans. All oceans are balloons. Some watches are balloons.<br>Conclusions: I. Some oceans are balloons. &nbsp; II. Some watches are oceans. &nbsp; III. All oceans are rocks.</p>", hi:"<p>14. कथन: सभी चट्टानें सागर हैं। सभी सागर गुब्बारे हैं। कुछ घड़ियाँ गुब्बारे हैं।<br>निष्कर्ष: I. कुछ सागर गुब्बारे हैं। II. कुछ घड़ियाँ सागर हैं। III. सभी सागर चट्टान हैं।</p>", opts_en:["Only II follows","Only I and III follow","Only I and II follow","Only I follows"], opts_hi:["केवल II","केवल I और III","केवल I और II","केवल I"], sol_en:"(d) I is true (All oceans are balloons → Some oceans are balloons). II is false (no direct link watches-oceans). III is false (converse not valid).", sol_hi:"(d) I सत्य है; II और III असत्य हैं।", correct:"d", pos:2, neg:0.5 },
+        { id:"15", section:"6", en:"<p>15. UQZX : WOBV :: AMNL : ?</p>", hi:"<p>15. UQZX : WOBV :: AMNL : ?</p>", opts_en:["CKLP","CKPJ","CKPQ","CKPI"], opts_hi:["CKLP","CKPJ","CKPQ","CKPI"], sol_en:"(b) Rule: +2, −2, +2, −2. A+2=C, M−2=K, N+2=P, L−2=J → CKPJ.", sol_hi:"(b) नियम: +2,−2,+2,−2 → CKPJ.", correct:"b", pos:2, neg:0.5 },
+        { id:"16", section:"6", en:"<p>16. Select the letter combination that completes the series:<br>ab_db_abc_ba_bcd_a</p>", hi:"<p>16. श्रृंखला पूरी करने वाला अक्षर संयोजन चुनें:<br>ab_db_abc_ba_bcd_a</p>", opts_en:["aadab","cabde","cadab","dcbcb"], opts_hi:["aadab","cabde","cadab","dcbcb"], sol_en:"(c) Repeating pattern: abcdba. Series: abcdba/abcdba/abcdba → missing: c,a,d,a,b.", sol_hi:"(c) दोहराई जाने वाली श्रृंखला abcdba है → cadab.", correct:"c", pos:2, neg:0.5 },
+        { id:"17", section:"6", en:"<p>17. Study the given pattern and select the letter replacing ?</p><p><img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image27.png'/></p>", hi:"<p>17. दिए गए पैटर्न में ? के स्थान पर क्या आएगा?</p><p><img src='https://ssccglpinnacle.com/admin/resources/qdocs/test-1-EN-1/1626668011/word/media/image27.png'></p>", opts_en:["S","K","J","R"], opts_hi:["S","K","J","R"], sol_en:"(c) Vertically opposite letters sum to 19: A+R=19, G+L=19, I+J=19.", sol_hi:"(c) लंबवत विपरीत अक्षरों का योग 19 है: I+J=19.", correct:"c", pos:2, neg:0.5 },
+        { id:"18", section:"6", en:"<p>18. In a certain code: '98563' → '32896'. What is the code for '72104'?</p>", hi:"<p>18. एक निश्चित कोड में '98563' को '32896' लिखते हैं। '72104' का कोड क्या होगा?</p>", opts_en:["24650","21362","15495","15437"], opts_hi:["24650","21362","15495","15437"], sol_en:"(d) Rule: digits >6 subtract 6; digits ≤6 add 3. 7→1, 2→5, 1→4, 0→3, 4→7 → 15437.", sol_hi:"(d) नियम: 6 से बड़े अंक से 6 घटाएं; 6 से छोटे या बराबर में 3 जोड़ें → 15437.", correct:"d", pos:2, neg:0.5 },
+        { id:"19", section:"6", en:"<p>19. Select the number replacing ? in the series:<br>1138, 1150, 1163, 1177, ?</p>", hi:"<p>19. श्रृंखला में ? के स्थान पर कौन सी संख्या आएगी?<br>1138, 1150, 1163, 1177, ?</p>", opts_en:["1196","1202","1192","1204"], opts_hi:["1196","1202","1192","1204"], sol_en:"(c) Differences: +12, +13, +14, +15. 1177+15=1192.", sol_hi:"(c) अंतर: +12, +13, +14, +15 → 1177+15=1192.", correct:"c", pos:2, neg:0.5 },
+        { id:"20", section:"6", en:"<p>20. Select the word pair related in the same way as: Attire : Tuxedo</p>", hi:"<p>20. वह शब्द युग्म चुनें जो 'पोशाक : टक्सीडो' की तरह संबंधित हो।</p>", opts_en:["Shuttle : Badminton","Qualities : Generosity","Timber : Wood","Mangroves : Furniture"], opts_hi:["कॉर्क : बैडमिंटन","गुण : दानशीलता","टिम्बर : लकड़ी","मैंग्रोव : फर्नीचर"], sol_en:"(b) Tuxedo is a type of Attire; Generosity is a type of Quality.", sol_hi:"(b) टक्सेडो एक पोशाक है; दानशीलता एक गुण है।", correct:"b", pos:2, neg:0.5 },
+        { id:"21", section:"6", en:"<p>21. Which two signs should be interchanged to make the equation correct?<br>12 × 8 − 9 ÷ 3 + 6 = 2</p>", hi:"<p>21. समीकरण को सही बनाने के लिए कौन से दो चिन्ह बदलें?<br>12 × 8 − 9 ÷ 3 + 6 = 2</p>", opts_en:["× and −","× and +","+ and −","− and ÷"], opts_hi:["× और −","× और +","+ और −","− और ÷"], sol_en:"(b) Swap × and +: 12+8−9÷3×6 = 20−18 = 2 ✓", sol_hi:"(b) × और + बदलने पर: 12+8−9÷3×6 = 20−18 = 2 ✓", correct:"b", pos:2, neg:0.5 },
+        { id:"22", section:"6", en:"<p>22. How many triangles are in the given figure?</p><p><img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXcNGZWW-hmQYLuW2yvDv9Sd9ncbTebC1wEe_--nC9WAJXCJ2-dhOm4EzzTS-81TPoFQZVrPOKCe-4PzsKQMbMMBYRpbAeQLzkY9sJhJ5vNEZ3Z2_2nPBR4WQVXt3DBIQ3mnjerM?key=jT-LmXentAfg4PSzJhdddkF5' width='134'></p>", hi:"<p>22. दी गयी आकृति में कितने त्रिभुज हैं?</p><p><img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXcNGZWW-hmQYLuW2yvDv9Sd9ncbTebC1wEe_--nC9WAJXCJ2-dhOm4EzzTS-81TPoFQZVrPOKCe-4PzsKQMbMMBYRpbAeQLzkY9sJhJ5vNEZ3Z2_2nPBR4WQVXt3DBIQ3mnjerM?key=jT-LmXentAfg4PSzJhdddkF5' width='134'></p>", opts_en:["14","15","11","13"], opts_hi:["14","15","11","13"], sol_en:"(a) 14 triangles: ABD, BCH, HGF, DEF, IJL, JLK, ILK, IVL, KML, MNT, TUN, NOP, TSR, PQR.", sol_hi:"(a) 14 त्रिभुज हैं।", correct:"a", pos:2, neg:0.5 },
+        { id:"23", section:"6", en:"<p>23. Select the correct mirror image when mirror is placed at MN.</p><p><img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXcTWfDQPrKspxshE9KnV7xhNW7jLXhDuRmNvSJ1T8FTdlp8OwhCQGMwwKIbg_D6wPUdTR85AMmtuWA_HTCHcpknPfBP9k12GVYoUw6St_lU8O7HOllh8QbRrAX7KDAoYDJzh0Dx?key=HdXF7DP_JORvxyyajZRjmcjz' width='140'></p>", hi:"<p>23. MN पर दर्पण रखने पर सही दर्पण प्रतिबिंब चुनें।</p><p><img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXcTWfDQPrKspxshE9KnV7xhNW7jLXhDuRmNvSJ1T8FTdlp8OwhCQGMwwKIbg_D6wPUdTR85AMmtuWA_HTCHcpknPfBP9k12GVYoUw6St_lU8O7HOllh8QbRrAX7KDAoYDJzh0Dx?key=HdXF7DP_JORvxyyajZRjmcjz' width='140'></p>", opts_en:["<img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXcBWon2uEJfAARHhIfVH3nzH9_LcbpRNDvyyNER5nD4HQtxVuqr3OMRXmq9zpOhkeG6k2ojvQbk8CVVbYxZKL1zOGqLFcXYvq09a4nAePLkYGCy_m5fAvk63L9j2GjrrxYWfEI65A?key=HdXF7DP_JORvxyyajZRjmcjz' width='100'>","<img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXesgWUuKUlSAj74jVpdBsgRdPkOroS9nSeFmCFNlzmdm8c12Gz1Wn-f4J53ETOax7XPEVev4qCUdZgNtbyOixefmpdGqxZyN74FqjNqqg4LnhhE3DRFRMZU8w72KblCJ6WEKXSznw?key=HdXF7DP_JORvxyyajZRjmcjz' width='100'>","<img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXenkxIXnXdnz2um16rWSnhghL02B6LMIrzy5DE2dZBwUbxj97HNygJqmXySUwge16qelxMii1Vz3OdOSg_ciUrTEDqD2oy16n8udr0jllFsGZnAJzULfbdC70kn0y37GZ7LsYM6?key=HdXF7DP_JORvxyyajZRjmcjz' width='100'>","<img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXfrBFB0kg9xokbmpMP8ZdKuDCzWqECprpgtTYcWvEVAE4DmTmXPfS1BkmNRGuRDuGTMYByRpDGHcexsvevy83fxgwVCuRrlP5WICcMVnOoXbOYWBk8KKfIp1iTdubMmKbwrb90K-w?key=HdXF7DP_JORvxyyajZRjmcjz' width='100'>"], opts_hi:["<img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXcBWon2uEJfAARHhIfVH3nzH9_LcbpRNDvyyNER5nD4HQtxVuqr3OMRXmq9zpOhkeG6k2ojvQbk8CVVbYxZKL1zOGqLFcXYvq09a4nAePLkYGCy_m5fAvk63L9j2GjrrxYWfEI65A?key=HdXF7DP_JORvxyyajZRjmcjz' width='100'>","<img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXesgWUuKUlSAj74jVpdBsgRdPkOroS9nSeFmCFNlzmdm8c12Gz1Wn-f4J53ETOax7XPEVev4qCUdZgNtbyOixefmpdGqxZyN74FqjNqqg4LnhhE3DRFRMZU8w72KblCJ6WEKXSznw?key=HdXF7DP_JORvxyyajZRjmcjz' width='100'>","<img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXenkxIXnXdnz2um16rWSnhghL02B6LMIrzy5DE2dZBwUbxj97HNygJqmXySUwge16qelxMii1Vz3OdOSg_ciUrTEDqD2oy16n8udr0jllFsGZnAJzULfbdC70kn0y37GZ7LsYM6?key=HdXF7DP_JORvxyyajZRjmcjz' width='100'>","<img src='https://lh7-rt.googleusercontent.com/docsz/AD_4nXfrBFB0kg9xokbmpMP8ZdKuDCzWqECprpgtTYcWvEVAE4DmTmXPfS1BkmNRGuRDuGTMYByRpDGHcexsvevy83fxgwVCuRrlP5WICcMVnOoXbOYWBk8KKfIp1iTdubMmKbwrb90K-w?key=HdXF7DP_JORvxyyajZRjmcjz' width='100'>"], sol_en:"(a) The correct mirror image is option (a).", sol_hi:"(a) सही दर्पण प्रतिबिंब विकल्प (a) है।", correct:"a", pos:2, neg:0.5 },
+        { id:"24", section:"6", en:"<p>24. Which number will replace ? in the series?<br>244 &nbsp; 232.1 &nbsp; 220.2 &nbsp; 208.3 &nbsp; 196.4 &nbsp; ?</p>", hi:"<p>24. श्रृंखला में ? के स्थान पर कौन सी संख्या आएगी?<br>244 &nbsp; 232.1 &nbsp; 220.2 &nbsp; 208.3 &nbsp; 196.4 &nbsp; ?</p>", opts_en:["184.5","172.5","180.5","176.5"], opts_hi:["184.5","172.5","180.5","176.5"], sol_en:"(a) Each term decreases by 11.9. 196.4 − 11.9 = 184.5.", sol_hi:"(a) प्रत्येक पद 11.9 घटता है → 184.5.", correct:"a", pos:2, neg:0.5 },
+        { id:"25", section:"misc", en:"<p>25. Select the missing number:<br>11 &nbsp; 3 &nbsp; 94<br>9 &nbsp; &nbsp; 3 &nbsp; 54<br>14 &nbsp; ? &nbsp; 71</p>", hi:"<p>25. लुप्त संख्या ज्ञात करें:<br>11 &nbsp; 3 &nbsp; 94<br>9 &nbsp; &nbsp; 3 &nbsp; 54<br>14 &nbsp; ? &nbsp; 71</p>", opts_en:["2","3","4","5"], opts_hi:["2","3","4","5"], sol_en:"(d) Logic: (1st)² − (2nd)³ = 3rd. 11²−3³=121−27=94 ✓; 9²−3³=81−27=54 ✓; 14²−5³=196−125=71 ✓ → ?=5.", sol_hi:"(d) तर्क: (पहला)² − (दूसरा)³ = तीसरा → 14²−5³=71 ✓ → ?=5.", correct:"d", pos:2, neg:0.5 },
+    ];
+
+    raw.forEach((q, i) => {
+        questions.push(q);
+        qStatus[q.id] = 'not-visited';
+    });
+}
+
+/* ══════════════════════════════════════
+   INSTRUCTION SCREEN
+══════════════════════════════════════ */
+function toggleAgree() {
+    const cb = document.getElementById('agree-cb');
+    cb.checked = !cb.checked;
+    document.getElementById('start-btn').classList.toggle('ready', cb.checked);
+}
+
+function startTest() {
+    document.getElementById('instr-screen').classList.remove('active');
+    document.getElementById('exam-screen').classList.add('active');
+    buildPalette();
+    goToQ(0);
+    startTimer();
+}
+
+/* ══════════════════════════════════════
+   TIMER
+══════════════════════════════════════ */
+function startTimer() {
+    let t = totalTime;
+    updateTimerDisplay(t);
+    timerInterval = setInterval(() => {
+        t--;
+        updateTimerDisplay(t);
+        if (t <= 0) { clearInterval(timerInterval); if (!submitted) submitTest(); }
+    }, 1000);
+}
+
+function updateTimerDisplay(sec) {
+    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+    const s = String(sec % 60).padStart(2, '0');
+    const el = document.getElementById('timer-display');
+    el.textContent = `${m}:${s}`;
+    el.className = 'val';
+    if (sec <= 60) el.classList.add('danger');
+    else if (sec <= 180) el.classList.add('warn');
+}
+
+/* ══════════════════════════════════════
+   QUESTION DISPLAY
+══════════════════════════════════════ */
+function goToQ(idx) {
+    if (idx < 0 || idx >= questions.length) return;
+    currentQ = idx;
+    const q = questions[idx];
+    if (qStatus[q.id] === 'not-visited') qStatus[q.id] = 'not-answered';
+
+    // Update sub bar
+    const secKey = q.section;
+    const sec = sections[secKey] || { short: 'SECTION' };
+    document.getElementById('section-badge').textContent = sec.short;
+    document.getElementById('q-counter').textContent = `Q ${idx + 1} of ${questions.length}`;
+    document.getElementById('pal-sec-label').textContent = sec.short;
+    document.getElementById('pal-sec-count').textContent = sec.qRange;
+
+    const opts = currentLang === 'en' ? q.opts_en : q.opts_hi;
+    const qText = currentLang === 'en' ? q.en : q.hi;
+    const optLetters = ['a','b','c','d'];
+    const optLabels = ['A','B','C','D'];
+
+    let optsHtml = '';
+    optLetters.forEach((lt, i) => {
+        const isSelected = answers[q.id] === lt;
+        let cls = 'opt-row';
+        let checkIcon = 'fa-circle';
+        if (submitted) {
+            if (lt === q.correct) { cls += ' correct-ans'; checkIcon = 'fa-check-circle'; }
+            else if (isSelected && lt !== q.correct) { cls += ' wrong-ans'; checkIcon = 'fa-times-circle'; }
+        } else if (isSelected) {
+            cls += ' selected'; checkIcon = 'fa-check-circle';
+        }
+        optsHtml += `<div class="${cls}" ${!submitted ? `onclick="selectAnswer('${q.id}','${lt}')"` : ''}>
+            <div class="opt-badge">${optLabels[i]}</div>
+            <div class="opt-label">${opts[i]}</div>
+            <div class="opt-check"><i class="fas ${checkIcon}"></i></div>
+        </div>`;
+    });
+
+    let solHtml = '';
+    if (submitted) {
+        const ua = answers[q.id];
+        const isCorrect = ua === q.correct;
+        const isSkipped = !ua;
+        const cls = isSkipped ? 'skipped' : isCorrect ? 'correct' : 'incorrect';
+        const icon = isSkipped ? '⏭' : isCorrect ? '✅' : '❌';
+        const label = isSkipped ? 'Not Attempted' : isCorrect ? 'Correct!' : 'Incorrect!';
+        const sol = currentLang === 'en' ? q.sol_en : q.sol_hi;
+        solHtml = `<div class="solution-box ${cls}">
+            <div class="sol-head">${icon} ${label} &nbsp;·&nbsp; Correct Answer: <strong>${q.correct.toUpperCase()}</strong></div>
+            <div class="sol-body">${sol}</div>
+        </div>`;
+    }
+
+    // update progress bar
+    const answered = Object.keys(answers).length;
+    const pct = Math.round((answered / questions.length) * 100);
+    const pb = document.getElementById('progress-bar');
+    if (pb) pb.style.width = pct + '%';
+
+    document.getElementById('q-panel-inner').innerHTML = `
+        <div class="q-card">
+            <div class="q-card-header">
+                <div class="q-num-badge">
+                    <div class="q-num-circle">${idx + 1}</div>
+                    <div class="q-num-text">Question ${idx + 1} <span style="font-weight:400;color:var(--text-s);font-size:12px">of ${questions.length}</span></div>
+                </div>
+                <div class="q-marks">
+                    <span class="q-marks-pill qmp-pos">+${q.pos}</span>
+                    <span class="q-marks-pill qmp-neg">−${q.neg}</span>
+                </div>
+            </div>
+            <div class="q-card-body">
+                <div class="question-text">${qText}</div>
+                <div class="options-list">${optsHtml}</div>
+                ${solHtml}
+            </div>
+        </div>`;
+
+    document.getElementById('q-panel-inner').scrollTop = 0;
+    renderPalette();
+    if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) MathJax.typesetPromise();
+}
+
+function selectAnswer(qId, opt) {
+    if (submitted) return;
+    answers[qId] = opt;
+    const s = qStatus[qId];
+    if (s === 'not-answered' || s === 'not-visited') qStatus[qId] = 'answered';
+    else if (s === 'marked') qStatus[qId] = 'marked-answered';
+    goToQ(currentQ);
+}
+
+function prevQ() { if (currentQ > 0) goToQ(currentQ - 1); }
+function nextQ() { if (currentQ < questions.length - 1) goToQ(currentQ + 1); }
+
+function clearResponse() {
+    if (submitted) return;
+    const qId = questions[currentQ].id;
+    delete answers[qId];
+    if (qStatus[qId] === 'answered' || qStatus[qId] === 'marked-answered') qStatus[qId] = 'not-answered';
+    goToQ(currentQ);
+}
+
+function markForReview() {
+    if (submitted) return;
+    const qId = questions[currentQ].id;
+    qStatus[qId] = answers[qId] ? 'marked-answered' : 'marked';
+    nextQ();
+}
+
+/* ══════════════════════════════════════
+   PALETTE
+══════════════════════════════════════ */
+function buildPalette() {
+    const grid = document.getElementById('palette-grid');
+    grid.innerHTML = questions.map((q, i) => {
+        return `<button class="pq pq-nv" id="pq-${i}" onclick="goToQ(${i})">${i + 1}</button>`;
+    }).join('');
+}
+
+function renderPalette() {
+    let ans=0, na=0, mrk=0, nv=0;
+    questions.forEach((q, i) => {
+        const s = qStatus[q.id];
+        const btn = document.getElementById('pq-' + i);
+        if (!btn) return;
+        btn.className = 'pq';
+        if (s === 'answered') { btn.classList.add('pq-ans'); ans++; }
+        else if (s === 'not-answered') { btn.classList.add('pq-na'); na++; }
+        else if (s === 'marked') { btn.classList.add('pq-mrk'); mrk++; }
+        else if (s === 'marked-answered') { btn.classList.add('pq-mrk-ans'); ans++; }
+        else { btn.classList.add('pq-nv'); nv++; }
+        if (i === currentQ) btn.classList.add('active');
+    });
+    document.getElementById('stat-ans').textContent = ans;
+    document.getElementById('stat-na').textContent = na;
+    document.getElementById('stat-mrk').textContent = mrk;
+    document.getElementById('stat-nv').textContent = nv;
+}
+
+/* ══════════════════════════════════════
+   SECTION SELECTOR
+══════════════════════════════════════ */
+function switchSection(val) {
+    if (val === 'all') { goToQ(0); return; }
+    const sec = sections[val];
+    if (sec) goToQ(sec.start);
+}
+
+/* ══════════════════════════════════════
+   LANGUAGE
+══════════════════════════════════════ */
+function toggleLanguage() {
+    currentLang = currentLang === 'en' ? 'hi' : 'en';
+    document.getElementById('lang-btn').innerHTML = currentLang === 'en'
+        ? '<i class="fas fa-language"></i> हिंदी'
+        : '<i class="fas fa-language"></i> English';
+    goToQ(currentQ);
+}
+
+/* ══════════════════════════════════════
+   SUBMIT
+══════════════════════════════════════ */
+function openSubmitModal() {
+    let ans=0, na=0, mrk=0, nv=0;
+    questions.forEach(q => {
+        const s = qStatus[q.id];
+        if (s==='answered'||s==='marked-answered') ans++;
+        else if (s==='not-answered') na++;
+        else if (s==='marked') mrk++;
+        else nv++;
+    });
+    document.getElementById('pre-submit-stats').innerHTML = `
+        <div class="rm-stat"><div class="rval" style="color:var(--green)">${ans}</div><div class="rlbl">Answered</div></div>
+        <div class="rm-stat"><div class="rval" style="color:var(--red)">${na}</div><div class="rlbl">Not Answered</div></div>
+        <div class="rm-stat"><div class="rval" style="color:#6a1b9a">${mrk}</div><div class="rlbl">Marked</div></div>
+        <div class="rm-stat"><div class="rval" style="color:#9e9e9e">${nv}</div><div class="rlbl">Not Visited</div></div>`;
+    document.getElementById('submit-modal').classList.add('show');
+}
+
+function closeSubmitModal() { document.getElementById('submit-modal').classList.remove('show'); }
+
+function submitTest() {
+    if (submitted) return;
+    submitted = true;
+    clearInterval(timerInterval);
+    closeSubmitModal();
+
+    let score = 0, correct = 0, wrong = 0, skip = 0;
+    questions.forEach(q => {
+        const ua = answers[q.id];
+        if (!ua) { skip++; }
+        else if (ua === q.correct) { correct++; score += q.pos; }
+        else { wrong++; score -= q.neg; }
+    });
+
+    document.getElementById('rm-score').textContent = score.toFixed(2);
+    document.getElementById('rm-correct').textContent = correct;
+    document.getElementById('rm-wrong').textContent = wrong;
+    document.getElementById('rm-skip').textContent = skip;
+    document.getElementById('results-modal').classList.add('show');
+    renderPalette();
+}
+
+function reviewTest() {
+    document.getElementById('results-modal').classList.remove('show');
+    goToQ(0);
+}
+
+/* ══════════════════════════════════════
+   MOBILE SIDEBAR
+══════════════════════════════════════ */
+function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    sb.classList.toggle('open');
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+window.onload = function() {
+    initData();
+    // Desktop: panel margin already set via CSS var
+};
+</script>
+</body>
+</html>
