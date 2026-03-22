@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thunder⚡ Banking CBT Mock Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bank-blue:#0052a5;--bank-blue-d:#003d7a;--bank-blue-l:#e8f0fb;
+  --bank-cyan:#00b4d8;--bank-cyan-l:#e0f7fa;
+  --answered:#2e7d32;--not-answered:#c62828;--marked:#6a1b9a;
+  --not-visited:#bdbdbd;--marked-ans:#7b1fa2;
+  --white:#ffffff;--bg:#f0f4f8;--border:#c8d6e8;
+  --text:#1a2b3c;--text-m:#4a5568;
+  --header-h:52px;--footer-h:52px;
+}
+html,body{height:100%;font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;overflow:hidden}
+.screen{display:none;width:100%;height:100%}
+.screen.active{display:flex}
+
+/* LOGIN */
+#login-screen{flex-direction:column;background:linear-gradient(135deg,#001f4d 0%,#0052a5 50%,#0077cc 100%);align-items:center;justify-content:center;position:relative;overflow:hidden;}
+#login-screen::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.login-card{background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.35);width:420px;padding:0;overflow:hidden;position:relative;z-index:2;animation:slideUp 0.5s ease both;}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.login-header{background:linear-gradient(90deg,var(--bank-blue-d),var(--bank-blue));padding:24px 32px;text-align:center;}
+.login-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
+.login-logo .bolt{font-size:28px}
+.login-logo .brand{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:0.04em}
+.login-sub{font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:0.12em;text-transform:uppercase}
+.exam-tag{display:inline-block;margin-top:10px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:0.08em;}
+.login-body{padding:28px 32px 32px}
+.form-row{margin-bottom:18px}
+.form-row label{display:block;font-size:12px;font-weight:600;color:var(--text-m);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase}
+.form-row input,.form-row select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:7px;font-family:'Noto Sans',sans-serif;font-size:14px;color:var(--text);background:#fafbfc;transition:border-color 0.2s,box-shadow 0.2s;outline:none;}
+.form-row input:focus,.form-row select:focus{border-color:var(--bank-blue);box-shadow:0 0 0 3px rgba(0,82,165,0.1)}
+.login-btn{width:100%;padding:12px;border:none;border-radius:8px;background:linear-gradient(90deg,var(--bank-blue),var(--bank-cyan));color:#fff;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:opacity 0.2s,transform 0.2s;box-shadow:0 4px 16px rgba(0,82,165,0.35);}
+.login-btn:hover{opacity:0.92;transform:translateY(-1px)}
+.login-notice{font-size:11px;color:#e53935;text-align:center;margin-top:14px;font-weight:500}
+.login-footer-note{font-size:10.5px;color:var(--text-m);text-align:center;margin-top:18px;line-height:1.6}
+
+/* INSTRUCTIONS */
+#instr-screen{flex-direction:column;background:var(--bg);}
+.instr-top{background:linear-gradient(90deg,var(--bank-blue-d),var(--bank-blue));padding:0 24px;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.instr-top .logo-text{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:0.04em}
+.instr-top .candidate-info{font-size:12px;color:rgba(255,255,255,0.8)}
+.instr-top .candidate-info strong{color:#fff}
+.instr-body{flex:1;overflow-y:auto;padding:20px 28px}
+.instr-card{background:#fff;border-radius:10px;border:1px solid var(--border);padding:24px;margin-bottom:16px}
+.instr-card h2{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--bank-blue);margin-bottom:14px;border-bottom:2px solid var(--bank-blue-l);padding-bottom:8px}
+.instr-card p,.instr-card li{font-size:13px;color:var(--text-m);line-height:1.7;margin-bottom:4px}
+.instr-card ol,.instr-card ul{padding-left:20px}
+.legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.legend-item{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--text-m)}
+.leg-box{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.leg-white{background:#fff;border:2px solid #9e9e9e;color:#555}
+.leg-red{background:var(--not-answered)}
+.leg-green{background:var(--answered)}
+.leg-purple{background:var(--marked)}
+.leg-purple-tick{background:var(--marked);position:relative}
+.leg-purple-tick::after{content:'✓';position:absolute;bottom:-2px;right:-2px;background:var(--answered);width:12px;height:12px;border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;line-height:1}
+.sections-table{width:100%;border-collapse:collapse;font-size:13px}
+.sections-table th{background:var(--bank-blue-l);color:var(--bank-blue);font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--border)}
+.sections-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-m)}
+.sections-table tr:nth-child(even) td{background:#fafbfc}
+.instr-agree{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--bank-blue);border-radius:8px;padding:14px 18px;margin-bottom:16px;cursor:pointer}
+.instr-agree input{width:16px;height:16px;accent-color:var(--bank-blue);cursor:pointer}
+.instr-agree label{font-size:13px;font-weight:600;color:var(--text);cursor:pointer}
+.instr-start-btn{display:block;width:220px;margin:0 auto;padding:13px;border:none;border-radius:8px;background:linear-gradient(90deg,var(--bank-blue),var(--bank-cyan));color:#fff;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:0.08em;cursor:pointer;box-shadow:0 4px 16px rgba(0,82,165,0.3);transition:opacity 0.2s;opacity:0.45;pointer-events:none;}
+.instr-start-btn.ready{opacity:1;pointer-events:all}
+
+/* EXAM */
+#exam-screen{flex-direction:column;height:100vh;overflow:hidden}
+.exam-topbar{height:var(--header-h);background:linear-gradient(90deg,var(--bank-blue-d),var(--bank-blue));display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;gap:8px;}
+.exam-topbar .tl{display:flex;align-items:center;gap:12px}
+.exam-topbar .logo-t{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:0.04em;white-space:nowrap}
+
+/* SECTION TABS — indicators only, NOT clickable */
+.section-tabs{display:flex;gap:4px}
+.sec-tab{
+  padding:6px 14px;border-radius:4px;font-size:12px;font-weight:600;
+  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.45);
+  border:1px solid rgba(255,255,255,0.1);white-space:nowrap;
+  cursor:default;user-select:none;position:relative;
+}
+.sec-tab.active{background:#fff;color:var(--bank-blue);border-color:#fff;}
+.sec-tab.done{background:rgba(46,125,50,0.4);color:rgba(255,255,255,0.85);border-color:rgba(46,125,50,0.6);}
+.sec-tab.done::after{content:'✓';margin-left:5px;font-size:11px;}
+.sec-tab-lock{font-size:10px;margin-left:4px;opacity:0.6;}
+
+.exam-topbar .tr{display:flex;align-items:center;gap:14px}
+.candidate-chip{display:flex;align-items:center;gap:7px}
+.candidate-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#29b6f6,#0052a5);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:700;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;}
+.candidate-name{font-size:12px;color:#fff;font-weight:600;white-space:nowrap}
+.timer-chip{display:flex;align-items:center;gap:7px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 12px;}
+.timer-label{font-size:10px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.08em}
+.timer-val{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:0.06em;min-width:60px;text-align:center}
+.timer-val.warning{color:#ffcc02;animation:blink 1s infinite}
+.timer-val.danger{color:#ff4444;animation:blink 0.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.5}}
+
+.exam-subbar{height:34px;background:#e8eff8;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;}
+.subbar-left{display:flex;align-items:center;gap:16px;font-size:12px;color:var(--text-m)}
+.subbar-left .sec-label{font-weight:700;color:var(--bank-blue)}
+.section-badge{background:var(--bank-blue);color:#fff;font-size:10.5px;font-weight:700;padding:2px 10px;border-radius:12px;letter-spacing:0.06em;text-transform:uppercase;}
+.view-in{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-m)}
+.view-in select{padding:2px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px;background:#fff}
+.sec-time{font-size:12px;color:var(--text-m)}
+.sec-time span{font-weight:700;color:var(--bank-blue);font-family:'Rajdhani',sans-serif;font-size:14px}
+
+.exam-main{flex:1;display:flex;overflow:hidden}
+.q-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);}
+.q-header{padding:10px 16px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.q-num-badge{font-size:13px;font-weight:700;color:var(--text)}
+.q-type-badge{font-size:11px;background:var(--bank-blue-l);color:var(--bank-blue);padding:2px 10px;border-radius:10px;font-weight:600}
+.q-content{flex:1;overflow-y:auto;padding:16px;background:#fff}
+.q-direction{background:#fff8e1;border-left:3px solid #ffa000;border-radius:4px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;color:#5d4037;line-height:1.6;}
+.q-direction strong{display:block;margin-bottom:4px;color:#e65100}
+.q-text{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px;font-weight:500}
+.options-list{display:flex;flex-direction:column;gap:8px}
+.opt-item{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;transition:all 0.15s;background:#fafbfc;}
+.opt-item:hover{border-color:var(--bank-blue);background:var(--bank-blue-l)}
+.opt-item.selected{border-color:var(--bank-blue);background:var(--bank-blue-l)}
+.opt-item.selected .opt-radio{border-color:var(--bank-blue);background:var(--bank-blue)}
+.opt-radio{width:18px;height:18px;border-radius:50%;border:2px solid #9e9e9e;flex-shrink:0;margin-top:1px;transition:all 0.15s;position:relative;}
+.opt-item.selected .opt-radio::after{content:'';position:absolute;width:8px;height:8px;background:#fff;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
+.opt-label{font-size:13.5px;line-height:1.5;color:var(--text)}
+
+/* PALETTE */
+.q-palette{width:270px;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;background:#fff;}
+.palette-top{background:linear-gradient(90deg,var(--bank-blue-d),var(--bank-blue));padding:10px 14px;}
+.palette-candidate{display:flex;align-items:center;gap:10px}
+.p-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#b3d4f5,#5b9bd5);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;border:2px solid rgba(255,255,255,0.5);flex-shrink:0;}
+.p-name{font-size:13px;font-weight:700;color:#fff}
+.p-exam{font-size:10.5px;color:rgba(255,255,255,0.65);margin-top:1px}
+.palette-legend{padding:10px 12px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.pl-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-m)}
+.pl-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+.pl-white{background:#fff;border:2px solid #9e9e9e;color:#555}
+.pl-red{background:var(--not-answered)}
+.pl-green{background:var(--answered)}
+.pl-purple{background:var(--marked)}
+.palette-section-label{padding:7px 12px;background:var(--bank-blue-l);font-size:11.5px;font-weight:700;color:var(--bank-blue);border-bottom:1px solid var(--border);letter-spacing:0.04em;text-transform:uppercase;display:flex;justify-content:space-between;}
+.palette-grid{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.pq-btn{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:12px;font-weight:700;color:#fff;transition:transform 0.1s,box-shadow 0.1s;display:flex;align-items:center;justify-content:center;position:relative;}
+.pq-btn:hover{transform:scale(1.1);box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.pq-btn.active{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--bank-blue)!important}
+.pq-not-visited{background:var(--not-visited);color:#555}
+.pq-not-answered{background:var(--not-answered)}
+.pq-answered{background:var(--answered)}
+.pq-marked{background:var(--marked)}
+.pq-marked-answered{background:var(--marked-ans);position:relative}
+.pq-marked-answered::after{content:'✓';position:absolute;bottom:-2px;right:-2px;background:var(--answered);width:14px;height:14px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;line-height:1;color:#fff;border:1px solid #fff;}
+.palette-btns{padding:10px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
+.pal-action-btn{padding:8px;border:1px solid var(--border);border-radius:6px;background:#fff;font-size:12px;font-weight:600;cursor:pointer;color:var(--bank-blue);transition:background 0.15s;text-align:center;}
+.pal-action-btn:hover{background:var(--bank-blue-l)}
+.pal-action-btn.primary{background:var(--bank-blue);color:#fff;border-color:var(--bank-blue)}
+.pal-action-btn.primary:hover{background:var(--bank-blue-d)}
+
+.exam-footer{height:var(--footer-h);background:#fff;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;gap:8px;}
+.footer-left,.footer-right{display:flex;gap:8px}
+.f-btn{padding:8px 16px;border-radius:6px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.15s;border:1.5px solid transparent;font-family:'Noto Sans',sans-serif;}
+.f-btn-mark{background:#f3e5f5;color:var(--marked);border-color:var(--marked)}
+.f-btn-mark:hover{background:var(--marked);color:#fff}
+.f-btn-clear{background:#fff3e0;color:#e65100;border-color:#e65100}
+.f-btn-clear:hover{background:#e65100;color:#fff}
+.f-btn-report{background:#fce4ec;color:#c62828;border-color:#c62828}
+.f-btn-report:hover{background:#c62828;color:#fff}
+.f-btn-save{background:#e3f2fd;color:#1565c0;border-color:#1565c0}
+.f-btn-save:hover{background:#1565c0;color:#fff}
+.f-btn-next{background:var(--bank-blue);color:#fff;border-color:var(--bank-blue)}
+.f-btn-next:hover{background:var(--bank-blue-d)}
+.f-btn-submit{background:#2e7d32;color:#fff;border-color:#2e7d32}
+.f-btn-submit:hover{background:#1b5e20}
+
+/* SECTION TRANSITION OVERLAY */
+.section-transition{display:none;position:fixed;inset:0;background:rgba(0,30,80,0.93);z-index:9000;align-items:center;justify-content:center;flex-direction:column;gap:18px;text-align:center;padding:24px;}
+.section-transition.show{display:flex}
+.st-icon{font-size:56px}
+.st-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#fff}
+.st-msg{font-size:14px;color:rgba(255,255,255,0.75);max-width:440px;line-height:1.7}
+.st-next{font-family:'Rajdhani',sans-serif;font-size:16px;color:#00b4d8;font-weight:600;margin-top:4px}
+.st-bar-wrap{width:300px;height:6px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;margin-top:8px}
+.st-bar{height:100%;background:linear-gradient(90deg,var(--bank-blue),var(--bank-cyan));border-radius:4px;width:0%;transition:width 0.1s linear}
+
+/* SUBMIT MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:12px;padding:28px;width:500px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;}
+.modal-box h3{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--bank-blue);margin-bottom:12px}
+.modal-sections{margin:12px 0}
+.msec-row{background:#f5f8ff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:8px;}
+.msec-title{font-size:12px;font-weight:700;color:var(--bank-blue);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
+.modal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.mstat{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;border-radius:6px;border:1px solid var(--border);background:#fff}
+.mstat-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0}
+.mstat-info{font-size:11px;color:var(--text-m);text-align:center}
+.mstat-info b{display:block;font-size:15px;font-family:'Rajdhani',sans-serif;color:var(--text)}
+.modal-warn{background:#fff8e1;border:1px solid #ffa000;border-radius:6px;padding:10px 14px;font-size:12.5px;color:#5d4037;margin-bottom:16px;margin-top:12px;}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end}
+.m-btn{padding:10px 22px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Noto Sans',sans-serif}
+.m-btn-cancel{background:#f5f5f5;color:var(--text)}
+.m-btn-submit{background:var(--bank-blue);color:#fff}
+
+/* RESULT */
+#result-screen{flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8f0fb,#f0f4f8);overflow-y:auto;}
+.result-card{background:#fff;border-radius:16px;padding:36px;width:640px;max-width:92vw;box-shadow:0 12px 48px rgba(0,82,165,0.15);animation:slideUp 0.5s ease;text-align:center;}
+.result-icon{font-size:64px;margin-bottom:12px}
+.result-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--bank-blue);margin-bottom:4px}
+.result-name{font-size:16px;color:var(--text-m);margin-bottom:24px}
+.score-circle{width:130px;height:130px;border-radius:50%;margin:0 auto 24px;background:linear-gradient(135deg,var(--bank-blue),var(--bank-cyan));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,82,165,0.3);}
+.score-num{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1}
+.score-lbl{font-size:11px;color:rgba(255,255,255,0.8);letter-spacing:0.1em;text-transform:uppercase}
+.result-sec-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px}
+.result-sec-table th{background:var(--bank-blue-l);color:var(--bank-blue);font-weight:700;padding:8px 12px;border:1px solid var(--border);text-align:left;}
+.result-sec-table td{padding:7px 12px;border:1px solid var(--border);color:var(--text-m)}
+.result-sec-table tr:nth-child(even) td{background:#fafbfc}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.res-stat{background:#f5f8ff;border-radius:8px;padding:14px;border:1px solid var(--border)}
+.res-stat-num{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700}
+.res-stat-label{font-size:11px;color:var(--text-m);margin-top:2px}
+.res-green{color:var(--answered)}.res-red{color:var(--not-answered)}.res-orange{color:#e65100}
+.result-actions{display:flex;gap:10px;justify-content:center}
+.res-btn{padding:11px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Rajdhani',sans-serif;letter-spacing:0.05em}
+.res-btn-primary{background:linear-gradient(90deg,var(--bank-blue),var(--bank-cyan));color:#fff;box-shadow:0 4px 16px rgba(0,82,165,0.3)}
+
+/* FULLSCREEN NAG */
+.fs-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:99999;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:#fff;text-align:center;padding:24px;}
+.fs-overlay.show{display:flex}
+.fs-overlay h2{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700}
+.fs-overlay p{font-size:14px;color:rgba(255,255,255,0.7);max-width:400px;line-height:1.6}
+.fs-btn{padding:12px 28px;background:var(--bank-blue);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:0.06em}
+
+/* SECTION LOCK POPUP */
+.sec-lock-popup{
+  display:none;position:fixed;z-index:10000;
+  background:#1a2b3c;color:#fff;border-radius:10px;
+  padding:14px 20px;font-size:13px;line-height:1.6;
+  box-shadow:0 8px 32px rgba(0,0,0,0.45);
+  pointer-events:none;max-width:260px;text-align:center;
+  border:1px solid rgba(255,255,255,0.1);
+  animation:popIn 0.2s ease;
+}
+.sec-lock-popup.show{display:block}
+@keyframes popIn{from{opacity:0;transform:scale(0.9) translateY(-6px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.slp-icon{font-size:22px;margin-bottom:2px}
+.slp-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#ff7043;margin-bottom:4px}
+.slp-time{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;color:#ffcc02;margin:4px 0;letter-spacing:0.04em}
+.slp-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#f0f4f8}
+::-webkit-scrollbar-thumb{background:#b0bec5;border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen" class="screen active">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo"><span class="bolt">⚡</span><span class="brand">Thunder Banking CBT</span></div>
+      <div class="login-sub">Mock Test Platform</div>
+      <div class="exam-tag">IBPS · SBI · RBI · RRB</div>
+    </div>
+    <div class="login-body">
+      <div class="form-row"><label>Candidate Name</label><input type="text" id="inp-name" placeholder="Enter your full name" autocomplete="off"/></div>
+      <div class="form-row"><label>Registration No.</label><input type="text" id="inp-reg" placeholder="e.g. IBPS2025001234" autocomplete="off"/></div>
+      <div class="form-row">
+        <label>Select Exam</label>
+        <select id="inp-exam">
+          <option value="IBPS PO 2025">IBPS PO 2025 – Prelims</option>
+          <option value="SBI PO 2025">SBI PO 2025 – Prelims</option>
+          <option value="IBPS Clerk 2025">IBPS Clerk 2025 – Prelims</option>
+          <option value="RBI Grade B 2025">RBI Grade B 2025</option>
+          <option value="RRB PO 2025">RRB PO 2025 – Officer Scale I</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Date of Birth</label><input type="date" id="inp-dob"/></div>
+      <button class="login-btn" onclick="goToInstructions()">PROCEED →</button>
+      <div class="login-notice">⚠ Ensure stable internet before starting the exam.</div>
+      <div class="login-footer-note">Thunder⚡ CBT · Made by WonderMayank<br>Design @thundertechnologyofficial · For @thunderstudy_official</div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTRUCTIONS -->
+<div id="instr-screen" class="screen">
+  <div class="instr-top">
+    <div class="logo-text">⚡ Thunder Banking CBT</div>
+    <div class="candidate-info">Candidate: <strong id="display-name-instr">—</strong> &nbsp;|&nbsp; <strong id="display-exam-instr">—</strong></div>
+  </div>
+  <div class="instr-body">
+    <div class="instr-card">
+      <h2>📋 General Instructions</h2>
+      <ol>
+        <li>Total duration is <strong>60 minutes</strong> — each section has its own <strong>20-minute</strong> timer.</li>
+        <li>Sections are attempted <strong>in order</strong>: English → Quantitative → Reasoning. You <strong>cannot switch sections manually</strong>.</li>
+        <li>When a section timer reaches <strong>0:00</strong>, that section is <strong>automatically locked</strong> and you are moved to the next section. You <strong>cannot go back</strong>.</li>
+        <li>You may click <strong>Submit Test</strong> at any time to submit the entire paper.</li>
+        <li><strong>Negative Marking:</strong> 0.25 marks deducted per wrong answer. No penalty for unattempted.</li>
+      </ol>
+      <div class="legend-grid" style="margin-top:12px">
+        <div class="legend-item"><div class="leg-box leg-white">1</div>Not visited yet.</div>
+        <div class="legend-item"><div class="leg-box leg-red">1</div>Visited, not answered.</div>
+        <div class="legend-item"><div class="leg-box leg-green">1</div>Answered.</div>
+        <div class="legend-item"><div class="leg-box leg-purple">1</div>Marked for review.</div>
+        <div class="legend-item"><div class="leg-box leg-purple-tick">1</div>Answered + marked.</div>
+      </div>
+    </div>
+    <div class="instr-card">
+      <h2>📊 Section Details</h2>
+      <table class="sections-table">
+        <thead><tr><th>#</th><th>Section</th><th>Questions</th><th>Marks</th><th>Duration</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>English Language</td><td>30</td><td>30</td><td>20 min</td></tr>
+          <tr><td>2</td><td>Quantitative Aptitude</td><td>35</td><td>35</td><td>20 min</td></tr>
+          <tr><td>3</td><td>Reasoning Ability</td><td>35</td><td>35</td><td>20 min</td></tr>
+          <tr><td colspan="2"><strong>Total</strong></td><td><strong>100</strong></td><td><strong>100</strong></td><td><strong>60 min</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="instr-card">
+      <h2>🔒 Section Lock Rules</h2>
+      <ol>
+        <li>Section tabs at the top are <strong>display-only</strong> — you cannot click them to jump sections.</li>
+        <li>Once a section's time expires, it is <strong>permanently locked</strong>. Any unanswered questions in that section will be treated as skipped.</li>
+        <li>You cannot revisit a completed section even if you still have time remaining in the current section.</li>
+      </ol>
+    </div>
+    <div class="instr-card">
+      <h2>🖥️ Fullscreen Mode</h2>
+      <p>This exam must be in <strong>fullscreen mode</strong>. Exiting fullscreen will trigger a warning. After <strong>3 violations</strong>, the test auto-submits.</p>
+    </div>
+    <div class="instr-agree" onclick="toggleAgree()">
+      <input type="checkbox" id="agree-check">
+      <label for="agree-check">I have read all the instructions carefully and agree to abide by the rules of this examination.</label>
+    </div>
+    <button class="instr-start-btn" id="start-btn" onclick="startExam()">START EXAM →</button>
+    <br>
+  </div>
+</div>
+
+<!-- EXAM -->
+<div id="exam-screen" class="screen">
+  <div class="exam-topbar">
+    <div class="tl">
+      <div class="logo-t">⚡ Thunder CBT</div>
+      <!-- TABS ARE INDICATORS ONLY — click shows time info -->
+      <div class="section-tabs" id="section-tabs">
+        <div class="sec-tab active" id="tab-0" onclick="tabClicked(0)">English <span class="sec-tab-lock">🔒</span></div>
+        <div class="sec-tab" id="tab-1" onclick="tabClicked(1)">Quantitative <span class="sec-tab-lock">🔒</span></div>
+        <div class="sec-tab" id="tab-2" onclick="tabClicked(2)">Reasoning <span class="sec-tab-lock">🔒</span></div>
+      </div>
+    </div>
+    <div class="tr">
+      <div class="candidate-chip">
+        <div class="candidate-avatar" id="avatar-letter">?</div>
+        <div class="candidate-name" id="topbar-name">Candidate</div>
+      </div>
+      <div class="timer-chip">
+        <div>
+          <div class="timer-label">Section Time</div>
+          <div class="timer-val" id="timer-display">20:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exam-subbar">
+    <div class="subbar-left">
+      <span>Section |</span>
+      <span class="section-badge" id="section-badge">ENGLISH LANGUAGE</span>
+      <span class="sec-label">Question No. <span id="q-num-display">1</span> of <span id="q-total-display">30</span></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <div class="view-in">View In: <select><option>English</option></select></div>
+    </div>
+  </div>
+
+  <div class="exam-main">
+    <div class="q-panel">
+      <div class="q-header">
+        <div class="q-num-badge" id="q-header-num">Question 1</div>
+        <div class="q-type-badge">Single Correct · −0.25 for wrong</div>
+      </div>
+      <div class="q-content" id="q-content"></div>
+    </div>
+
+    <div class="q-palette">
+      <div class="palette-top">
+        <div class="palette-candidate">
+          <div class="p-avatar" id="palette-avatar">👤</div>
+          <div>
+            <div class="p-name" id="palette-name">Candidate</div>
+            <div class="p-exam" id="palette-exam">IBPS PO 2025</div>
+          </div>
+        </div>
+      </div>
+      <div class="palette-legend">
+        <div class="pl-item"><div class="pl-dot pl-green"></div>Answered</div>
+        <div class="pl-item"><div class="pl-dot pl-red"></div>Not Answered</div>
+        <div class="pl-item"><div class="pl-dot pl-purple"></div>Marked</div>
+        <div class="pl-item"><div class="pl-dot pl-white"></div>Not Visited</div>
+      </div>
+      <div class="palette-section-label">
+        <span id="palette-sec-label">ENGLISH</span>
+        <span id="palette-sec-count">Q 1–30</span>
+      </div>
+      <div class="palette-grid" id="palette-grid"></div>
+      <div class="palette-btns">
+        <button class="pal-action-btn primary" onclick="openSubmitModal()">✔ Submit Test</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="exam-footer">
+    <div class="footer-left">
+      <button class="f-btn f-btn-mark" onclick="markForReview()">Mark for Review &amp; Next →</button>
+      <button class="f-btn f-btn-clear" onclick="clearResponse()">Clear Response</button>
+    </div>
+    <div class="footer-right">
+      <button class="f-btn f-btn-report" onclick="reportIssue()">Report Issue</button>
+      <button class="f-btn f-btn-save" onclick="saveAndNext()">Save &amp; Next →</button>
+      <button class="f-btn f-btn-submit" onclick="openSubmitModal()">Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="result-screen" class="screen">
+  <div class="result-card">
+    <div class="result-icon">🏦</div>
+    <div class="result-title">Test Submitted Successfully!</div>
+    <div class="result-name" id="result-name">Good Luck!</div>
+    <div class="score-circle">
+      <div class="score-num" id="result-score">--</div>
+      <div class="score-lbl">Score / 100</div>
+    </div>
+    <table class="result-sec-table" id="result-sec-table"></table>
+    <div class="result-grid">
+      <div class="res-stat"><div class="res-stat-num res-green" id="res-correct">0</div><div class="res-stat-label">✅ Correct</div></div>
+      <div class="res-stat"><div class="res-stat-num res-red" id="res-wrong">0</div><div class="res-stat-label">❌ Incorrect</div></div>
+      <div class="res-stat"><div class="res-stat-num res-orange" id="res-skipped">0</div><div class="res-stat-label">⏭ Skipped</div></div>
+    </div>
+    <div class="result-actions">
+      <button class="res-btn res-btn-primary" onclick="location.reload()">🔄 Attempt Again</button>
+    </div>
+    <div style="margin-top:18px;font-size:11px;color:#9e9e9e">Thunder⚡ CBT · Made by WonderMayank · @thunderstudy_official</div>
+  </div>
+</div>
+
+<!-- SUBMIT MODAL -->
+<div class="modal-overlay" id="submit-modal">
+  <div class="modal-box">
+    <h3>⚠ Submit Full Test?</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:8px">Section-wise attempt status:</p>
+    <div id="modal-sections"></div>
+    <div class="modal-warn">⚠ Once submitted, you <strong>cannot</strong> return. Unattempted sections will be locked and scored as skipped.</div>
+    <div class="modal-btns">
+      <button class="m-btn m-btn-cancel" onclick="closeSubmitModal()">Go Back</button>
+      <button class="m-btn m-btn-submit" onclick="submitExam()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION TRANSITION -->
+<div class="section-transition" id="sec-transition">
+  <div class="st-icon" id="st-icon">⏰</div>
+  <div class="st-title" id="st-title">Section Time Up!</div>
+  <div class="st-msg" id="st-msg">Your answers for this section have been saved.</div>
+  <div class="st-next" id="st-next">Loading next section…</div>
+  <div class="st-bar-wrap"><div class="st-bar" id="st-bar"></div></div>
+</div>
+
+<!-- SECTION LOCK POPUP -->
+<div class="sec-lock-popup" id="sec-lock-popup">
+  <div class="slp-icon">🔒</div>
+  <div class="slp-title" id="slp-title">Section Locked</div>
+  <div class="slp-time" id="slp-time">--:--</div>
+  <div class="slp-sub" id="slp-sub">remaining in current section</div>
+</div>
+
+<!-- FULLSCREEN OVERLAY -->
+<div class="fs-overlay" id="fs-overlay">
+  <h2>⚠ Fullscreen Required</h2>
+  <p>This exam must be in fullscreen. Violations: <strong id="fs-count">0</strong> / 3. After 3 violations the test auto-submits.</p>
+  <button class="fs-btn" onclick="requestFS()">Enter Fullscreen</button>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   QUESTION BANK
+══════════════════════════════════════════ */
+function genEnglish(){
+  return [
+    // Vocabulary
+    {text:"Choose the word most SIMILAR in meaning to 'LUCID':",opts:["Obscure","Clear","Confusing","Dull"],ans:1},
+    {text:"Choose the word most OPPOSITE in meaning to 'BENEVOLENT':",opts:["Kind","Generous","Malevolent","Charitable"],ans:2},
+    {text:"Choose the best synonym for 'EPHEMERAL':",opts:["Permanent","Temporary","Historical","Ancient"],ans:1},
+    {text:"Choose the antonym of 'VERBOSE':",opts:["Talkative","Concise","Elaborate","Loquacious"],ans:1},
+    {text:"Choose the word most SIMILAR in meaning to 'CANDID':",opts:["Dishonest","Frank","Secretive","Cautious"],ans:1},
+    {text:"Choose the word most OPPOSITE in meaning to 'FRUGAL':",opts:["Thrifty","Economical","Extravagant","Prudent"],ans:2},
+    {text:"Choose the synonym of 'DILIGENT':",opts:["Lazy","Careless","Hardworking","Indifferent"],ans:2},
+    {text:"Choose the antonym of 'AUDACIOUS':",opts:["Bold","Brave","Timid","Daring"],ans:2},
+    // Spelling
+    {text:"Select the correctly spelled word:",opts:["Accomodate","Accommodate","Acommodate","Acomodate"],ans:1},
+    {text:"Select the correctly spelled word:",opts:["Occurance","Occurrence","Occurence","Occurrance"],ans:1},
+    // Grammar
+    {text:"Choose the correct form: He ___ to the office every day.",opts:["go","goes","gone","going"],ans:1},
+    {text:"Identify the error: 'She don't know the answer to the question.'",opts:["She","don't","know","the answer"],ans:1},
+    {text:"Choose the correct sentence:",opts:["He is more smarter than his brother","He is smarter than his brother","He is most smartest","He is smart than his brother"],ans:1},
+    {text:"He ___ the book before the movie started.",opts:["read","reads","had read","is reading"],ans:2},
+    {text:"Choose the correctly punctuated sentence:",opts:["Its a beautiful day","It's a beautiful day","Its' a beautiful day","It is, a beautiful day"],ans:1},
+    {text:"Fill in: ___ you hurry, you will miss the train.",opts:["Unless","If","Although","Because"],ans:0},
+    {text:"Choose the correct article: ___ honest man is respected everywhere.",opts:["A","An","The","No article"],ans:1},
+    {text:"Identify the noun in: 'Honesty is the best policy.'",opts:["is","best","policy","Honesty"],ans:3},
+    {text:"The passive voice of 'She wrote the letter' is:",opts:["The letter wrote by her","The letter was written by her","The letter is written by her","The letter has written by her"],ans:1},
+    {text:"The plural of 'Criterion' is:",opts:["Criterions","Criterias","Criteria","Criterion"],ans:2},
+    // Fill in blanks
+    {text:"Fill in the blank: The meeting was ___ due to bad weather.",opts:["postponed","preponed","cancelled abruptly","occurred"],ans:0},
+    {text:"Fill in: The teacher was ___ with the student's performance.",opts:["pleased","pleasing","pleasure","pleasant"],ans:0},
+    {text:"Fill in: He ___ a lot of money at the casino last night.",opts:["loses","lost","loosing","lose"],ans:1},
+    {text:"Fill in: Neither the manager nor the employees ___ present.",opts:["was","were","are being","has been"],ans:1},
+    // Idioms
+    {text:"'Burn the midnight oil' means:",opts:["Start fire","Work late at night","Sleep early","Waste resources"],ans:1},
+    {text:"'Once in a blue moon' means:",opts:["Very often","Very rarely","Every month","During full moon"],ans:1},
+    {text:"'To let the cat out of the bag' means:",opts:["To release a pet","To reveal a secret","To cause chaos","To plan something"],ans:1},
+    {text:"'Hit the sack' means:",opts:["Beat something","Go to sleep","Strike hard","Leave quickly"],ans:1},
+    // One word / misc
+    {text:"A 'Bibliophile' is a person who loves:",opts:["Music","Books","Art","Travel"],ans:1},
+    {text:"'Achilles' heel' refers to:",opts:["A strong point","A weak point","A painful injury","A type of dance"],ans:1},
+  ].map((q,i)=>({id:i+1,...q,direction:null}));
+}
+
+function genQuant(){
+  return [
+    {text:"What is 15% of 840?",opts:["115","126","136","146"],ans:1},
+    {text:"A train covers 360 km in 4 hours. Its speed in m/s is:",opts:["25 m/s","22 m/s","20 m/s","18 m/s"],ans:0},
+    {text:"If A : B = 3 : 4 and B : C = 5 : 6, find A : C.",opts:["5:8","15:24","1:2","3:6"],ans:1},
+    {text:"Simple interest on ₹8000 at 12% p.a. for 2 years is:",opts:["₹1920","₹1820","₹2000","₹1680"],ans:0},
+    {text:"Compound interest on ₹5000 at 10% p.a. for 2 years is:",opts:["₹1000","₹1050","₹1100","₹1150"],ans:1},
+    {text:"A can do a work in 12 days, B in 18 days. Together they finish in:",opts:["7.2 days","6.5 days","8 days","9 days"],ans:0},
+    {text:"Two numbers are in ratio 5:7. Their sum is 144. The larger number is:",opts:["80","84","90","78"],ans:1},
+    {text:"Average of 45, 55, 65, 75, 85 is:",opts:["63","65","67","69"],ans:1},
+    {text:"A shopkeeper marks up by 40% and gives 20% discount. Profit % is:",opts:["12%","14%","16%","18%"],ans:0},
+    {text:"√1764 = ?",opts:["40","42","44","46"],ans:1},
+    {text:"If 3x + 7 = 28, then x = ?",opts:["5","6","7","8"],ans:2},
+    {text:"Area of circle with radius 7 cm (π = 22/7) is:",opts:["144 cm²","154 cm²","164 cm²","174 cm²"],ans:1},
+    {text:"A pipe fills a tank in 6 hrs, another empties in 12 hrs. Net fill time:",opts:["10 hrs","12 hrs","14 hrs","16 hrs"],ans:1},
+    {text:"HCF of 84 and 126 is:",opts:["21","42","14","28"],ans:1},
+    {text:"Speed 54 km/h in m/s is:",opts:["12 m/s","15 m/s","18 m/s","20 m/s"],ans:1},
+    {text:"Perimeter of rectangle: length 12 cm, breadth 8 cm:",opts:["40 cm","38 cm","44 cm","20 cm"],ans:0},
+    {text:"Cost price ₹250, selling price ₹300. Profit% = ?",opts:["15%","20%","25%","10%"],ans:1},
+    {text:"LCM of 12, 18 and 24 is:",opts:["72","48","36","60"],ans:0},
+    {text:"A sum doubles in 10 years at SI. Rate of interest is:",opts:["8%","10%","12%","15%"],ans:1},
+    {text:"In a class of 40, 60% are boys. Number of girls:",opts:["14","16","18","24"],ans:1},
+    {text:"What is 20% of 35% of 500?",opts:["30","35","25","40"],ans:1},
+    {text:"The ratio of two numbers is 3:5 and their difference is 18. Smaller number is:",opts:["27","45","18","30"],ans:0},
+    {text:"A boat goes 30 km upstream in 6 hrs and 30 km downstream in 3 hrs. Speed of stream:",opts:["2.5 km/h","3 km/h","5 km/h","4 km/h"],ans:0},
+    {text:"If SP = ₹660 and loss = 12%, then CP = ?",opts:["₹720","₹750","₹730","₹745"],ans:1},
+    {text:"Sum of first 20 natural numbers is:",opts:["190","200","210","220"],ans:2},
+    {text:"A train 200 m long crosses a pole in 10 sec. Speed of train (km/h):",opts:["60","66","72","78"],ans:2},
+    {text:"₹6000 is divided between A and B in ratio 2:3. B's share is:",opts:["₹2400","₹3200","₹3600","₹2800"],ans:2},
+    {text:"If the diagonal of a square is 10√2 cm, its area is:",opts:["50 cm²","100 cm²","200 cm²","150 cm²"],ans:1},
+    {text:"A number when divided by 5 leaves remainder 3. When divided by 7 leaves remainder 5. The number is:",opts:["33","68","43","26"],ans:1},
+    {text:"What is the value of (1.5)³?",opts:["3.25","3.375","3.5","3.125"],ans:1},
+    {text:"If x : y = 4 : 5 and y : z = 3 : 4, then x : z = ?",opts:["3:5","4:7","3:4","12:20"],ans:0},
+    {text:"Volume of a cube with side 6 cm is:",opts:["196 cm³","216 cm³","256 cm³","226 cm³"],ans:1},
+    {text:"Two taps fill a tank in 10 and 15 hours. Together they fill in:",opts:["5 hrs","6 hrs","7 hrs","8 hrs"],ans:1},
+    {text:"If 12 men can do a work in 15 days, 9 men will do it in:",opts:["18 days","20 days","22 days","24 days"],ans:1},
+    {text:"Successive discounts of 20% and 10% = single discount of:",opts:["30%","28%","27%","25%"],ans:1},
+  ].map((q,i)=>({id:i+1,...q,direction:null}));
+}
+
+function genReasoning(){
+  const dirText="Directions (Q.1–5): Symbols @, %, #, $, © are used:\n'A@B' = A ≥ B | 'A%B' = A ≤ B | 'A#B' = A < B | 'A$B' = A > B | 'A©B' = A = B";
+  return [
+    {text:"Statements: P$Q@R%S#T\nConclusions: I. P$R  II. T$Q",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:0,direction:dirText},
+    {text:"Statements: A#B$C@D©E\nConclusions: I. A#D  II. E%C",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:2,direction:dirText},
+    {text:"Statements: J$K%L@M#N\nConclusions: I. J$L  II. M#J",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:0,direction:dirText},
+    {text:"Statements: X©Y$Z%W@V\nConclusions: I. X$Z  II. V%Y",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:2,direction:dirText},
+    {text:"Statements: M@N#O$P©Q\nConclusions: I. M@O  II. Q$N",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:1,direction:dirText},
+    // Coding
+    {text:"If FRIEND is coded as HUMJTK, then CANDLE is coded as:",opts:["EDRIRL","EDQJMF","DCQFKD","EDRJML"],ans:0,direction:null},
+    {text:"If PAPER is coded as 24162118, how is PENCIL coded?",opts:["161451239","16514129","16141239","1614239"],ans:0,direction:null},
+    {text:"If CAT = 3120, then DOG = ?",opts:["4157","4156","4158","4159"],ans:0,direction:null},
+    {text:"If WATER is coded as YCVGT, then EARTH is coded as:",opts:["GCTVJ","GCRTJ","GCTJV","GCVTJ"],ans:0,direction:null},
+    // Series
+    {text:"Complete: 2, 6, 12, 20, 30, __",opts:["38","40","42","44"],ans:2,direction:null},
+    {text:"Find missing: 3, 9, 27, __, 243",opts:["54","72","81","90"],ans:2,direction:null},
+    {text:"Which number replaces ?: 4, 10, 22, 46, ?",opts:["90","92","94","96"],ans:2,direction:null},
+    {text:"'BDFH' is to 'IKMO' as 'CEGI' is to:",opts:["JLNP","KLNO","JLMP","JLNO"],ans:0,direction:null},
+    {text:"Next term: 1, 4, 9, 16, 25, __",opts:["30","36","49","34"],ans:1,direction:null},
+    {text:"Next term: 0, 1, 1, 2, 3, 5, 8, __",opts:["11","12","13","14"],ans:2,direction:null},
+    // Analogy
+    {text:"'Doctor' is related to 'Hospital' as 'Teacher' is related to:",opts:["Student","School","Book","Classroom"],ans:1,direction:null},
+    {text:"'Light' is to 'Sun' as 'Heat' is to:",opts:["Summer","Fire","Warmth","Energy"],ans:1,direction:null},
+    {text:"'Pen' is to 'Write' as 'Knife' is to:",opts:["Sharp","Cut","Cook","Metal"],ans:1,direction:null},
+    // Blood relations
+    {text:"Pointing to a photo, a man says 'She is the mother of my son's wife.' How is the woman related to the man?",opts:["Daughter","Daughter-in-law","Sister-in-law","Mother-in-law"],ans:1,direction:null},
+    {text:"A is B's brother. C is A's mother. D is C's father. E is D's mother. How is B related to D?",opts:["Grandson","Granddaughter","Grandchild","Cannot determine"],ans:3,direction:null},
+    // Direction
+    {text:"A man walks 3 km north, turns right, walks 4 km. Distance from start?",opts:["5 km","7 km","4 km","6 km"],ans:0,direction:null},
+    {text:"Ram walks 10 km north, turns left and walks 5 km, then turns south and walks 10 km. He is how far from start?",opts:["5 km","10 km","15 km","0 km"],ans:0,direction:null},
+    // Ranking
+    {text:"In a queue, Ram is 7th from front and 12th from back. Total persons:",opts:["17","18","19","20"],ans:1,direction:null},
+    {text:"Seema is 8th from left and 12th from right in a row. Total students:",opts:["18","19","20","21"],ans:1,direction:null},
+    // Odd one out
+    {text:"Choose the odd one out: 41, 43, 45, 47, 53",opts:["41","43","45","53"],ans:2,direction:null},
+    {text:"Choose the odd one out: Rose, Tulip, Lotus, Mango, Lily",opts:["Rose","Lotus","Mango","Tulip"],ans:2,direction:null},
+    // Syllogism
+    {text:"All Pens are Pencils. Some Pencils are Erasers.\nI. Some Pens are Erasers  II. All Erasers are Pens",opts:["Only I","Only II","Both","Neither"],ans:3,direction:null},
+    {text:"All cats are dogs. No dogs are birds.\nConclusion: No cats are birds.",opts:["Definitely true","Definitely false","Possibly true","Insufficient data"],ans:0,direction:null},
+    // Arrangement
+    {text:"Arrange: A.Foundation  B.Construction  C.Painting  D.Plumbing\nCorrect order:",opts:["A,B,D,C","A,D,B,C","B,A,D,C","D,A,B,C"],ans:0,direction:null},
+    // Meaningful words
+    {text:"How many meaningful English words can be formed from DEAR using each letter once?",opts:["1","2","3","4"],ans:2,direction:null},
+    // Misc
+    {text:"If 'NORTH' is written as 'SOUTH' and 'EAST' as 'WEST', then 'UP' is written as:",opts:["DOWN","LEFT","RIGHT","NORTH"],ans:0,direction:null},
+    {text:"A clock shows 3:15. The angle between hour and minute hands is:",opts:["0°","7.5°","3.75°","15°"],ans:1,direction:null},
+    {text:"How many triangles are in a figure with 4 horizontal and 4 vertical lines forming a grid?",opts:["16","18","20","24"],ans:1,direction:null},
+    {text:"Choose missing: AZ, BY, CX, __, EV",opts:["DV","DW","DX","DU"],ans:1,direction:null},
+    {text:"If the day before yesterday was Thursday, what day is tomorrow?",opts:["Sunday","Monday","Saturday","Tuesday"],ans:0,direction:null},
+  ].map((q,i)=>({id:i+1,...q}));
+}
+
+/* ══════════════════════════════════════════
+   SECTIONS CONFIG
+══════════════════════════════════════════ */
+const SECTIONS = [
+  {name:"English Language",   short:"ENGLISH LANGUAGE",     qRange:"Q 1–30",  time:20*60, questions:genEnglish()},
+  {name:"Quantitative Aptitude", short:"QUANTITATIVE APTITUDE", qRange:"Q 1–35", time:20*60, questions:genQuant()},
+  {name:"Reasoning Ability",  short:"REASONING ABILITY",    qRange:"Q 1–35",  time:20*60, questions:genReasoning()},
+];
+
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let candidateName = "";
+let examName = "";
+let currentSection = 0;
+let currentQ = 0;
+
+let sectionState = SECTIONS.map(s=>({
+  answers:  new Array(s.questions.length).fill(null),
+  status:   new Array(s.questions.length).fill('not-visited'),
+  timeLeft: s.time,
+  timer:    null,
+  done:     false,   // locked after time-up or submission
+}));
+
+let fsViolations = 0;
+
+/* ══════════════════════════════════════════
+   LOGIN / INSTRUCTIONS
+══════════════════════════════════════════ */
+function goToInstructions(){
+  const n = document.getElementById('inp-name').value.trim();
+  const r = document.getElementById('inp-reg').value.trim();
+  const e = document.getElementById('inp-exam').value;
+  if(!n){alert('Please enter your name.');return;}
+  if(!r){alert('Please enter your registration number.');return;}
+  candidateName = n; examName = e;
+  document.getElementById('display-name-instr').textContent = n;
+  document.getElementById('display-exam-instr').textContent = e;
+  showScreen('instr-screen');
+}
+
+function toggleAgree(){
+  const cb = document.getElementById('agree-check');
+  cb.checked = !cb.checked;
+  document.getElementById('start-btn').classList.toggle('ready', cb.checked);
+}
+
+/* ══════════════════════════════════════════
+   START EXAM
+══════════════════════════════════════════ */
+function startExam(){
+  document.getElementById('topbar-name').textContent = candidateName;
+  document.getElementById('avatar-letter').textContent = candidateName.charAt(0).toUpperCase();
+  document.getElementById('palette-name').textContent = candidateName;
+  document.getElementById('palette-exam').textContent = examName;
+  showScreen('exam-screen');
+  loadSection(0, false);
+  requestFS();
+  setupFSWatcher();
+}
+
+/* ══════════════════════════════════════════
+   SECTION LOADING  (internal only, no user trigger)
+══════════════════════════════════════════ */
+function loadSection(idx, fromTransition){
+  // stop any running timer
+  sectionState.forEach(st=>{ if(st.timer){ clearInterval(st.timer); st.timer=null; } });
+
+  currentSection = idx;
+  currentQ = 0;
+
+  // update tab indicators
+  for(let i=0;i<3;i++){
+    const tab = document.getElementById('tab-'+i);
+    tab.classList.remove('active','done');
+    if(i < idx) tab.classList.add('done');
+    else if(i === idx) tab.classList.add('active');
+  }
+
+  const sec = SECTIONS[idx];
+  document.getElementById('section-badge').textContent = sec.short;
+  document.getElementById('palette-sec-label').textContent = sec.short;
+  document.getElementById('palette-sec-count').textContent = sec.qRange;
+  document.getElementById('q-total-display').textContent = sec.questions.length;
+
+  const st = sectionState[idx];
+  if(st.status[0]==='not-visited') st.status[0]='not-answered';
+
+  renderQuestion();
+  renderPalette();
+  startSectionTimer(idx);
+}
+
+/* ══════════════════════════════════════════
+   TIMER
+══════════════════════════════════════════ */
+function startSectionTimer(idx){
+  const st = sectionState[idx];
+  if(st.done) return;
+  updateTimerDisplay(st.timeLeft);
+
+  st.timer = setInterval(()=>{
+    st.timeLeft--;
+    updateTimerDisplay(st.timeLeft);
+
+    if(st.timeLeft <= 0){
+      clearInterval(st.timer);
+      st.timer = null;
+      st.done = true;
+      lockAndAdvance(idx);
+    }
+  },1000);
+}
+
+function lockAndAdvance(idx){
+  const isLast = idx === SECTIONS.length - 1;
+  if(isLast){
+    showSectionTransition(idx, null, ()=>submitExam());
+  } else {
+    showSectionTransition(idx, idx+1, ()=>loadSection(idx+1, true));
+  }
+}
+
+/* ══════════════════════════════════════════
+   SECTION TRANSITION SCREEN (3 sec countdown)
+══════════════════════════════════════════ */
+function showSectionTransition(doneIdx, nextIdx, callback){
+  const overlay = document.getElementById('sec-transition');
+  const bar = document.getElementById('st-bar');
+  const isLast = nextIdx === null;
+
+  document.getElementById('st-icon').textContent = isLast ? '🏁' : '⏰';
+  document.getElementById('st-title').textContent = isLast
+    ? 'All Sections Complete!'
+    : `${SECTIONS[doneIdx].name} — Time Up!`;
+  document.getElementById('st-msg').textContent = isLast
+    ? 'Submitting your test now…'
+    : `All your answers in ${SECTIONS[doneIdx].name} have been locked. You cannot return to this section.`;
+  document.getElementById('st-next').textContent = isLast
+    ? 'Calculating score…'
+    : `Loading: ${SECTIONS[nextIdx].name}`;
+
+  overlay.classList.add('show');
+  bar.style.width = '0%';
+
+  const DURATION = 3000;
+  const start = Date.now();
+  const tick = setInterval(()=>{
+    const pct = Math.min(100, ((Date.now()-start)/DURATION)*100);
+    bar.style.width = pct+'%';
+    if(pct >= 100){
+      clearInterval(tick);
+      overlay.classList.remove('show');
+      callback();
+    }
+  },30);
+}
+
+function updateTimerDisplay(sec){
+  const m = String(Math.floor(sec/60)).padStart(2,'0');
+  const s = String(sec%60).padStart(2,'0');
+  const el = document.getElementById('timer-display');
+  el.textContent = `${m}:${s}`;
+  el.className = 'timer-val';
+  if(sec<=60) el.classList.add('danger');
+  else if(sec<=180) el.classList.add('warning');
+}
+
+/* ══════════════════════════════════════════
+   RENDER QUESTION
+══════════════════════════════════════════ */
+function renderQuestion(){
+  const sec = SECTIONS[currentSection];
+  const q = sec.questions[currentQ];
+  const st = sectionState[currentSection];
+
+  document.getElementById('q-num-display').textContent = currentQ+1;
+  document.getElementById('q-header-num').textContent = `Question ${currentQ+1} of ${sec.questions.length}`;
+
+  let html='';
+  if(q.direction){
+    html+=`<div class="q-direction"><strong>Directions:</strong> ${q.direction.replace(/\n/g,'<br>')}</div>`;
+  }
+  html+=`<div class="q-text">${q.text.replace(/\n/g,'<br>')}</div>`;
+  html+=`<div class="options-list">`;
+  q.opts.forEach((opt,i)=>{
+    const sel = st.answers[currentQ]===i ? 'selected':'';
+    html+=`<div class="opt-item ${sel}" onclick="selectOption(${i})">
+      <div class="opt-radio"></div>
+      <div class="opt-label">${String.fromCharCode(65+i)}. ${opt}</div>
+    </div>`;
+  });
+  html+=`</div>`;
+  document.getElementById('q-content').innerHTML = html;
+  document.getElementById('q-content').scrollTop = 0;
+}
+
+function selectOption(i){
+  const st = sectionState[currentSection];
+  st.answers[currentQ] = i;
+  const s = st.status[currentQ];
+  if(s==='not-answered'||s==='not-visited') st.status[currentQ]='answered';
+  else if(s==='marked') st.status[currentQ]='marked-answered';
+  renderQuestion();
+  renderPalette();
+}
+
+/* ══════════════════════════════════════════
+   PALETTE
+══════════════════════════════════════════ */
+function renderPalette(){
+  const sec = SECTIONS[currentSection];
+  const st = sectionState[currentSection];
+  document.getElementById('palette-grid').innerHTML = sec.questions.map((q,i)=>{
+    const s = st.status[i];
+    let cls = s==='not-answered'?'pq-not-answered':s==='answered'?'pq-answered':s==='marked'?'pq-marked':s==='marked-answered'?'pq-marked-answered':'pq-not-visited';
+    return `<button class="pq-btn ${cls}${i===currentQ?' active':''}" onclick="goToQ(${i})">${i+1}</button>`;
+  }).join('');
+}
+
+function goToQ(i){
+  const st = sectionState[currentSection];
+  if(st.status[i]==='not-visited') st.status[i]='not-answered';
+  currentQ = i;
+  renderQuestion();
+  renderPalette();
+}
+
+/* ══════════════════════════════════════════
+   ACTIONS
+══════════════════════════════════════════ */
+function saveAndNext(){
+  const st = sectionState[currentSection];
+  st.status[currentQ] = st.answers[currentQ]===null ? 'not-answered' : 'answered';
+  advanceQ();
+}
+
+function markForReview(){
+  const st = sectionState[currentSection];
+  st.status[currentQ] = st.answers[currentQ]===null ? 'marked' : 'marked-answered';
+  advanceQ();
+}
+
+function clearResponse(){
+  const st = sectionState[currentSection];
+  st.answers[currentQ] = null;
+  if(st.status[currentQ]==='answered'||st.status[currentQ]==='marked-answered'){
+    st.status[currentQ]='not-answered';
+  }
+  renderQuestion();
+  renderPalette();
+}
+
+function advanceQ(){
+  const total = SECTIONS[currentSection].questions.length;
+  if(currentQ < total-1){
+    currentQ++;
+    const st = sectionState[currentSection];
+    if(st.status[currentQ]==='not-visited') st.status[currentQ]='not-answered';
+    renderQuestion();
+    renderPalette();
+  } else {
+    showToast('Last question of this section reached.');
+  }
+}
+
+function reportIssue(){ showToast('Issue reported. Thank you!'); }
+
+/* ══════════════════════════════════════════
+   SUBMIT MODAL
+══════════════════════════════════════════ */
+function openSubmitModal(){
+  let html='';
+  SECTIONS.forEach((sec,si)=>{
+    const st = sectionState[si];
+    let ans=0,notAns=0,mrk=0,notVis=0;
+    st.status.forEach(s=>{
+      if(s==='answered'||s==='marked-answered') ans++;
+      else if(s==='not-answered') notAns++;
+      else if(s==='marked') mrk++;
+      else notVis++;
+    });
+    const locked = st.done ? ' <span style="color:#2e7d32;font-size:10px">(Locked)</span>':
+                   si < currentSection ? ' <span style="color:#2e7d32;font-size:10px">(Locked)</span>':'';
+    html+=`<div class="msec-row">
+      <div class="msec-title">${sec.name}${locked}</div>
+      <div class="modal-stats">
+        <div class="mstat"><div class="mstat-dot" style="background:var(--answered)"></div><div class="mstat-info"><b>${ans}</b>Answered</div></div>
+        <div class="mstat"><div class="mstat-dot" style="background:var(--not-answered)"></div><div class="mstat-info"><b>${notAns}</b>Not Ans.</div></div>
+        <div class="mstat"><div class="mstat-dot" style="background:var(--marked)"></div><div class="mstat-info"><b>${mrk}</b>Marked</div></div>
+        <div class="mstat"><div class="mstat-dot" style="background:var(--not-visited)"></div><div class="mstat-info"><b>${notVis}</b>Not Visited</div></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('modal-sections').innerHTML = html;
+  document.getElementById('submit-modal').classList.add('open');
+}
+
+function closeSubmitModal(){ document.getElementById('submit-modal').classList.remove('open'); }
+
+function submitExam(){
+  sectionState.forEach(st=>{ if(st.timer){ clearInterval(st.timer); st.timer=null; } });
+  closeSubmitModal();
+
+  let correct=0, wrong=0, skipped=0;
+  let secResults=[];
+  SECTIONS.forEach((sec,si)=>{
+    const st = sectionState[si];
+    let sc=0,sw=0,ss=0;
+    sec.questions.forEach((q,qi)=>{
+      const ans=st.answers[qi];
+      if(ans===null){ ss++; skipped++; }
+      else if(ans===q.ans){ sc++; correct++; }
+      else { sw++; wrong++; }
+    });
+    secResults.push({name:sec.name,c:sc,w:sw,s:ss,score:(sc-(sw*0.25)).toFixed(2)});
+  });
+
+  const totalScore = (correct - wrong*0.25).toFixed(2);
+  document.getElementById('result-name').textContent = `Well done, ${candidateName}! 🎉`;
+  document.getElementById('result-score').textContent = totalScore;
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-skipped').textContent = skipped;
+
+  // section breakdown table
+  let tbl=`<tr><th>Section</th><th>✅ Correct</th><th>❌ Wrong</th><th>⏭ Skipped</th><th>Score</th></tr>`;
+  secResults.forEach(r=>{
+    tbl+=`<tr><td>${r.name}</td><td style="color:var(--answered);font-weight:700">${r.c}</td><td style="color:var(--not-answered);font-weight:700">${r.w}</td><td style="color:#e65100;font-weight:700">${r.s}</td><td style="font-weight:700">${r.score}</td></tr>`;
+  });
+  document.getElementById('result-sec-table').innerHTML = tbl;
+
+  if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+  showScreen('result-screen');
+}
+
+/* ══════════════════════════════════════════
+   TAB CLICK — show lock info popup
+══════════════════════════════════════════ */
+let popupTimeout = null;
+
+function tabClicked(idx){
+  const popup = document.getElementById('sec-lock-popup');
+
+  // Current active section tab — do nothing
+  if(idx === currentSection){ popup.classList.remove('show'); return; }
+
+  // Already done/past section
+  if(idx < currentSection || sectionState[idx].done){
+    document.getElementById('slp-icon') && (document.getElementById('sec-lock-popup').querySelector('.slp-icon').textContent = '🔒');
+    document.getElementById('slp-title').textContent = 'Section Completed';
+    document.getElementById('slp-time').textContent = 'Locked';
+    document.getElementById('slp-sub').textContent = 'You cannot return to a past section.';
+    showPopupNearTab(idx);
+    return;
+  }
+
+  // Future section — calculate total wait time
+  // = time left in current section + full time of all sections between current+1 and idx-1
+  let waitSec = sectionState[currentSection].timeLeft;
+  for(let i = currentSection + 1; i < idx; i++){
+    waitSec += SECTIONS[i].time; // full time of intermediate sections
+  }
+
+  const m = String(Math.floor(waitSec / 60)).padStart(2,'0');
+  const s = String(waitSec % 60).padStart(2,'0');
+
+  // How many sections away?
+  const secAway = idx - currentSection;
+  const secNames = [];
+  for(let i = currentSection; i < idx; i++) secNames.push(SECTIONS[i].name);
+  const afterText = secAway === 1
+    ? `Opens after current section ends`
+    : `Opens after ${secNames.slice(0,-1).join(', ')} & ${secNames[secNames.length-1]} end`;
+
+  popup.querySelector('.slp-icon').textContent = '⏳';
+  document.getElementById('slp-title').textContent = `${SECTIONS[idx].name}`;
+  document.getElementById('slp-time').textContent = `${m}:${s}`;
+  document.getElementById('slp-sub').textContent = afterText;
+
+  showPopupNearTab(idx);
+}
+
+function showPopupNearTab(idx){
+  const popup = document.getElementById('sec-lock-popup');
+  const tab = document.getElementById('tab-'+idx);
+  const rect = tab.getBoundingClientRect();
+
+  popup.classList.remove('show');
+  // Force reflow for re-animation
+  void popup.offsetWidth;
+  popup.classList.add('show');
+
+  // Position below the tab
+  const popW = 260;
+  let left = rect.left + rect.width/2 - popW/2;
+  left = Math.max(8, Math.min(left, window.innerWidth - popW - 8));
+  popup.style.left = left + 'px';
+  popup.style.top = (rect.bottom + 8) + 'px';
+  popup.style.width = popW + 'px';
+
+  clearTimeout(popupTimeout);
+  popupTimeout = setTimeout(()=>popup.classList.remove('show'), 3500);
+}
+
+// Hide popup on outside click
+document.addEventListener('click', e=>{
+  const popup = document.getElementById('sec-lock-popup');
+  if(popup && !e.target.closest('.sec-tab')) popup.classList.remove('show');
+}, true);
+
+
+function requestFS(){
+  const el = document.documentElement;
+  if(el.requestFullscreen) el.requestFullscreen().catch(()=>{});
+  else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  document.getElementById('fs-overlay').classList.remove('show');
+}
+
+function setupFSWatcher(){
+  document.addEventListener('fullscreenchange',()=>{
+    if(!document.fullscreenElement && document.getElementById('exam-screen').classList.contains('active')){
+      fsViolations++;
+      document.getElementById('fs-count').textContent = fsViolations;
+      if(fsViolations>=3){
+        showToast('⚠ 3 fullscreen violations. Test auto-submitted!');
+        setTimeout(()=>submitExam(),1500);
+      } else {
+        document.getElementById('fs-overlay').classList.add('show');
+      }
+    }
+  });
+}
+
+/* ══════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+let toastT;
+function showToast(msg){
+  let t = document.getElementById('toast-el');
+  if(!t){
+    t=document.createElement('div');
+    t.id='toast-el';
+    t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:99998;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:420px;text-align:center;transition:opacity 0.3s';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg; t.style.opacity='1';
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>t.style.opacity='0',3000);
+}
+</script>
+</body>
+</html>
