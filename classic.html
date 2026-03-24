@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -2538,71 +2539,6 @@ function hideOverlay() {
 
 <script>
 function generatePDF() {
-
-    let pdfWindow = window.open('', '_blank');
-
-    let html = `
-    <html>
-    <head>
-        <title>Test Report</title>
-        <style>
-            body { font-family: Arial; padding: 20px; }
-            h1 { text-align: center; color: #6a11cb; }
-            .question { margin-bottom: 20px; }
-            .correct { color: green; }
-            .wrong { color: red; }
-            .explanation {
-                background: #f3f0ff;
-                padding: 10px;
-                border-left: 4px solid #6a11cb;
-                border-radius: 6px;
-                margin-top: 8px;
-            }
-        </style>
-    </head>
-    <body>
-
-    <h1>${mockTest.title} - Report</h1>
-    `;
-
-    mockTest.questions.forEach((q, index) => {
-
-        const userAns = q.userAnswer || "Not Answered";
-
-        html += `
-        <div class="question">
-
-            <strong>Q${index + 1}. ${q.text}</strong><br><br>
-
-            A. ${q.options.a}<br>
-            B. ${q.options.b}<br>
-            C. ${q.options.c}<br>
-            D. ${q.options.d}<br><br>
-
-            <strong>Correct Answer:</strong> 
-            <span class="correct">${q.correctAnswer.toUpperCase()}</span><br>
-
-            <strong>Your Answer:</strong> 
-            <span class="${userAns === q.correctAnswer ? 'correct' : 'wrong'}">
-                ${userAns.toUpperCase()}
-            </span><br>
-
-            <div class="explanation">
-                <strong>Explanation:</strong><br>
-                ${q.explanation || "No explanation available"}
-            </div>
-
-        </div>
-        <hr>
-        `;
-    });
-
-    html += `</body></html>`;
-
-    pdfWindow.document.write(html);
-    pdfWindow.document.close();
-    pdfWindow.print();
-}
     const name = localStorage.getItem('cbtUserName') || 'Thunder';
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
