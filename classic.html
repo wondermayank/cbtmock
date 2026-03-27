@@ -1,1370 +1,758 @@
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Thunderstudy CBT</title>
+<title>Thunderstudy CBT — Synonyms & Antonyms</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+const SUBJECT_ID  = "eng";
+const CHAPTER_ID  = "eng-voc-synant";
+</script>
+
 <style>
-        :root {
-    --primary-color: #a185de;
-    --secondary-color: #9CC9E6;
-    --correct-color: #90EE90;
-    --incorrect-color: #FF474D;
-    --neutral-color: #607d8b;
-    --light-bg: #f5f5f5;
+:root {
+    --primary: #1a6fc4;
+    --primary-dark: #0d4f96;
+    --primary-light: #4a9de8;
+    --accent: #0ea5e9;
+    --accent2: #38bdf8;
     --white: #ffffff;
-    --dark-text: #212121;
-    --light-text: #000000;
-    --dark-bg: #121212;
-    --dark-primary-color: #bb86fc;
-    --dark-secondary-color: #03dac6;
-    --dark-correct-color: #388e3c;
-    --dark-incorrect-color: #cf6679;
-    --dark-neutral-color: #aaaaaa;
-    --dark-light-text: #e0e0e0;
+    --off-white: #f0f6ff;
+    --light-blue: #dbeafe;
+    --mid-blue: #bfdbfe;
+    --border: #bfdbfe;
+    --text-dark: #0f1e3d;
+    --text-mid: #2d4a7a;
+    --text-muted: #6b8ab5;
+    --correct: #059669;
+    --correct-bg: #ecfdf5;
+    --incorrect: #dc2626;
+    --incorrect-bg: #fef2f2;
+    --answered: #22c55e;
+    --marked: #0ea5e9;
+    --unanswered: #f97316;
+    --shadow: 0 4px 24px rgba(26,111,196,0.10);
+    --shadow-lg: 0 8px 40px rgba(26,111,196,0.16);
+
+    /* Dark mode vars */
+    --dm-bg: #0b1526;
+    --dm-surface: #111e35;
+    --dm-surface2: #172340;
+    --dm-border: #1e3460;
+    --dm-text: #e2eeff;
+    --dm-muted: #7ba4d4;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    transition: background 0.3s, color 0.3s;
 }
 
 body.dark-mode {
-    background-color: var(--dark-bg);
-    color: var(--dark-light-text);
+    background: var(--dm-bg);
+    color: var(--dm-text);
 }
 
-/* Only plain text elements get white in dark mode — NOT buttons with colored backgrounds */
-body.dark-mode p,
-body.dark-mode span:not(.icon),
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6,
-body.dark-mode label,
-body.dark-mode li {
-    color: #e0e0e0 !important;
+/* ===== START SCREEN ===== */
+#start-screen {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--white);
+    display: flex; flex-direction: column; align-items: center;
+    overflow-y: auto; padding: 0 20px 50px;
+    transition: background 0.3s;
 }
 
-body.dark-mode a:not(.fancy-btn):not(.footer-btn):not(.button2):not(.join-btn) {
-    color: #bb86fc !important;
-    text-decoration: underline;
+body.dark-mode #start-screen { background: var(--dm-bg); }
+
+.start-hero {
+    width: 100%; max-width: 600px;
+    padding: 48px 0 0;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
 }
 
-/* Gradient buttons keep their own colors — don't force override */
-body.dark-mode .fancy-btn,
-body.dark-mode .footer-btn,
-body.dark-mode .join-btn,
-body.dark-mode .submit-fancy-btn,
-body.dark-mode .more-btn,
-body.dark-mode .back-btn,
-body.dark-mode .report-btn {
-    color: white !important;
+.start-logo {
+    width: 68px; height: 68px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 8px 28px rgba(26,111,196,0.35);
+    margin-bottom: 20px;
+    animation: floatLogo 3s ease-in-out infinite;
 }
 
-/* Plain nav/UI buttons */
-body.dark-mode #prev-btn {
-    color: var(--dark-primary-color) !important;
-    border-color: var(--dark-primary-color) !important;
+@keyframes floatLogo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }
 
-body.dark-mode #next-btn {
-    color: #000 !important;
-    background-color: var(--dark-primary-color) !important;
-}
-
-body.dark-mode #mark-btn {
-    color: var(--dark-secondary-color) !important;
-    border-color: var(--dark-secondary-color) !important;
-}
-
-body.dark-mode #mark-btn.marked {
-    background-color: var(--dark-secondary-color) !important;
-    color: #000 !important;
-}
-
-body.dark-mode #start-test-btn {
-    color: white !important;
-}
-
-body.dark-mode .close-btn {
-    color: #e0e0e0 !important;
-}
-
-body.dark-mode .stat-card h3 {
-    color: #e0e0e0 !important;
-}
-
-body.dark-mode .question-number {
-    color: var(--dark-primary-color) !important;
-}
-
-body.dark-mode .question-text {
-    color: #e0e0e0 !important;
-}
-
-body.dark-mode .progress-text span {
-    color: #aaa !important;
-}
-
-body.dark-mode .palette-title span {
-    color: #e0e0e0 !important;
-}
-
-body.dark-mode .test-info strong {
-    color: #fff !important;
-}
-
-body.dark-mode .test-info span {
-    color: #ccc !important;
-}
-
-
-body.dark-mode .sidebar {
-    background-color: #1f1f1f;
-    color: var(--dark-light-text);
-    box-shadow: 2px 0 5px rgba(255,255,255,0.1);
-}
-
-body.dark-mode .sidebar-header h2,
-body.dark-mode .test-header h2,
-body.dark-mode .modal-header h2 {
-    color: var(--dark-primary-color);
-}
-
-body.dark-mode .timer {
-    background-color: var(--dark-incorrect-color);
-    color: #fff;
-}
-
-body.dark-mode .question-container {
-    background-color: #242424;
-    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
-}
-
-/* =============================================
-   CLICKABLE OPTION BOXES — BLUE ON SELECT
-   ============================================= */
-.option {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    border: 1.5px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    background: #fff;
-    transition: border-color 0.15s, background 0.15s;
-    user-select: none;
-}
-
-.option:hover {
-    border-color: #378ADD;
-    background: #E6F1FB;
-}
-
-.option.selected {
-    border-color: #185FA5;
-    background: #B5D4F4;
-}
-
-.option.correct {
-    border-color: #388e3c !important;
-    background: rgba(76, 175, 80, 0.15) !important;
-}
-
-.option.incorrect {
-    border-color: #e53935 !important;
-    background: rgba(244, 67, 54, 0.12) !important;
-}
-
-.opt-letter {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 1.5px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-    flex-shrink: 0;
-    background: #f5f5f5;
-    color: #555;
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-
-.option.selected .opt-letter {
-    background: #185FA5;
-    border-color: #185FA5;
-    color: #fff;
-}
-
-.option.correct .opt-letter {
-    background: #388e3c;
-    border-color: #388e3c;
-    color: #fff;
-}
-
-.option.incorrect .opt-letter {
-    background: #e53935;
-    border-color: #e53935;
-    color: #fff;
-}
-
-.opt-text {
-    font-size: 15px;
-    color: #212121;
-    flex: 1;
-    line-height: 1.5;
-}
-
-.option.selected .opt-text {
-    color: #0C447C;
-    font-weight: 500;
-}
-
-.option.correct .opt-text {
-    color: #1b5e20;
-    font-weight: 500;
-}
-
-.option.incorrect .opt-text {
-    color: #b71c1c;
-    font-weight: 500;
-}
-
-/* Dark mode option boxes */
-body.dark-mode .option {
-    background: #2a2a2a !important;
-    border-color: #444 !important;
-    color: #fff !important;
-}
-
-body.dark-mode .option:hover {
-    border-color: #378ADD !important;
-    background: #1a2a3a !important;
-}
-
-body.dark-mode .option.selected {
-    border-color: #64b5f6 !important;
-    background: #1a3050 !important;
-}
-
-body.dark-mode .opt-letter {
-    background: #333 !important;
-    border-color: #555 !important;
-    color: #ccc !important;
-}
-
-body.dark-mode .option.selected .opt-letter {
-    background: #185FA5 !important;
-    border-color: #185FA5 !important;
-    color: #fff !important;
-}
-
-body.dark-mode .opt-text {
-    color: #e0e0e0 !important;
-}
-
-body.dark-mode .option.selected .opt-text {
-    color: #90caf9 !important;
-}
-
-body.dark-mode .option.correct {
-    border-color: #66bb6a !important;
-    background: rgba(56,142,60,0.2) !important;
-}
-
-body.dark-mode .option.incorrect {
-    border-color: #ef9a9a !important;
-    background: rgba(207, 102, 121, 0.2) !important;
-}
-
-/* Remove old radio input visibility */
-.option input[type="radio"] {
-    display: none;
-}
-
-.correct-indicator {
-    margin-left: 8px;
-    font-weight: bold;
-    color: #388e3c;
+.start-brand {
+    font-family: 'Playfair Display', serif;
     font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 6px;
 }
+body.dark-mode .start-brand { color: var(--accent2); }
 
-.incorrect-indicator {
-    margin-left: 8px;
-    font-weight: bold;
-    color: #e53935;
-    font-size: 13px;
-}
-
-/* =============================================
-   INSTRUCTION BOX
-   ============================================= */
-.instruction-box {
-    max-width: 900px;
-    margin: auto;
-    background: linear-gradient(135deg, #f3e8ff, #e0f2ff);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    line-height: 1.8;
-}
-
-.instruction-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #6a11cb;
-    margin-bottom: 15px;
-    border-left: 5px solid #6a11cb;
-    padding-left: 10px;
-}
-
-.instruction-list {
-    padding-left: 20px;
-}
-
-.instruction-list li {
+.start-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px; font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.15;
     margin-bottom: 10px;
-    font-size: 16px;
+}
+body.dark-mode .start-title { color: var(--dm-text); }
+
+.start-sub {
+    font-size: 16px; color: var(--text-muted);
+    margin-bottom: 8px;
+}
+body.dark-mode .start-sub { color: var(--dm-muted); }
+
+.tg-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #0088cc, #006fa8);
+    color: white; text-decoration: none;
+    padding: 10px 24px; border-radius: 40px;
+    font-size: 14px; font-weight: 700;
+    box-shadow: 0 4px 16px rgba(0,136,204,0.4);
+    transition: transform 0.18s, box-shadow 0.18s;
+    margin: 16px 0 28px;
+}
+.tg-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,136,204,0.55); color: white; }
+
+.info-card {
+    width: 100%; max-width: 500px;
+    background: var(--light-blue);
+    border: 1.5px solid var(--mid-blue);
+    border-radius: 16px;
+    padding: 22px 24px;
+    text-align: left;
+    margin-bottom: 24px;
+}
+body.dark-mode .info-card { background: var(--dm-surface); border-color: var(--dm-border); }
+
+.info-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--primary); margin-bottom: 14px;
+}
+body.dark-mode .info-card h3 { color: var(--accent2); }
+
+.info-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+
+.info-pill {
     background: white;
-    padding: 10px 12px;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    transition: 0.2s;
+    border-radius: 10px; padding: 10px 14px;
+    font-size: 13px; color: var(--text-mid);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+}
+body.dark-mode .info-pill { background: var(--dm-surface2); border-color: var(--dm-border); color: var(--dm-text); }
+
+.info-pill strong { color: var(--primary-dark); font-weight: 700; }
+body.dark-mode .info-pill strong { color: var(--accent2); }
+
+.name-input {
+    width: 100%; max-width: 380px;
+    padding: 14px 20px;
+    border: 2px solid var(--mid-blue);
+    border-radius: 50px;
+    font-size: 16px; font-family: 'DM Sans', sans-serif;
+    text-align: center;
+    background: white; color: var(--text-dark);
+    outline: none; transition: border 0.2s, box-shadow 0.2s;
+    margin-bottom: 18px;
+}
+.name-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(26,111,196,0.12); }
+body.dark-mode .name-input { background: var(--dm-surface); color: var(--dm-text); border-color: var(--dm-border); }
+
+.start-btns { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 340px; }
+
+.s-btn {
+    width: 100%; padding: 14px 0;
+    border: none; border-radius: 50px; cursor: pointer;
+    font-size: 16px; font-weight: 700; font-family: 'DM Sans', sans-serif;
+    transition: transform 0.18s, box-shadow 0.18s;
+    letter-spacing: 0.3px;
+}
+.s-btn:hover { transform: translateY(-3px); }
+
+.s-btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white; box-shadow: 0 6px 20px rgba(26,111,196,0.4);
+}
+.s-btn-primary:hover { box-shadow: 0 10px 28px rgba(26,111,196,0.55); }
+
+.s-btn-green {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: white; box-shadow: 0 6px 20px rgba(34,197,94,0.35);
+}
+.s-btn-green:hover { box-shadow: 0 10px 28px rgba(34,197,94,0.5); }
+
+.s-btn-purple {
+    background: linear-gradient(135deg, #7c3aed, #4c1d95);
+    color: white; box-shadow: 0 6px 20px rgba(124,58,237,0.35);
+}
+.s-btn-purple:hover { box-shadow: 0 10px 28px rgba(124,58,237,0.5); }
+
+.dark-toggle {
+    position: absolute; top: 16px; right: 16px; z-index: 10000;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white; border: none; border-radius: 40px;
+    padding: 8px 18px; font-size: 14px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; gap: 7px;
+    box-shadow: 0 4px 14px rgba(26,111,196,0.4);
+    transition: background 0.3s, transform 0.2s;
+    font-family: 'DM Sans', sans-serif;
+}
+.dark-toggle:hover { transform: scale(1.05); }
+body.dark-mode .dark-toggle { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 14px rgba(245,158,11,0.4); }
+
+/* ===== INSTRUCTION SCREEN ===== */
+#instruction-screen {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--white); display: none; overflow-y: auto; padding: 40px 20px;
+}
+body.dark-mode #instruction-screen { background: var(--dm-bg); }
+
+.instr-wrap { max-width: 700px; margin: 0 auto; }
+
+.instr-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 800; color: var(--primary);
+    margin-bottom: 24px; text-align: center;
+}
+body.dark-mode .instr-title { color: var(--accent2); }
+
+.instr-box {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border: 1.5px solid var(--mid-blue); border-radius: 16px; padding: 28px;
+}
+body.dark-mode .instr-box { background: linear-gradient(135deg, var(--dm-surface), var(--dm-surface2)); border-color: var(--dm-border); }
+
+.instr-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; color: var(--primary);
+    border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 16px;
+}
+body.dark-mode .instr-box h3 { color: var(--accent2); border-left-color: var(--accent2); }
+
+.instr-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+.instr-list li {
+    background: white; border-radius: 10px; padding: 12px 16px;
+    font-size: 15px; color: var(--text-mid);
+    border: 1px solid var(--border);
+    transition: transform 0.15s;
+}
+body.dark-mode .instr-list li { background: var(--dm-surface2); border-color: var(--dm-border); color: var(--dm-text); }
+.instr-list li:hover { transform: translateX(5px); }
+
+.instr-legend {
+    display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px;
 }
 
-.instruction-list li:hover {
-    transform: translateX(5px);
-    background: #f0f4ff;
-}
+.leg-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-mid); }
+body.dark-mode .leg-item { color: var(--dm-text); }
+.leg-dot { width: 14px; height: 14px; border-radius: 50%; }
 
-.instruction-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-    font-size: 16px;
-    font-weight: 500;
+.agree-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 20px; font-size: 15px; font-weight: 600; cursor: pointer;
+    color: var(--text-mid);
 }
+body.dark-mode .agree-row { color: var(--dm-text); }
 
-.instruction-checkbox input {
-    width: 18px;
-    height: 18px;
-    accent-color: #6a11cb;
+.agree-row input { display: none; }
+
+.chk-box {
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 2px solid var(--primary);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; color: transparent; transition: 0.15s;
+    background: white;
 }
+body.dark-mode .chk-box { background: var(--dm-surface); border-color: var(--accent2); }
+
+.agree-row input:checked + .chk-box { background: var(--primary); color: white; }
+body.dark-mode .agree-row input:checked + .chk-box { background: var(--accent2); }
 
 #start-test-btn {
-    margin-top: 20px;
-    width: 100%;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    box-shadow: 0 6px 15px rgba(101, 41, 255, 0.4);
-    transition: 0.3s;
+    margin-top: 22px; width: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white; border: none; border-radius: 50px; padding: 14px;
+    font-size: 17px; font-weight: 700; cursor: not-allowed; opacity: 0.55;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity 0.2s, transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 6px 20px rgba(26,111,196,0.35);
 }
+#start-test-btn:not(:disabled) { cursor: pointer; opacity: 1; }
+#start-test-btn:not(:disabled):hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(26,111,196,0.5); }
 
-#start-test-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(101, 41, 255, 0.6);
+/* ===== TEST SCREEN ===== */
+#test-screen {
+    position: fixed; inset: 0; z-index: 9998;
+    background: var(--off-white); display: none; overflow: auto;
 }
+body.dark-mode #test-screen { background: var(--dm-bg); }
 
-/* =============================================
-   SIDEBAR
-   ============================================= */
+/* SIDEBAR */
 .sidebar {
-    width: 300px;
-    background-color: var(--white);
-    height: 100vh;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    position: fixed;
-    overflow-y: auto;
-    right: 0;
-    left: auto;
+    width: 280px; background: white;
+    height: 100vh; position: fixed; right: 0; top: 0;
+    padding: 20px; overflow-y: auto;
+    border-left: 2px solid var(--light-blue);
+    box-shadow: -4px 0 20px rgba(26,111,196,0.08);
+}
+body.dark-mode .sidebar { background: var(--dm-surface); border-left-color: var(--dm-border); }
+
+.timer {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white; padding: 10px 0; border-radius: 40px;
+    font-weight: 700; font-size: 19px; text-align: center;
+    letter-spacing: 1px; margin-bottom: 18px;
+    box-shadow: 0 4px 14px rgba(26,111,196,0.35);
 }
 
-.sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+.sidebar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 700; color: var(--primary);
+    margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid var(--light-blue);
 }
+body.dark-mode .sidebar-brand { color: var(--accent2); border-bottom-color: var(--dm-border); }
 
-.sidebar-header h2 {
-    color: var(--primary-color);
-}
+.test-info-row { font-size: 13px; color: var(--text-muted); margin: 5px 0; display: flex; gap: 6px; }
+.test-info-row strong { color: var(--text-dark); font-weight: 600; }
+body.dark-mode .test-info-row { color: var(--dm-muted); }
+body.dark-mode .test-info-row strong { color: var(--dm-text); }
 
-.test-info {
-    margin-bottom: 20px;
+.palette-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 18px 0 10px; font-size: 13px; font-weight: 600; color: var(--text-mid);
 }
+body.dark-mode .palette-header { color: var(--dm-text); }
 
-.test-info p {
-    margin: 5px 0;
-    color: var(--light-text);
-}
-
-.question-palette {
-    margin-bottom: 20px;
-}
-
-.palette-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-}
+.palette-count { color: var(--primary); font-weight: 700; }
+body.dark-mode .palette-count { color: var(--accent2); }
 
 .palette-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    width: 100%;
-    overflow-x: hidden;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px;
 }
 
 .palette-btn {
-    width: 100%;
-    max-width: 40px;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background-color: #FF474D;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin: auto;
-    font-size: 12px;
-    font-weight: 600;
+    aspect-ratio: 1; border-radius: 50%; border: 2px solid #e5e7eb;
+    background: #fee2e2; /* unanswered = orange-ish red */
+    color: var(--text-dark); font-size: 11px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
 }
+.palette-btn:hover { transform: scale(1.1); }
+.palette-btn.answered { background: #bbf7d0; border-color: #22c55e; color: #14532d; }
+.palette-btn.marked { background: #bae6fd; border-color: #0ea5e9; color: #0c4a6e; }
+.palette-btn.current { background: white; border: 2.5px solid var(--primary); color: var(--primary); box-shadow: 0 0 0 3px rgba(26,111,196,0.2); }
+.palette-btn.review-correct { background: #22c55e; border-color: #16a34a; color: white; }
+.palette-btn.review-wrong { background: #ef4444; border-color: #dc2626; color: white; }
+.palette-btn.review-unanswered { background: #60a5fa; border-color: #3b82f6; color: white; }
 
-.palette-btn:hover {
-    background-color: #EFBF04;
-}
+body.dark-mode .palette-btn { background: #7f1d1d; border-color: #991b1b; color: #fecaca; }
+body.dark-mode .palette-btn.answered { background: #14532d; border-color: #22c55e; color: #bbf7d0; }
+body.dark-mode .palette-btn.marked { background: #0c4a6e; border-color: #0ea5e9; color: #bae6fd; }
+body.dark-mode .palette-btn.current { background: var(--dm-surface2); border-color: var(--accent); color: var(--accent); }
 
-.palette-btn.answered {
-    background-color: #90ee90;
-    color: #000000;
-    border-color: #000000;
-}
+#palette-legend { margin-top: 14px; font-size: 12px; color: var(--text-muted); }
+body.dark-mode #palette-legend { color: var(--dm-muted); }
+#palette-legend .leg-label { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
 
-.palette-btn.marked {
-    background-color: #90D5FF;
-    color: #000000;
-    border-color: #000000;
-}
-
-.palette-btn.current {
-    background-color: #ffffff;
-    border: 2px solid var(--primary-color);
-}
-
-/* Review mode palette colours */
-.palette-btn.review-correct {
-    background-color: #22c55e !important;
-    color: #fff !important;
-    border-color: #16a34a !important;
-}
-.palette-btn.review-wrong {
-    background-color: #ef4444 !important;
-    color: #fff !important;
-    border-color: #dc2626 !important;
-}
-.palette-btn.review-unanswered {
-    background-color: #3b82f6 !important;
-    color: #fff !important;
-    border-color: #2563eb !important;
-}
-/* current highlight overrides review colours with a white ring */
-.palette-btn.review-correct.current,
-.palette-btn.review-wrong.current,
-.palette-btn.review-unanswered.current {
-    outline: 3px solid var(--primary-color);
-    outline-offset: 1px;
-}
-
-/* Dark mode review colours */
-body.dark-mode .palette-btn.review-correct  { background-color: #16a34a !important; border-color: #15803d !important; }
-body.dark-mode .palette-btn.review-wrong    { background-color: #dc2626 !important; border-color: #b91c1c !important; }
-body.dark-mode .palette-btn.review-unanswered { background-color: #2563eb !important; border-color: #1d4ed8 !important; }
-
-.legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-}
-
-.legend-color {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    margin-right: 5px;
-}
-
-/* =============================================
-   DARK MODE PALETTE
-   ============================================= */
-body.dark-mode .palette-btn {
-    background-color: #FF474D !important;
-    color: var(--dark-primary-color);
-    border: 2px solid var(--dark-primary-color);
-}
-
-body.dark-mode .palette-btn.answered {
-    background-color: #388e3c !important;
-    color: white !important;
-    border-color: #388e3c !important;
-}
-
-body.dark-mode .palette-btn.marked {
-    background-color: #03dac6 !important;
-    color: black !important;
-    border-color: #03dac6 !important;
-}
-
-body.dark-mode .palette-btn.current {
-    background-color: white !important;
-    border: 2px solid var(--dark-primary-color) !important;
-    color: var(--dark-primary-color) !important;
-}
-
-body.dark-mode .btn-primary {
-    background-color: var(--dark-primary-color);
-    color: #000;
-}
-
-body.dark-mode .btn-primary:hover {
-    background-color: #a75dfc;
-}
-
-body.dark-mode .btn-secondary {
-    background-color: var(--dark-secondary-color);
-    color: #000;
-}
-
-body.dark-mode .btn-secondary:hover {
-    background-color: #00c4b4;
-}
-
-body.dark-mode .btn-outline {
-    border-color: var(--dark-primary-color);
-    color: var(--dark-primary-color);
-}
-
-body.dark-mode .mark-btn {
-    border-color: var(--dark-secondary-color);
-    color: var(--dark-secondary-color);
-}
-
-body.dark-mode .mark-btn.marked {
-    background-color: var(--dark-secondary-color);
-    color: #000;
-}
-
-body.dark-mode .submit-btn {
-    background-color: var(--dark-correct-color);
-    color: #000;
-}
-
-body.dark-mode .submit-btn:hover {
-    background-color: #2a6e2c;
-}
-
-body.dark-mode .modal-content {
-    background-color: #242424;
-    color: var(--dark-light-text);
-}
-
-body.dark-mode .stat-card {
-    background-color: #1e1e1e;
-}
-
-/* =============================================
-   GENERAL
-   ============================================= */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    display: flex;
-    background-color: var(--light-bg);
-    color: var(--dark-text);
-}
-
+/* MAIN CONTENT */
 .main-content {
-    flex: 1;
-    margin-left: 0;
-    margin-right: 300px;
-    padding: 20px;
+    margin-right: 280px; padding: 20px 24px;
+    min-height: 100vh;
 }
 
 .test-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; padding-bottom: 14px;
+    border-bottom: 2px solid var(--light-blue);
+}
+body.dark-mode .test-header { border-bottom-color: var(--dm-border); }
+
+.user-badge {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; padding: 7px 16px; border-radius: 30px;
+    font-size: 13px; font-weight: 700;
+}
+
+.q-counter {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700; color: var(--text-dark);
+}
+body.dark-mode .q-counter { color: var(--dm-text); }
+.q-counter span { color: var(--primary); }
+body.dark-mode .q-counter span { color: var(--accent2); }
+
+.progress-wrap { flex: 1; max-width: 200px; margin: 0 16px; }
+.progress-bar-bg { height: 8px; background: var(--light-blue); border-radius: 10px; overflow: hidden; }
+body.dark-mode .progress-bar-bg { background: var(--dm-surface2); }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 10px; transition: width 0.4s; width: 0; }
+.progress-label { font-size: 12px; color: var(--text-muted); text-align: right; margin-top: 4px; }
+body.dark-mode .progress-label { color: var(--dm-muted); }
+
+/* QUESTION CARD */
+.question-card {
+    background: white; border-radius: 16px; padding: 28px;
+    box-shadow: var(--shadow); border: 1.5px solid var(--light-blue);
     margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+}
+body.dark-mode .question-card { background: var(--dm-surface); border-color: var(--dm-border); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+
+.q-num-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--light-blue); color: var(--primary);
+    padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 700;
+    margin-bottom: 14px;
+}
+body.dark-mode .q-num-tag { background: var(--dm-surface2); color: var(--accent2); }
+
+.section-badge {
+    display: inline-flex; align-items: center;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; padding: 3px 12px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; margin-bottom: 12px;
 }
 
-.timer {
-    background-color: #FF0000;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 40px;
-    font-weight: bold;
-    font-size: 18px;
-    min-width: 140px;
-    text-align: center;
+.q-text {
+    font-size: 18px; font-weight: 500; color: var(--text-dark);
+    line-height: 1.6; margin-bottom: 22px;
+}
+body.dark-mode .q-text { color: var(--dm-text); }
+
+/* OPTIONS */
+.option {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px; border: 2px solid var(--border);
+    border-radius: 12px; margin-bottom: 10px; cursor: pointer;
+    background: white; transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    user-select: none;
+}
+body.dark-mode .option { background: var(--dm-surface2); border-color: var(--dm-border); }
+.option:hover { border-color: var(--primary); background: var(--off-white); transform: translateX(4px); }
+body.dark-mode .option:hover { background: #1e3460; border-color: var(--accent); }
+
+.option.selected { border-color: var(--primary-dark); background: #dbeafe; }
+body.dark-mode .option.selected { background: #0d2a56; border-color: var(--accent); }
+
+.option.correct { border-color: var(--correct) !important; background: var(--correct-bg) !important; }
+.option.incorrect { border-color: var(--incorrect) !important; background: var(--incorrect-bg) !important; }
+
+.opt-letter {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid var(--border); background: var(--off-white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: var(--text-muted);
+    flex-shrink: 0; transition: all 0.15s;
+}
+.option.selected .opt-letter { background: var(--primary); border-color: var(--primary); color: white; }
+.option.correct .opt-letter { background: var(--correct); border-color: var(--correct); color: white; }
+.option.incorrect .opt-letter { background: var(--incorrect); border-color: var(--incorrect); color: white; }
+
+.opt-text { font-size: 15px; color: var(--text-dark); line-height: 1.5; flex: 1; }
+body.dark-mode .opt-text { color: var(--dm-text); }
+.option.selected .opt-text { color: var(--primary-dark); font-weight: 600; }
+body.dark-mode .option.selected .opt-text { color: var(--accent2); }
+.option.correct .opt-text { color: var(--correct); font-weight: 600; }
+.option.incorrect .opt-text { color: var(--incorrect); font-weight: 600; }
+
+.opt-indicator { font-size: 12px; font-weight: 700; margin-left: 4px; }
+.correct-indicator { color: var(--correct); }
+.incorrect-indicator { color: var(--incorrect); }
+
+.explanation-box {
+    margin-top: 18px; padding: 14px 18px;
+    border-radius: 12px; border-left: 4px solid var(--primary);
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    font-size: 14px; color: var(--text-mid); line-height: 1.7;
+}
+body.dark-mode .explanation-box { background: linear-gradient(135deg, var(--dm-surface), var(--dm-surface2)); border-left-color: var(--accent); color: var(--dm-text); }
+
+/* NAV BUTTONS */
+.nav-row {
+    display: flex; justify-content: space-between; align-items: center; margin-top: 24px;
 }
 
-.progress-container {
-    margin-bottom: 20px;
+.nav-btn {
+    padding: 10px 24px; border-radius: 10px; border: 2px solid var(--primary);
+    background: transparent; color: var(--primary); font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.18s;
+}
+.nav-btn:hover { background: var(--light-blue); }
+body.dark-mode .nav-btn { border-color: var(--accent2); color: var(--accent2); }
+body.dark-mode .nav-btn:hover { background: var(--dm-surface2); }
+
+.next-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white; border: none;
+    padding: 12px 30px; border-radius: 10px; font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 4px 14px rgba(26,111,196,0.35); transition: all 0.18s;
+}
+.next-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(26,111,196,0.5); }
+body.dark-mode .next-btn { background: linear-gradient(135deg, var(--accent), var(--primary)); }
+
+.mark-btn-q {
+    padding: 9px 18px; border-radius: 10px;
+    border: 2px solid var(--accent); background: transparent; color: var(--accent);
+    font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+}
+.mark-btn-q.marked { background: var(--accent); color: white; }
+.mark-btn-q:hover { background: var(--light-blue); }
+
+/* SUBMIT SECTION */
+.submit-row {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 600px; margin: 20px auto; gap: 14px; flex-wrap: wrap;
 }
 
-.progress-bar {
-    height: 10px;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    overflow: hidden;
+.fancy-btn {
+    flex: 1; min-width: 140px; padding: 14px; border: none; border-radius: 50px;
+    font-size: 15px; font-weight: 700; cursor: pointer; text-align: center;
+    text-decoration: none; display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Sans', sans-serif; transition: transform 0.18s, box-shadow 0.18s;
 }
+.fancy-btn:hover { transform: translateY(-3px); }
 
-.progress {
-    height: 100%;
-    background-color: #c6e977;
-    width: 0%;
-    transition: width 0.3s;
-}
+.fancy-submit { background: linear-gradient(135deg, #22c55e, #15803d); color: white; box-shadow: 0 6px 20px rgba(34,197,94,0.4); max-width: 260px; }
+.fancy-submit:hover { box-shadow: 0 10px 28px rgba(34,197,94,0.55); }
+.fancy-tg { background: linear-gradient(135deg, #0088cc, #005a99); color: white; box-shadow: 0 6px 20px rgba(0,136,204,0.4); max-width: 200px; }
+.fancy-tg:hover { box-shadow: 0 10px 28px rgba(0,136,204,0.55); color: white; }
 
-.progress-text {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
-    font-size: 14px;
-    color: var(--light-text);
-}
+.fancy-pdf { background: linear-gradient(135deg, #f97316, #ea580c); color: white; box-shadow: 0 6px 20px rgba(249,115,22,0.4); }
+.fancy-pdf:hover { box-shadow: 0 10px 28px rgba(249,115,22,0.55); }
+.fancy-result { background: linear-gradient(135deg, #7c3aed, #4c1d95); color: white; box-shadow: 0 6px 20px rgba(124,58,237,0.4); }
+.fancy-result:hover { box-shadow: 0 10px 28px rgba(124,58,237,0.55); }
 
-.question-container {
-    background-color: var(--white);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+.stream-btn {
+    display: block; width: 100%; padding: 14px;
+    border-radius: 14px; color: white; font-weight: 700; font-size: 16px;
+    text-decoration: none; font-family: 'DM Sans', sans-serif;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
 }
+.stream-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.3); color: white; }
 
-.question-number {
-    color: var(--primary-color);
-    font-weight: bold;
-    margin-bottom: 10px;
-}
+body.dark-mode #stream-picker-box { background: var(--dm-surface); }
+body.dark-mode #stream-picker-box h3 { color: var(--accent2); }
+body.dark-mode #stream-picker-box p { color: var(--dm-muted); }
+body.dark-mode #stream-picker-box button { color: var(--dm-muted); }
 
-.question-text {
-    margin-bottom: 20px;
-    font-size: 18px;
-    line-height: 1.5;
+/* FOOTER */
+.test-footer {
+    background: linear-gradient(135deg, #0f1e3d, #1a3066);
+    color: #94b8e8; text-align: center; padding: 22px 16px;
+    margin-top: 10px;
 }
+.test-footer p { font-size: 12px; margin-bottom: 12px; }
+.footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.footer-link {
+    padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 600;
+    text-decoration: none; color: white; transition: transform 0.18s, box-shadow 0.18s;
+}
+.footer-link:hover { transform: translateY(-2px); color: white; }
+.fl-purple { background: linear-gradient(135deg, #7c3aed, #4c1d95); box-shadow: 0 3px 10px rgba(124,58,237,0.35); }
+.fl-green { background: linear-gradient(135deg, #059669, #065f46); box-shadow: 0 3px 10px rgba(5,150,105,0.35); }
+.fl-red { background: linear-gradient(135deg, #dc2626, #991b1b); box-shadow: 0 3px 10px rgba(220,38,38,0.35); }
 
-.options {
-    margin-left: 0;
-}
-
-.navigation-btns {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-
-.btn {
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: #73e4e6;
-}
-
-.btn-secondary {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-.btn-secondary:hover {
-    background-color: #73e4e6;
-}
-
-.btn-outline {
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-}
-
-.btn-outline:hover {
-    background-color: #ffffff;
-}
-
-.mark-btn {
-    margin-left: 10px;
-    background-color: transparent;
-    border: 1px solid var(--secondary-color);
-    color: var(--secondary-color);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.mark-btn.marked {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-.submit-section {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.submit-btn {
-    background-color: var(--correct-color);
-    color: white;
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.submit-btn:hover {
-    background-color: #388e3c;
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
+/* MODAL */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99999; justify-content: center; align-items: center; }
+.modal.show { display: flex; }
 
 .modal-content {
-    background-color: white;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 600px;
-    padding: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    animation: modalFadeIn 0.3s;
+    background: white; border-radius: 20px; padding: 32px;
+    width: 90%; max-width: 580px; max-height: 90vh; overflow-y: auto;
+    animation: modalIn 0.3s ease;
+}
+body.dark-mode .modal-content { background: var(--dm-surface); border: 1.5px solid var(--dm-border); }
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.92) translateY(-20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-@keyframes modalFadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+.modal-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px; padding-bottom: 14px; border-bottom: 2px solid var(--light-blue);
 }
+body.dark-mode .modal-head { border-bottom-color: var(--dm-border); }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+.modal-head h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; color: var(--primary);
 }
+body.dark-mode .modal-head h2 { color: var(--accent2); }
 
-.modal-header h2 {
-    color: var(--primary-color);
+.close-x { background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-muted); }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+
+.stat-tile {
+    background: var(--off-white); border-radius: 14px; padding: 18px;
+    text-align: center; border: 1.5px solid var(--border);
 }
+body.dark-mode .stat-tile { background: var(--dm-surface2); border-color: var(--dm-border); }
 
-.close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--light-text);
+.stat-tile h4 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+body.dark-mode .stat-tile h4 { color: var(--dm-muted); }
+
+.stat-tile p { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 800; }
+.stat-correct { color: var(--correct); }
+.stat-wrong { color: var(--incorrect); }
+.stat-neutral { color: var(--text-muted); }
+.stat-score { color: var(--primary); }
+body.dark-mode .stat-score { color: var(--accent2); }
+
+.analysis { font-size: 14px; color: var(--text-mid); margin-bottom: 18px; line-height: 1.8; }
+body.dark-mode .analysis { color: var(--dm-text); }
+
+.modal-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.modal-btn {
+    flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer;
+    font-size: 14px; font-weight: 700; font-family: 'DM Sans', sans-serif; transition: all 0.18s;
 }
+.modal-btn:hover { transform: translateY(-2px); }
+.mb-review { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; box-shadow: 0 4px 14px rgba(26,111,196,0.4); }
+.mb-pdf { background: linear-gradient(135deg, #f97316, #ea580c); color: white; box-shadow: 0 4px 14px rgba(249,115,22,0.4); }
 
-.result-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 20px;
-}
+/* MOBILE */
+.mobile-bar { display: none; }
 
-.stat-card {
-    background-color: var(--light-bg);
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-}
-
-.stat-card h3 {
-    color: #000000;
-    margin-bottom: 10px;
-}
-
-.stat-card p {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.correct-stat { color: var(--correct-color); }
-.incorrect-stat { color: var(--incorrect-color); }
-.score-stat { color: var(--secondary-color); }
-
-.detailed-results {
-    margin-top: 20px;
-}
-
-.detailed-results h3 {
-    margin-bottom: 10px;
-}
-
-.review-btn {
-    margin-top: 20px;
-    width: 100%;
-}
-
-/* Tooltip */
-.tooltip {
-    position: relative;
-    display: inline-block;
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
-
-/* Button2 */
-.button2 {
-    background-color: #007ACC;
-    color: white;
-    border: none;
-    padding: 12px 28px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-}
-
-.button2:hover {
-    background-color: #005a99;
-    box-shadow: 0 6px 12px rgba(0, 90, 153, 0.5);
-    color: #fff;
-}
-
-#dark-mode-toggle-bottom:hover {
-    background: linear-gradient(45deg, #2575fc, #6a11cb);
-    box-shadow: 0 6px 20px rgba(101, 41, 255, 0.9);
-}
-
-body.dark-mode #dark-mode-toggle-bottom {
-    background: linear-gradient(45deg, #f7971e, #ffd200);
-    color: #333;
-    box-shadow: 0 4px 15px rgba(255, 210, 0, 0.7);
-}
-
-#test-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #f5f5f5;
-    z-index: 9998;
-    display: none;
-    overflow: auto;
-}
-
-#user-name-display {
-    background: linear-gradient(135deg,#6a11cb,#2575fc);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 40px;
-    font-weight: bold;
-    font-size: 18px;
-    min-width: 140px;
-    text-align: center;
-}
-
-.instruction-checkbox input:checked + .custom-check {
-    background: rgba(106,17,203,0.1);
-    box-shadow: 0 0 10px rgba(106,17,203,0.4);
-}
-
-.instruction-checkbox input {
-    display: none;
-}
-
-.custom-check {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #6a11cb;
-    border-radius: 4px;
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-}
-
-.instruction-checkbox input:checked + .custom-check::after {
-    content: "\2714";
-    position: absolute;
-    top: -2px;
-    left: 3px;
-    font-size: 16px;
-    color: #6a11cb;
-}
-
-.test-info {
-    text-align: left !important;
-    display: block !important;
-}
-
-.test-info p {
-    text-align: left !important;
-    display: flex !important;
-    justify-content: flex-start !important;
-    gap: 6px;
-    font-size: 16px !important;
-    margin: 6px 0 !important;
-}
-
-.test-info strong {
-    font-weight: 700 !important;
-    color: #000 !important;
-}
-
-/* Mobile top bar — hidden on desktop */
-.mobile-top-bar {
-    display: none;
-}
-
-/* Mobile top bar — hidden on desktop */
-.mobile-top-bar {
-    display: none;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
-    /* Show mobile top bar */
-    .mobile-top-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 10px;
-        background: #fff;
-        border-bottom: 1px solid #eee;
-        margin-bottom: 8px;
-        border-radius: 8px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    .mobile-bar {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 8px 12px; background: white; border-bottom: 2px solid var(--light-blue);
+        margin-bottom: 8px; border-radius: 10px; box-shadow: var(--shadow);
     }
-
-    .mobile-timer-clone {
-        background-color: #FF0000;
-        color: white;
-        padding: 6px 14px;
-        border-radius: 30px;
-        font-weight: bold;
-        font-size: 15px;
-        min-width: 100px;
-        text-align: center;
+    body.dark-mode .mobile-bar { background: var(--dm-surface); border-color: var(--dm-border); }
+    .mob-timer {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white; padding: 6px 14px; border-radius: 30px; font-weight: 700; font-size: 14px;
     }
-
-    #mobile-name-display {
-        background: linear-gradient(135deg, #6a11cb, #2575fc);
-        color: white;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 13px;
-    }
-
-    /* Hide original name and timer from their desktop positions on mobile */
     #user-name-display { display: none !important; }
-    .sidebar .timer { display: none !important; }
-    .sidebar .sidebar-header { display: none !important; }
-
-    body { display: flex; flex-direction: column; }
-    .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        right: 0; left: 0;
-        box-shadow: none;
-        margin-bottom: 10px;
-    }
-    .question-palette { max-height: 200px; overflow-y: auto; }
-    .main-content { margin: 0 !important; width: 100%; padding: 10px; }
-
-    /* Mobile nav: row layout, Next bigger, Previous smaller */
-    .navigation-btns {
-        flex-direction: row !important;
-        gap: 8px;
-        align-items: center;
-    }
-
-    #prev-btn {
-        padding: 8px 14px !important;
-        font-size: 13px !important;
-        border-radius: 6px !important;
-        flex-shrink: 0;
-    }
-
-    #next-btn {
-        padding: 14px 28px !important;
-        font-size: 17px !important;
-        border-radius: 8px !important;
-        flex: 1;
-    }
-
-    .navigation-btns > div {
-        display: flex;
-        flex: 1;
-        gap: 8px;
-        align-items: center;
-    }
-
-    #mark-btn {
-        font-size: 11px !important;
-        padding: 6px 8px !important;
-        flex-shrink: 0;
-    }
+    .sidebar .timer, .sidebar .sidebar-brand { display: none !important; }
+    .sidebar { position: relative; width: 100%; height: auto; right: 0; left: 0; border-left: none; border-top: 2px solid var(--light-blue); box-shadow: none; }
+    body { flex-direction: column; }
+    .main-content { margin-right: 0; width: 100%; padding: 12px; }
+    .question-card { padding: 18px; }
+    .q-text { font-size: 16px; }
+    .nav-row { flex-direction: row; gap: 8px; }
+    .palette-grid { max-height: 200px; overflow-y: auto; }
 }
 
-@media (max-width: 576px) {
-    .palette-grid { grid-template-columns: repeat(4, 1fr); }
-    .result-stats { grid-template-columns: 1fr; }
+@media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .modal-btns { flex-direction: column; }
 }
 
-/* =============================================
-   FANCY BUTTONS — SUBMIT + JOIN
-   ============================================= */
-.fancy-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 13px 28px;
-    font-size: 16px;
-    font-weight: 700;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    letter-spacing: 0.4px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
-}
+/* option radio hide */
+.option input[type="radio"] { display: none; }
 
-.fancy-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0);
-    transition: background 0.2s;
-    border-radius: inherit;
-}
-
-.fancy-btn:hover::after { background: rgba(255,255,255,0.12); }
-.fancy-btn:active { transform: scale(0.96) !important; }
-.fancy-btn:hover { transform: translateY(-3px) scale(1.03); }
-
-.join-btn {
-    background: linear-gradient(135deg, #0088cc, #006699);
-    color: white;
-    box-shadow: 0 5px 18px rgba(0,136,204,0.45);
-}
-.join-btn:hover { box-shadow: 0 8px 24px rgba(0,136,204,0.65); color: white; }
-
-.submit-fancy-btn {
-    background: linear-gradient(135deg, #22c55e, #15803d);
-    color: white;
-    box-shadow: 0 5px 18px rgba(34,197,94,0.45);
-    flex: 1;
-    max-width: 280px;
-}
-.submit-fancy-btn:hover { box-shadow: 0 8px 24px rgba(34,197,94,0.65); }
-
-/* PDF Download button */
-.pdf-download-btn {
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    color: white !important;
-    font-weight: 700;
-    border-radius: 8px;
-    transition: transform 0.18s, box-shadow 0.18s;
-    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
-}
-.pdf-download-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 20px rgba(249,115,22,0.6);
-    color: white !important;
-}
-.pdf-download-btn:active { transform: scale(0.97); }
-
-/* PDF hidden print area */
 #pdf-print-area { display: none; }
-
 @media print {
     body > * { display: none !important; }
-    #pdf-print-area {
-        display: block !important;
-        font-family: Arial, sans-serif;
-        color: #111;
-        padding: 20px;
-        margin: 0;
-    }
+    #pdf-print-area { display: block !important; font-family: Arial, sans-serif; color: #111; padding: 20px; }
 }
-
-/* =============================================
-   FOOTER BUTTONS
-   ============================================= */
-.footer-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    color: white;
-    letter-spacing: 0.3px;
-    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease, filter 0.18s;
-    position: relative;
-    overflow: hidden;
-}
-
-.footer-btn:hover {
-    transform: translateY(-3px) scale(1.06);
-    filter: brightness(1.1);
-    color: white;
-}
-
-.footer-btn:active { transform: scale(0.95); }
-
-.more-btn {
-    background: linear-gradient(135deg, #a855f7, #7e22ce);
-    box-shadow: 0 4px 14px rgba(168,85,247,0.4);
-}
-.more-btn:hover { box-shadow: 0 7px 20px rgba(168,85,247,0.65); }
-
-.back-btn {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    box-shadow: 0 4px 14px rgba(34,197,94,0.4);
-}
-.back-btn:hover { box-shadow: 0 7px 20px rgba(34,197,94,0.65); }
-
-.report-btn {
-    background: linear-gradient(135deg, #f97316, #dc2626);
-    box-shadow: 0 4px 14px rgba(239,68,68,0.4);
-}
-.report-btn:hover { box-shadow: 0 7px 20px rgba(239,68,68,0.65); }
-
-/* Dark mode toggle on start screen */
-body.dark-mode #dark-mode-toggle-bottom {
-    background: linear-gradient(45deg, #f7971e, #ffd200) !important;
-    box-shadow: 0 4px 15px rgba(255,210,0,0.6) !important;
-}
-body.dark-mode #dark-mode-toggle-bottom .icon { color: #333 !important; }
-body.dark-mode #dark-mode-toggle-bottom span:not(.icon) { color: #333 !important; }
-
-/* Dark mode start screen */
-body.dark-mode #start-screen {
-    background-color: #1a1a2e !important;
-}
-body.dark-mode #start-screen h1 { color: #bb86fc !important; }
-body.dark-mode #start-screen > p { color: #e0e0e0 !important; }
-body.dark-mode #start-screen li { color: #e0e0e0 !important; }
-body.dark-mode #start-screen h2 { color: #e0e0e0 !important; }
-body.dark-mode #start-screen a[href*="t.me"] { color: #bb86fc !important; text-decoration: none !important; }
-body.dark-mode #start-screen strong { color: #fff !important; }
-body.dark-mode #start-screen input[type="text"] {
-    background: #2a2a2a !important;
-    color: #fff !important;
-    border-color: #555 !important;
-}
-
-/* Dark mode instruction screen */
-body.dark-mode #instruction-screen { background: #1a1a2e !important; }
-body.dark-mode #instruction-screen h2 { color: #e0e0e0 !important; }
-body.dark-mode .instruction-box { background: linear-gradient(135deg, #2d1f4e, #1a2a4e) !important; }
-body.dark-mode .instruction-title { color: #bb86fc !important; border-left-color: #bb86fc !important; }
-body.dark-mode .instruction-list li { background: #242424 !important; color: #e0e0e0 !important; }
-body.dark-mode .instruction-list li:hover { background: #2e2e4e !important; }
-body.dark-mode .custom-check { border-color: #bb86fc !important; }
-body.dark-mode .instruction-checkbox input:checked + .custom-check::after { color: #bb86fc !important; }
-body.dark-mode .instruction-checkbox { color: #e0e0e0 !important; }
-
-/* Dark mode test screen */
-body.dark-mode #test-screen { background: #121212 !important; }
-
-/* Dark mode mobile top bar */
-body.dark-mode .mobile-top-bar {
-    background: #1f1f1f !important;
-    border-color: #333 !important;
-}
-body.dark-mode .mobile-timer-clone {
-    background-color: var(--dark-incorrect-color) !important;
-}
-
-/* Tooltip */
-body.dark-mode .tooltip .tooltiptext { background-color: #333; color: #fff; }
 </style>
 </head>
 <body>
 
 <!-- START SCREEN -->
-<div id="start-screen" style="
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: white; z-index: 9999; display: flex;
-    flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+<div id="start-screen">
 
-<!-- Dark mode toggle top-right of start screen -->
-<button id="dark-mode-toggle-bottom" aria-label="Toggle dark mode" title="Toggle dark mode"
-  style="position:absolute; top:18px; right:18px; font-size:22px; padding:8px 18px;
-  border-radius:40px; border:none; cursor:pointer;
-  background:linear-gradient(45deg,#6a11cb,#2575fc); color:white;
-  display:flex; align-items:center; gap:7px;
-  box-shadow:0 4px 15px rgba(101,41,255,0.5);
-  transition:background 0.4s ease, box-shadow 0.4s ease, transform 0.2s;">
-  <span class="icon" style="display:inline-block; transition:transform 0.6s ease;">🌙</span>
-  <span style="font-size:13px; font-weight:600; letter-spacing:0.5px;">Dark</span>
+<button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode" style="position:absolute;top:16px;right:16px;">
+    <span id="toggle-icon">🌙</span>
+    <span id="toggle-label">Dark</span>
 </button>
 
-<h1 style="color: #a185de; font-size: 32px;">BST chapter 1</h1>
-<p style="font-size: 18px; margin: 10px 0;">Provided by <strong>Thunderstudy</strong></p>
-<p style="font-size: 15px; margin: 4px 0; color:#666;">Join us on Telegram:</p>
-<a href="https://t.me/thunderstudy_official" target="_blank" style="color: #a185de; font-size: 26px; font-weight:700; text-decoration: none; letter-spacing:0.5px;">
-  @thunderstudy_official
-</a>
+<div class="start-hero">
+    <div class="start-logo">📝</div>
+    <div class="start-brand">Thunderstudy CBT</div>
+    <h1 class="start-title">Synonyms &amp; Antonyms</h1>
+    <p class="start-sub">English Vocabulary | Provided by <strong>Thunderstudy</strong></p>
 
-<div style="max-width: 560px; text-align: left; margin: 22px auto; background:#f8f4ff; border-radius:12px; padding:18px 22px; border-left:4px solid #a185de;">
-<h2 style="margin-bottom:12px; color:#6a11cb; font-size:18px;">📋 Quick Overview</h2>
-<ul style="text-align: left; line-height:2; font-size:15px; padding-left:18px;">
-<li><strong>50 Questions</strong></li>
-<li><strong>60 Minutes</strong> total time</li>
-<li><strong>+5 marks</strong> for correct &nbsp;|&nbsp; <strong>−1 mark</strong> for wrong</li>
-<li>No penalty for <strong>unanswered</strong> questions</li>
-<li>Test <strong>auto-submits</strong> when time ends</li>
-<li>Do <strong>not switch tabs</strong> or exit fullscreen during test</li>
-</ul>
-</div>
+    <a href="https://t.me/thunderstudy_official" target="_blank" class="tg-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.607c-.148.666-.543.828-1.098.516l-3.04-2.24-1.467 1.413c-.162.162-.298.298-.611.298l.217-3.083 5.613-5.067c.244-.217-.054-.337-.378-.12L7.08 14.807 4.09 13.89c-.657-.205-.67-.657.137-.973l10.88-4.196c.548-.198 1.027.133.855.973z"/></svg>
+        @thunderstudy_official
+    </a>
 
-<div style="margin: 12px 0;">
-    <input type="text" id="username-input" placeholder="Enter your name"
-    style="padding:10px; width:260px; border-radius:8px; border:1.5px solid #a185de; font-size:16px; text-align:center; outline:none;">
+    <div class="info-card">
+        <h3>📋 Quick Overview</h3>
+        <div class="info-grid">
+            <div class="info-pill">📝 <div><strong>50 Questions</strong></div></div>
+            <div class="info-pill">⏱️ <div><strong>60 Minutes</strong></div></div>
+            <div class="info-pill">✅ <div><strong>+5 Correct</strong></div></div>
+            <div class="info-pill">❌ <div><strong>−1 Wrong</strong></div></div>
+            <div class="info-pill">🚫 <div><strong>No tab switching</strong></div></div>
+            <div class="info-pill">🔁 <div><strong>Auto-submits</strong></div></div>
+        </div>
+    </div>
+
+    <input type="text" id="username-input" class="name-input" placeholder="Enter your name to begin">
+
+    <div class="start-btns">
+        <button class="s-btn s-btn-primary" onclick="startMock()">🚀 Start Mock Test</button>
+        <button class="s-btn s-btn-green" onclick="window.location.href='https://commercesehoga.github.io/commerce/bst/result.html'">📊 Previous Results</button>
+        <button class="s-btn s-btn-purple" onclick="window.open('https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html','_blank')">📚 More Mock Tests</button>
+    </div>
 </div>
-<button onclick="startMock()" style="
-        background: linear-gradient(135deg,#6a11cb,#2575fc); color: white; padding: 13px 36px;
-        font-size: 18px; font-weight:700; border: none; border-radius: 30px; cursor: pointer;
-        box-shadow: 0 6px 20px rgba(101,41,255,0.45);
-        transition: transform 0.18s, box-shadow 0.18s;"
-  onmouseover="this.style.transform='translateY(-3px) scale(1.04)';this.style.boxShadow='0 10px 28px rgba(101,41,255,0.6)'"
-  onmouseout="this.style.transform='translateY(0) scale(1)';this.style.boxShadow='0 6px 20px rgba(101,41,255,0.45)'"
-  onmousedown="this.style.transform='scale(0.97)'"
-  onmouseup="this.style.transform='translateY(-3px) scale(1.04)'">
-🚀 Start Mock</button>
 </div>
 
 <!-- INSTRUCTION SCREEN -->
-<div id="instruction-screen" style="
-position: fixed; top:0; left:0; width:100%; height:100%;
-background:white; z-index:9999; display:none; overflow:auto; padding:30px;">
+<div id="instruction-screen">
+<div class="instr-wrap">
+    <h2 class="instr-title">📜 Instructions</h2>
+    <div class="instr-box">
+        <h3>General Guidelines</h3>
+        <ol class="instr-list">
+            <li>Total duration is <strong>60 minutes</strong>. Timer is shown in the sidebar.</li>
+            <li>The test <strong>auto-submits</strong> when time runs out.</li>
+            <li>Test runs in <strong>fullscreen</strong>. Exiting starts a <strong>5-second</strong> countdown to auto-submit.</li>
+            <li><strong>Do not switch tabs.</strong> Switching tabs starts a <strong>2-second</strong> countdown.</li>
+            <li>Return before the countdown ends to cancel auto-submission.</li>
+            <li>Right panel shows palette with question status (answered, marked, etc.)</li>
+            <li>Marking: <strong>+5 correct</strong> / <strong>−1 wrong</strong> / <strong>0 unanswered</strong>.</li>
+        </ol>
 
-<h2 style="text-align:center; margin-bottom:20px;">Please read the instructions carefully</h2>
+        <div class="instr-legend" style="margin-top: 20px;">
+            <strong style="font-size:13px; display:block; margin-bottom:8px;">Status Legend:</strong>
+            <div class="leg-item"><div class="leg-dot" style="background:#22c55e;border:1px solid #16a34a;"></div>Answered</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#bae6fd;border:1px solid #0ea5e9;"></div>Marked</div>
+            <div class="leg-item"><div class="leg-dot" style="background:white;border:2px solid #1a6fc4;"></div>Current</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#fee2e2;border:1px solid #fca5a5;"></div>Unanswered</div>
+        </div>
 
-<div class="instruction-box">
-<h3 class="instruction-title">General Instructions</h3>
-<ol class="instruction-list">
-<li>Total duration of test is <strong>60 minutes</strong>. Timer shown in sidebar.</li>
-<li>Test <strong>auto-submits</strong> when the timer reaches zero.</li>
-<li>The test runs in <strong>fullscreen mode</strong>. Exiting fullscreen starts a <strong>5-second countdown</strong> to auto-submit.</li>
-<li><strong>Do not switch tabs</strong>. Switching tabs starts a <strong>2-second countdown</strong> to auto-submit.</li>
-<li>Return to fullscreen or the tab before the countdown ends to continue safely.</li>
-<li>Question palette on the right shows answered, marked, and current status.</li>
-<li>Each correct answer: <strong>+5 marks</strong>. Each wrong answer: <strong>−1 mark</strong>. Unanswered: <strong>0 marks</strong>.</li>
-</ol>
+        <label class="agree-row">
+            <input type="checkbox" id="agree-checkbox">
+            <span class="chk-box">✓</span>
+            I have read and understood all instructions
+        </label>
 
-<div style="margin-top:20px;">
-    <strong>Question Status Legend:</strong>
-    <div class="legend" style="margin-top:10px;">
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: #90ee90;"></div>
-            <span>Answered</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: #90D5FF;"></div>
-            <span>Marked</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="border: 1px solid var(--primary-color); background-color: white;"></div>
-            <span>Current</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: #FF474D; border: 1px solid #ddd;"></div>
-            <span>Unanswered</span>
-        </div>
+        <button id="start-test-btn" disabled>▶ Start Test</button>
     </div>
-</div>
-
-<label class="instruction-checkbox">
-    <input type="checkbox" id="agree-checkbox">
-    <span class="custom-check"></span>
-    I have read and understood all instructions
-</label>
-
-<br><br>
-
-<button id="start-test-btn" disabled style="
-background:#3f51b5; color:white; padding:12px 24px; border:none;
-border-radius:5px; font-size:18px; cursor:not-allowed; opacity:0.6;">
-Start Test
-</button>
 </div>
 </div>
 
@@ -1373,718 +761,232 @@ Start Test
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <div class="sidebar-header">
-        <div class="timer">01:00:00</div>
-    </div>
+    <div class="timer">01:00:00</div>
+    <div class="sidebar-brand">⚡ Thunderstudy CBT</div>
 
-    <div class="test-info">
-        <p><strong>Subject:</strong> Economic</p>
-        <p><strong>Questions:</strong> 50</p>
-        <p><strong>Duration:</strong> 60 minutes</p>
-        <p><strong>Marking:</strong> +5 / -1</p>
-        <p><strong>Section:</strong> <span id="current-section">Macro</span></p>
-    </div>
+    <div class="test-info-row"><strong>Subject:</strong> English — Syn/Ant</div>
+    <div class="test-info-row"><strong>Questions:</strong> 50</div>
+    <div class="test-info-row"><strong>Duration:</strong> 60 min</div>
+    <div class="test-info-row"><strong>Marking:</strong> +5 / −1</div>
+    <div class="test-info-row"><strong>Section:</strong> <span id="current-section">—</span></div>
 
-    <div class="question-palette">
-        <div class="palette-title">
-            <span>Questions</span>
-            <span id="answered-count">0/50</span>
-        </div>
-        <div class="palette-grid" id="question-palette-grid"></div>
-
-        <!-- Legend — switches between test mode and review mode -->
-        <div id="palette-legend" style="margin-top:12px; font-size:12px;">
-            <!-- filled by JS -->
-        </div>
+    <div class="palette-header">
+        <span>Questions</span>
+        <span class="palette-count" id="answered-count">0/50</span>
     </div>
+    <div class="palette-grid" id="question-palette-grid"></div>
+    <div id="palette-legend" style="margin-top:14px; font-size:12px;"></div>
 </div>
 
-<!-- Main Content -->
+<!-- Main -->
 <div class="main-content">
 
-<!-- Mobile-only top bar: timer left, name right -->
-<div class="mobile-top-bar">
-    <div class="mobile-timer-clone">01:00:00</div>
-    <div id="mobile-name-display">👤 Thunder</div>
-</div>
+    <div class="mobile-bar">
+        <div class="mob-timer">01:00:00</div>
+        <div id="mobile-name-display" style="background:linear-gradient(135deg,var(--primary),var(--accent));color:white;padding:6px 14px;border-radius:20px;font-weight:700;font-size:13px;">👤 Student</div>
+    </div>
 
-<div class="test-header">
-  <div id="user-name-display" style="
-    background: linear-gradient(135deg,#6a11cb,#2575fc);
-    color:white; padding:6px 14px; border-radius:20px;
-    font-weight:bold; font-size:14px;">
-👤 Thunder
-</div>
-<h2>Question <span id="current-q-number">1</span>/50</h2>
-<div class="progress-container">
-<div class="progress-bar">
-<div class="progress" id="test-progress"></div>
-</div>
-<div class="progress-text">
-<span>Progress &nbsp;</span>
-<span id="progress-percent">0%</span>
-</div>
-</div>
-</div>
+    <div class="test-header">
+        <div id="user-name-display" class="user-badge">👤 Student</div>
+        <div class="q-counter">Q <span id="current-q-number">1</span>/50</div>
+        <div class="progress-wrap">
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="test-progress"></div></div>
+            <div class="progress-label" id="progress-percent">0%</div>
+        </div>
+    </div>
 
-<div class="question-container">
-<div class="question-number">Question <span id="q-number">1</span></div>
-<div class="question-text" id="question-text"></div>
-<div class="options" id="options-container"></div>
-<div class="navigation-btns">
-<button class="btn btn-outline" id="prev-btn">&#8592; Previous</button>
-<div>
-<button class="mark-btn" id="mark-btn">Mark for Review</button>
-<button class="btn btn-primary" id="next-btn">Next &#8594;</button>
-</div>
-</div>
-</div>
+    <div class="question-card">
+        <div class="q-num-tag">Question <span id="q-number">1</span></div>
+        <div class="section-badge" id="section-badge">Reading Comprehension</div>
+        <div class="q-text" id="question-text"></div>
+        <div id="options-container"></div>
 
-<div class="submit-section" style="
-    display: flex; justify-content: space-between; align-items: center;
-    width: 100%; max-width: 620px; margin: 24px auto; gap: 14px; flex-wrap: wrap;">
+        <div class="nav-row">
+            <button class="nav-btn" id="prev-btn">← Previous</button>
+            <div style="display:flex;gap:10px;align-items:center;">
+                <button class="mark-btn-q" id="mark-btn">🔖 Mark</button>
+                <button class="next-btn" id="next-btn">Next →</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- Join Telegram -->
-    <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn join-btn">
-        ⚡ Join Thunder
-    </a>
+    <div class="submit-row" id="submit-row-before">
+        <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn fancy-tg">⚡ Join Thunder</a>
+        <button class="fancy-btn fancy-submit" id="submit-test-btn">✅ Submit Test</button>
+    </div>
 
-    <!-- Submit Test -->
-    <button class="fancy-btn submit-fancy-btn" id="submit-test-btn">
-        ✅ Submit Test
-    </button>
+    <!-- Post-submit action row (hidden until submitted) -->
+    <div class="submit-row" id="submit-row-after" style="display:none;">
+        <a href="https://t.me/thunderstudy_official" target="_blank" class="fancy-btn fancy-tg" style="flex:1;max-width:180px;">⚡ Join Thunder</a>
+        <button class="fancy-btn fancy-pdf" id="pdf-action-btn" style="flex:1;max-width:180px;">📄 Download PDF</button>
+        <button class="fancy-btn fancy-result" id="result-action-btn" style="flex:1;max-width:180px;">📊 Result</button>
+    </div>
+
+    <!-- Stream Picker Popup -->
+    <div id="stream-picker-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999998;justify-content:center;align-items:center;">
+        <div id="stream-picker-box" style="background:white;border-radius:20px;padding:32px 28px;width:90%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:modalIn 0.3s ease;text-align:center;position:relative;">
+            <button onclick="document.getElementById('stream-picker-overlay').style.display='none'" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:#6b8ab5;">×</button>
+            <div style="font-size:36px;margin-bottom:10px;">📊</div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:#1a6fc4;margin-bottom:6px;">View Previous Results</h3>
+            <p style="font-size:13px;color:#6b8ab5;margin-bottom:22px;">Select your stream to view results</p>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+                <a href="https://commercesehoga.github.io/commerce/bst/result.html" target="_blank" class="stream-btn" style="background:linear-gradient(135deg,#1a6fc4,#0ea5e9);">
+                    🏪 Commerce
+                </a>
+                <a href="https://commercesehoga.github.io/science/result.html" target="_blank" class="stream-btn" style="background:linear-gradient(135deg,#059669,#0d9488);">
+                    🔬 Science
+                </a>
+                <a href="https://commercesehoga.github.io/humanities/result.html" target="_blank" class="stream-btn" style="background:linear-gradient(135deg,#7c3aed,#a855f7);">
+                    📚 Humanities
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="test-footer">
+        <p>© 2025 Thunderstudy. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="https://commercesehoga.blogspot.com/2026/03/business-studies-cuet-cbt-mock-test-free.html" target="_blank" class="footer-link fl-purple">📚 More Mocks</a>
+            <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-link fl-green">🌐 Website</a>
+            <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-link fl-red">🚨 Report Error</a>
+        </div>
+    </footer>
 </div>
-
-<footer style="background: linear-gradient(135deg,#1a1a2e,#16213e); color: #e0e0e0; text-align: center; padding: 22px 16px; margin-top: 10px;">
-   <p style="font-size:13px; color:#aaa; margin-bottom:14px;">© 2025 Thunder. All Rights Reserved.</p>
-
-<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:14px;">
-    <a href="https://commercesehoga.blogspot.com/2026/03/economic-cuet-cbt-mock-test-free.html" target="_blank" class="footer-btn more-btn">
-        📚 More Mock
-    </a>
-    <a href="https://commercesehoga.blogspot.com/" target="_blank" class="footer-btn back-btn">
-        🌐 Back To Website
-    </a>
-    <a href="https://t.me/mindmaster_robot" target="_blank" class="footer-btn report-btn">
-        🚨 Report Error
-    </a>
-</div>
-</footer>
 
 <!-- Results Modal -->
 <div class="modal" id="results-modal">
 <div class="modal-content">
-<div class="modal-header">
-<h2>Test Results</h2>
-<button class="close-btn" id="close-modal">×</button>
-</div>
-<div class="result-stats">
-<div class="stat-card">
-<h3>Correct Answers</h3>
-<p class="correct-stat" id="correct-answers">0</p>
-</div>
-<div class="stat-card">
-<h3>Incorrect Answers</h3>
-<p class="incorrect-stat" id="incorrect-answers">0</p>
-</div>
-<div class="stat-card">
-<h3>Unanswered</h3>
-<p class="neutral-stat" id="unanswered">50</p>
-</div>
-<div class="stat-card">
-<h3>Total Score</h3>
-<p class="score-stat" id="total-score">0</p>
-</div>
-</div>
-<div class="detailed-results">
-<h3>Detailed Analysis</h3>
-<p>Percentage: <span id="percentage">0</span>%</p>
-<p>Accuracy: <span id="accuracy">0</span>%</p>
-</div>
-<div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
-<button class="btn btn-secondary review-btn" id="review-btn" style="flex:1; margin-top:0;">Review Answers</button>
-<button class="btn pdf-download-btn" id="download-pdf-btn" style="flex:1;">📄 Download PDF</button>
-</div>
+    <div class="modal-head">
+        <h2>🏆 Test Results</h2>
+        <button class="close-x" id="close-modal">×</button>
+    </div>
+    <div class="stats-grid">
+        <div class="stat-tile"><h4>Correct</h4><p class="stat-correct" id="correct-answers">0</p></div>
+        <div class="stat-tile"><h4>Wrong</h4><p class="stat-wrong" id="incorrect-answers">0</p></div>
+        <div class="stat-tile"><h4>Unanswered</h4><p class="stat-neutral" id="unanswered">50</p></div>
+        <div class="stat-tile"><h4>Score</h4><p class="stat-score" id="total-score">0</p></div>
+    </div>
+    <div class="analysis">
+        Percentage: <strong><span id="percentage">0</span>%</strong> &nbsp;|&nbsp;
+        Accuracy: <strong><span id="accuracy">0</span>%</strong>
+    </div>
+    <div class="modal-btns">
+        <button class="modal-btn mb-review" id="review-btn">👁 Review Answers</button>
+        <button class="modal-btn mb-pdf" id="download-pdf-btn">📄 Download PDF</button>
+        <button class="modal-btn mb-result" id="modal-result-btn" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;box-shadow:0 4px 14px rgba(124,58,237,0.4);">📊 Result</button>
+    </div>
 </div>
 </div>
 
-</div><!-- end main-content -->
-</div><!-- end test-screen -->
+</div>
+</div>
+
+<div id="pdf-print-area"></div>
 
 <script>
+/* ============================================================
+   MOCK TEST DATA — English Chapter 1
+   ============================================================ */
 const mockTest = {
-    title: "BST Mock",
+    title: "English — Synonyms & Antonyms",
     questions: [
-{
-id: 1,
-section: "Management Basics",
-text: "What is the primary objective of management?",
-options: { a: "To maximize working hours", b: "Achieving goals effectively and efficiently", c: "Completing tasks randomly", d: "Only increasing sales" },
-correctAnswer: "b",
-explanation: "Management focuses on achieving goals with effectiveness and efficiency.",
-marked: false,
-userAnswer: null
-},
-{
-id: 2,
-section: "Management Basics",
-text: "In the above flow diagram, which function ensures that actual performance matches planned performance?",
-image: "https://www.slideteam.net/media/catalog/product/cache/1280x720/p/r/principles_of_management_planning_organizing_staffing_directing_controlling_Slide01.jpg", // 👈 image here
-options: { a: "Planning", b: "Directing", c: "controlling", d: "Staffing" },
-correctAnswer: "c",
-explanation: "Controlling ensures that what was planned is actually achieved",
-marked: false,
-userAnswer: null
-},
-{
-id: 3,
-section: "Management Basics",
-text: "According to the text, what is the role of a manager?",
-options: { a: "To do all the work manually", b: "To stand, observe, and get work done by others", c: "To only count the money", d: "To ignore the main goal" },
-correctAnswer: "b",
-explanation: "Managers supervise and get work done through others.",
-marked: false,
-userAnswer: null
-},
-{
-id: 4,
-section: "Management Basics",
-text: "What does the term \"effectively\" mean in the context of management?",
-options: { a: "Spending minimum money", b: "Completing the work on time", c: "Using the latest technology", d: "Hiring more employees" },
-correctAnswer: "b",
-explanation: "Effectiveness means completing tasks on time.",
-marked: false,
-userAnswer: null
-},
-{
-id: 5,
-section: "Management Basics",
-text: "What does the term \"efficiently\" refer to?",
-options: { a: "Optimum utilization of resources", b: "Finishing a task late", c: "Ignoring costs", d: "Making mistakes" },
-correctAnswer: "a",
-explanation: "Efficiency refers to best use of resources.",
-marked: false,
-userAnswer: null
-},
-{
-id: 6,
-section: "Management Basics",
-text: "If a manager completes a task on time but exceeds budget, they are:",
-options: { a: "Effective and Efficient", b: "Efficient but not Effective", c: "Effective but not Efficient", d: "Neither" },
-correctAnswer: "c",
-explanation: "Time met = effective, cost exceeded = inefficient.",
-marked: false,
-userAnswer: null
-},
-{
-id: 7,
-section: "Management Basics",
-text: "Management being required everywhere is called:",
-options: { a: "Intangible", b: "Dynamic", c: "Pervasive", d: "Continuous" },
-correctAnswer: "c",
-explanation: "Pervasive means present everywhere.",
-marked: false,
-userAnswer: null
-},
-{
-id: 8,
-section: "Management Basics",
-text: "Management is ________ because it cannot be seen.",
-options: { a: "Tangible", b: "Intangible", c: "Heavy", d: "Visible" },
-correctAnswer: "b",
-explanation: "It is felt through results, not seen.",
-marked: false,
-userAnswer: null
-},
-{
-id: 9,
-section: "Management Basics",
-text: "Management is called dynamic because it:",
-options: { a: "Never changes", b: "Adapts to situations", c: "Is rigid", d: "Is fixed" },
-correctAnswer: "b",
-explanation: "Management adapts to changing conditions.",
-marked: false,
-userAnswer: null
-},
-{
-id: 10,
-section: "Management Basics",
-text: "Management is a continuous process because:",
-options: { a: "Done once", b: "Done daily", c: "Temporary", d: "Optional" },
-correctAnswer: "b",
-explanation: "Management functions are ongoing.",
-marked: false,
-userAnswer: null
-},
-{
-id: 11,
-section: "Management Basics",
-text: "Proper management requires:",
-options: { a: "Efficiency and Effectiveness", b: "Time and Space", c: "Cost and Price", d: "Magic" },
-correctAnswer: "a",
-explanation: "Both are essential for success.",
-marked: false,
-userAnswer: null
-},
-{
-id: 12,
-section: "Management Basics",
-text: "Management is multidimensional. Its dimensions are:",
-options: { a: "Work, Play, Sleep", b: "People, Work, Operations", c: "Planning, Staffing, Directing", d: "Profit, Growth" },
-correctAnswer: "b",
-explanation: "These are the three key dimensions.",
-marked: false,
-userAnswer: null
-},
-{
-id: 13,
-section: "Management Basics",
-text: "Managing employees' mindset is:",
-options: { a: "Work", b: "Operations", c: "Money", d: "People" },
-correctAnswer: "d",
-explanation: "It relates to management of people.",
-marked: false,
-userAnswer: null
-},
-{
-id: 14,
-section: "Management Basics",
-text: "Assigning tasks is:",
-options: { a: "Time", b: "People", c: "Work", d: "Operations" },
-correctAnswer: "c",
-explanation: "It is management of work.",
-marked: false,
-userAnswer: null
-},
-{
-id: 15,
-section: "Management Basics",
-text: "Ensuring work execution is:",
-options: { a: "People", b: "Work", c: "Operations", d: "Finance" },
-correctAnswer: "c",
-explanation: "Operations ensure execution.",
-marked: false,
-userAnswer: null
-},
-{
-id: 16,
-section: "Management Basics",
-text: "Management is composite because it involves:",
-options: { a: "Series of steps", b: "Single step", c: "Formula", d: "Contract" },
-correctAnswer: "a",
-explanation: "Multiple steps form management.",
-marked: false,
-userAnswer: null
-},
-{
-id: 17,
-section: "Management Basics",
-text: "Correct sequence of management functions:",
-options: { a: "Controlling first", b: "Planning, Organizing, Staffing, Directing, Controlling", c: "Random", d: "Reverse order" },
-correctAnswer: "b",
-explanation: "Standard sequence of functions.",
-marked: false,
-userAnswer: null
-},
-{
-id: 18,
-section: "Management Basics",
-text: "Checking output vs plan is:",
-options: { a: "Planning", b: "Organizing", c: "Staffing", d: "Controlling" },
-correctAnswer: "d",
-explanation: "Controlling compares results.",
-marked: false,
-userAnswer: null
-},
-{
-id: 19,
-section: "Management Basics",
-text: "If output is less than planned, process returns to:",
-options: { a: "Shutdown", b: "Manager fired", c: "Planning", d: "Workers leave" },
-correctAnswer: "c",
-explanation: "Corrections start from planning.",
-marked: false,
-userAnswer: null
-},
-{
-id: 20,
-section: "Management Basics",
-text: "Management has how many objectives?",
-options: { a: "1", b: "2", c: "3", d: "4" },
-correctAnswer: "c",
-explanation: "Organizational, Social, Personal.",
-marked: false,
-userAnswer: null
-},
-{
-id: 21,
-section: "Management Basics",
-text: "Organizational objectives are:",
-options: { a: "Promotion", b: "Survival, Profit, Growth", c: "Health", d: "Sales" },
-correctAnswer: "b",
-explanation: "These ensure long-term success.",
-marked: false,
-userAnswer: null
-},
-{
-id: 22,
-section: "Management Basics",
-text: "Free product launch is example of:",
-options: { a: "Profit", b: "Survival", c: "Growth", d: "Social" },
-correctAnswer: "b",
-explanation: "Used to enter market.",
-marked: false,
-userAnswer: null
-},
-{
-id: 23,
-section: "Management Basics",
-text: "Expansion indicates:",
-options: { a: "Growth", b: "Survival", c: "Profit", d: "Personal" },
-correctAnswer: "a",
-explanation: "Growth increases scale.",
-marked: false,
-userAnswer: null
-},
-{
-id: 24,
-section: "Management Basics",
-text: "Good quality products reflect:",
-options: { a: "Organizational", b: "Personal", c: "Social", d: "Political" },
-correctAnswer: "c",
-explanation: "It benefits society.",
-marked: false,
-userAnswer: null
-},
-{
-id: 25,
-section: "Management Basics",
-text: "Environment-friendly production is:",
-options: { a: "Organizational", b: "Social", c: "Personal", d: "Legal" },
-correctAnswer: "b",
-explanation: "It fulfills social responsibility.",
-marked: false,
-userAnswer: null
-},
-{
-id: 26,
-section: "Management Basics",
-text: "Fair salary is:",
-options: { a: "Social", b: "Personal", c: "Organizational", d: "National" },
-correctAnswer: "b",
-explanation: "It fulfills employee needs.",
-marked: false,
-userAnswer: null
-},
-{
-id: 27,
-section: "Management Basics",
-text: "Healthcare for employees is:",
-options: { a: "Social", b: "Personal", c: "Growth", d: "Survival" },
-correctAnswer: "b",
-explanation: "It meets personal objectives.",
-marked: false,
-userAnswer: null
-},
-{
-id: 28,
-section: "Management Basics",
-text: "Manager role in crisis:",
-options: { a: "Fire staff", b: "Close firm", c: "Maintain stability", d: "Hide" },
-correctAnswer: "c",
-explanation: "Managers stabilize organizations.",
-marked: false,
-userAnswer: null
-},
-{
-id: 29,
-section: "Management Basics",
-text: "Management reduces:",
-options: { a: "Wastage", b: "Availability", c: "Quality", d: "Storage" },
-correctAnswer: "a",
-explanation: "Efficient management minimizes waste.",
-marked: false,
-userAnswer: null
-},
-{
-id: 30,
-section: "Management Basics",
-text: "Harmony avoids clashes of:",
-options: { a: "Uniforms", b: "Mindsets", c: "Lunchboxes", d: "Chairs" },
-correctAnswer: "b",
-explanation: "Different thinking causes conflict.",
-marked: false,
-userAnswer: null
-},
-{
-id: 31,
-section: "Management Basics",
-text: "Management development benefits:",
-options: { a: "Owner", b: "Society", c: "Government", d: "Competitors" },
-correctAnswer: "b",
-explanation: "All objectives lead to social welfare.",
-marked: false,
-userAnswer: null
-},
-{
-id: 32,
-section: "Management Basics",
-text: "Management levels:",
-options: { a: "2", b: "3", c: "4", d: "5" },
-correctAnswer: "b",
-explanation: "Top, Middle, Lower.",
-marked: false,
-userAnswer: null
-},
-{
-id: 33,
-section: "Management Basics",
-text: "Face of organization:",
-options: { a: "Top", b: "Middle", c: "Lower", d: "Workers" },
-correctAnswer: "a",
-explanation: "Top level represents organization.",
-marked: false,
-userAnswer: null
-},
-{
-id: 34,
-section: "Management Basics",
-text: "CEO belongs to:",
-options: { a: "Lower", b: "Middle", c: "Top", d: "None" },
-correctAnswer: "c",
-explanation: "Top-level executives.",
-marked: false,
-userAnswer: null
-},
-{
-id: 35,
-section: "Management Basics",
-text: "Policy making is:",
-options: { a: "Lower", b: "Workers", c: "Middle", d: "Top" },
-correctAnswer: "d",
-explanation: "Top level sets policies.",
-marked: false,
-userAnswer: null
-},
-{
-id: 36,
-section: "Management Basics",
-text: "External connection is by:",
-options: { a: "Middle", b: "Top", c: "Supervisor", d: "Worker" },
-correctAnswer: "b",
-explanation: "Top level interacts externally.",
-marked: false,
-userAnswer: null
-},
-{
-id: 37,
-section: "Management Basics",
-text: "Link between levels:",
-options: { a: "Supervisor", b: "Middle", c: "Top", d: "Worker" },
-correctAnswer: "b",
-explanation: "Middle connects top and lower.",
-marked: false,
-userAnswer: null
-},
-{
-id: 38,
-section: "Management Basics",
-text: "Department heads:",
-options: { a: "Top", b: "Middle", c: "Lower", d: "Board" },
-correctAnswer: "b",
-explanation: "They belong to middle level.",
-marked: false,
-userAnswer: null
-},
-{
-id: 39,
-section: "Management Basics",
-text: "Convert policies to plans:",
-options: { a: "Lower", b: "Middle", c: "Supervisor", d: "Workers" },
-correctAnswer: "b",
-explanation: "Middle level implements plans.",
-marked: false,
-userAnswer: null
-},
-{
-id: 40,
-section: "Management Basics",
-text: "Supervisors belong to:",
-options: { a: "Top", b: "Middle", c: "Lower", d: "Executive" },
-correctAnswer: "c",
-explanation: "They are first-line managers.",
-marked: false,
-userAnswer: null
-},
-{
-id: 41,
-section: "Management Basics",
-text: "Assign daily work:",
-options: { a: "Top", b: "Middle", c: "Lower", d: "Board" },
-correctAnswer: "c",
-explanation: "Lower level directly manages workers.",
-marked: false,
-userAnswer: null
-},
-{
-id: 42,
-section: "Management Basics",
-text: "Workers report first to:",
-options: { a: "CEO", b: "Top", c: "Middle", d: "Supervisor" },
-correctAnswer: "d",
-explanation: "Supervisors are first contact.",
-marked: false,
-userAnswer: null
-},
-{
-id: 43,
-section: "Management Basics",
-text: "Quality responsibility:",
-options: { a: "Top", b: "Middle", c: "Lower", d: "Customers" },
-correctAnswer: "c",
-explanation: "Lower level ensures quality.",
-marked: false,
-userAnswer: null
-},
-{
-id: 44,
-section: "Management Basics",
-text: "Management as creativity is:",
-options: { a: "Science", b: "Art", c: "Profession", d: "Illusion" },
-correctAnswer: "b",
-explanation: "Requires personal skills.",
-marked: false,
-userAnswer: null
-},
-{
-id: 45,
-section: "Management Basics",
-text: "Management as principles is:",
-options: { a: "Science", b: "Art", c: "Magic", d: "Game" },
-correctAnswer: "a",
-explanation: "Based on tested principles.",
-marked: false,
-userAnswer: null
-},
-{
-id: 46,
-section: "Management Basics",
-text: "Management not profession because:",
-options: { a: "Low pay", b: "No strict entry", c: "No skills", d: "No college" },
-correctAnswer: "b",
-explanation: "No regulatory body or restriction.",
-marked: false,
-userAnswer: null
-},
-{
-id: 47,
-section: "Management Basics",
-text: "Bringing harmony is:",
-options: { a: "Controlling", b: "Staffing", c: "Coordination", d: "Organizing" },
-correctAnswer: "c",
-explanation: "Coordination integrates efforts.",
-marked: false,
-userAnswer: null
-},
-{
-id: 48,
-section: "Management Basics",
-text: "Coordination is essence of:",
-options: { a: "Option", b: "Burden", c: "Waste", d: "Management" },
-correctAnswer: "d",
-explanation: "It binds all functions together.",
-marked: false,
-userAnswer: null
-},
-{
-id: 49,
-section: "Management Basics",
-text: "Coordination is:",
-options: { a: "Continuous", b: "Temporary", c: "Unnecessary", d: "One-time" },
-correctAnswer: "a",
-explanation: "Needed at all times.",
-marked: false,
-userAnswer: null
-},
-{
-id: 50,
-section: "Management Basics",
-text: "Need for coordination increases with:",
-options: { a: "Decrease size", b: "Disappearance", c: "No change", d: "Growth" },
-correctAnswer: "d",
-explanation: "More complexity needs more coordination.",
-marked: false,
-userAnswer: null
-}
-],
+{id:1,section:"Synonyms",text:"Choose the SYNONYM of: ABUNDANT",options:{a:"Scarce",b:"Plentiful",c:"Barren",d:"Dull"},correctAnswer:"b",explanation:"Abundant means existing in large quantities. Its synonym is Plentiful.",marked:false,userAnswer:""},
+{id:2,section:"Synonyms",text:"Choose the SYNONYM of: AUDACIOUS",options:{a:"Timid",b:"Cowardly",c:"Bold",d:"Gentle"},correctAnswer:"c",explanation:"Audacious means willing to take surprisingly bold risks. Synonym: Bold.",marked:false,userAnswer:""},
+{id:3,section:"Synonyms",text:"Choose the SYNONYM of: BENIGN",options:{a:"Harmful",b:"Hostile",c:"Gentle",d:"Cruel"},correctAnswer:"c",explanation:"Benign means gentle and kindly. Synonym: Gentle.",marked:false,userAnswer:""},
+{id:4,section:"Synonyms",text:"Choose the SYNONYM of: CANDID",options:{a:"Dishonest",b:"Secretive",c:"Frank",d:"Reserved"},correctAnswer:"c",explanation:"Candid means truthful and straightforward. Synonym: Frank.",marked:false,userAnswer:""},
+{id:5,section:"Synonyms",text:"Choose the SYNONYM of: DILIGENT",options:{a:"Lazy",b:"Careless",c:"Hardworking",d:"Sluggish"},correctAnswer:"c",explanation:"Diligent means having or showing care and conscientiousness. Synonym: Hardworking.",marked:false,userAnswer:""},
+{id:6,section:"Synonyms",text:"Choose the SYNONYM of: ELOQUENT",options:{a:"Inarticulate",b:"Fluent",c:"Mumbling",d:"Silent"},correctAnswer:"b",explanation:"Eloquent means fluent or persuasive in speaking. Synonym: Fluent.",marked:false,userAnswer:""},
+{id:7,section:"Synonyms",text:"Choose the SYNONYM of: FEROCIOUS",options:{a:"Calm",b:"Mild",c:"Fierce",d:"Gentle"},correctAnswer:"c",explanation:"Ferocious means savagely fierce, cruel, or violent. Synonym: Fierce.",marked:false,userAnswer:""},
+{id:8,section:"Synonyms",text:"Choose the SYNONYM of: GLOOMY",options:{a:"Bright",b:"Cheerful",c:"Dark",d:"Joyful"},correctAnswer:"c",explanation:"Gloomy means dark or poorly lit, causing sadness. Synonym: Dark.",marked:false,userAnswer:""},
+{id:9,section:"Synonyms",text:"Choose the SYNONYM of: HUMBLE",options:{a:"Arrogant",b:"Proud",c:"Modest",d:"Boastful"},correctAnswer:"c",explanation:"Humble means having a modest opinion of oneself. Synonym: Modest.",marked:false,userAnswer:""},
+{id:10,section:"Synonyms",text:"Choose the SYNONYM of: INQUISITIVE",options:{a:"Indifferent",b:"Curious",c:"Uninterested",d:"Bored"},correctAnswer:"b",explanation:"Inquisitive means having a desire to learn or know. Synonym: Curious.",marked:false,userAnswer:""},
+{id:11,section:"Synonyms",text:"Choose the SYNONYM of: JUBILANT",options:{a:"Sad",b:"Mournful",c:"Elated",d:"Gloomy"},correctAnswer:"c",explanation:"Jubilant means feeling or expressing great happiness. Synonym: Elated.",marked:false,userAnswer:""},
+{id:12,section:"Synonyms",text:"Choose the SYNONYM of: KEEN",options:{a:"Dull",b:"Eager",c:"Reluctant",d:"Lazy"},correctAnswer:"b",explanation:"Keen means having a strong interest or enthusiasm. Synonym: Eager.",marked:false,userAnswer:""},
+{id:13,section:"Synonyms",text:"Choose the SYNONYM of: LETHARGIC",options:{a:"Energetic",b:"Active",c:"Sluggish",d:"Lively"},correctAnswer:"c",explanation:"Lethargic means affected by lethargy; sluggish and apathetic. Synonym: Sluggish.",marked:false,userAnswer:""},
+{id:14,section:"Synonyms",text:"Choose the SYNONYM of: METICULOUS",options:{a:"Careless",b:"Sloppy",c:"Thorough",d:"Hasty"},correctAnswer:"c",explanation:"Meticulous means showing great attention to detail. Synonym: Thorough.",marked:false,userAnswer:""},
+{id:15,section:"Synonyms",text:"Choose the SYNONYM of: NOTORIOUS",options:{a:"Unknown",b:"Obscure",c:"Infamous",d:"Admired"},correctAnswer:"c",explanation:"Notorious means famous or well known, typically for some bad quality. Synonym: Infamous.",marked:false,userAnswer:""},
+{id:16,section:"Synonyms",text:"Choose the SYNONYM of: OBSOLETE",options:{a:"Modern",b:"Current",c:"Outdated",d:"Updated"},correctAnswer:"c",explanation:"Obsolete means no longer produced or used; out of date. Synonym: Outdated.",marked:false,userAnswer:""},
+{id:17,section:"Synonyms",text:"Choose the SYNONYM of: PRUDENT",options:{a:"Reckless",b:"Careless",c:"Wise",d:"Impulsive"},correctAnswer:"c",explanation:"Prudent means acting with care and thought for the future. Synonym: Wise.",marked:false,userAnswer:""},
+{id:18,section:"Synonyms",text:"Choose the SYNONYM of: RADIANT",options:{a:"Dim",b:"Dull",c:"Glowing",d:"Dark"},correctAnswer:"c",explanation:"Radiant means sending out light; shining or glowing brightly. Synonym: Glowing.",marked:false,userAnswer:""},
+{id:19,section:"Synonyms",text:"Choose the SYNONYM of: SERENE",options:{a:"Turbulent",b:"Anxious",c:"Calm",d:"Troubled"},correctAnswer:"c",explanation:"Serene means calm, peaceful, and untroubled. Synonym: Calm.",marked:false,userAnswer:""},
+{id:20,section:"Synonyms",text:"Choose the SYNONYM of: TENACIOUS",options:{a:"Weak",b:"Persistent",c:"Feeble",d:"Yielding"},correctAnswer:"b",explanation:"Tenacious means tending to keep a firm hold; persistent. Synonym: Persistent.",marked:false,userAnswer:""},
+{id:21,section:"Synonyms",text:"Choose the SYNONYM of: UBIQUITOUS",options:{a:"Rare",b:"Scarce",c:"Omnipresent",d:"Hidden"},correctAnswer:"c",explanation:"Ubiquitous means present, appearing, or found everywhere. Synonym: Omnipresent.",marked:false,userAnswer:""},
+{id:22,section:"Synonyms",text:"Choose the SYNONYM of: VIVID",options:{a:"Faded",b:"Bleak",c:"Bright",d:"Dim"},correctAnswer:"c",explanation:"Vivid means producing powerful feelings or strong, clear images. Synonym: Bright.",marked:false,userAnswer:""},
+{id:23,section:"Synonyms",text:"Choose the SYNONYM of: WARY",options:{a:"Careless",b:"Reckless",c:"Cautious",d:"Trusting"},correctAnswer:"c",explanation:"Wary means feeling or showing caution about possible dangers. Synonym: Cautious.",marked:false,userAnswer:""},
+{id:24,section:"Synonyms",text:"Choose the SYNONYM of: ZEALOUS",options:{a:"Indifferent",b:"Apathetic",c:"Enthusiastic",d:"Bored"},correctAnswer:"c",explanation:"Zealous means having or showing zeal (great energy or enthusiasm). Synonym: Enthusiastic.",marked:false,userAnswer:""},
+{id:25,section:"Synonyms",text:"Choose the SYNONYM of: APPREHENSIVE",options:{a:"Confident",b:"Fearful",c:"Brave",d:"Relaxed"},correctAnswer:"b",explanation:"Apprehensive means anxious or fearful that something bad will happen. Synonym: Fearful.",marked:false,userAnswer:""},
+{id:26,section:"Antonyms",text:"Choose the ANTONYM of: ANCIENT",options:{a:"Old",b:"Aged",c:"Modern",d:"Historical"},correctAnswer:"c",explanation:"Ancient means very old. Its antonym is Modern (belonging to the present or recent times).",marked:false,userAnswer:""},
+{id:27,section:"Antonyms",text:"Choose the ANTONYM of: BOLD",options:{a:"Daring",b:"Brave",c:"Timid",d:"Confident"},correctAnswer:"c",explanation:"Bold means confident and courageous. Antonym: Timid (showing lack of courage).",marked:false,userAnswer:""},
+{id:28,section:"Antonyms",text:"Choose the ANTONYM of: CONCEAL",options:{a:"Hide",b:"Cover",c:"Reveal",d:"Bury"},correctAnswer:"c",explanation:"Conceal means to keep from sight. Antonym: Reveal (to make known or visible).",marked:false,userAnswer:""},
+{id:29,section:"Antonyms",text:"Choose the ANTONYM of: DILIGENT",options:{a:"Careful",b:"Lazy",c:"Thorough",d:"Attentive"},correctAnswer:"b",explanation:"Diligent means hardworking. Antonym: Lazy (unwilling to work or use energy).",marked:false,userAnswer:""},
+{id:30,section:"Antonyms",text:"Choose the ANTONYM of: EXPAND",options:{a:"Grow",b:"Enlarge",c:"Shrink",d:"Stretch"},correctAnswer:"c",explanation:"Expand means to become larger. Antonym: Shrink (to become smaller).",marked:false,userAnswer:""},
+{id:31,section:"Antonyms",text:"Choose the ANTONYM of: FRUGAL",options:{a:"Thrifty",b:"Economical",c:"Extravagant",d:"Saving"},correctAnswer:"c",explanation:"Frugal means sparing or economical. Antonym: Extravagant (lacking restraint in spending).",marked:false,userAnswer:""},
+{id:32,section:"Antonyms",text:"Choose the ANTONYM of: GENUINE",options:{a:"Real",b:"Authentic",c:"Fake",d:"True"},correctAnswer:"c",explanation:"Genuine means truly what something is said to be. Antonym: Fake (not genuine).",marked:false,userAnswer:""},
+{id:33,section:"Antonyms",text:"Choose the ANTONYM of: HARMONY",options:{a:"Peace",b:"Unity",c:"Discord",d:"Agreement"},correctAnswer:"c",explanation:"Harmony means agreement or concord. Antonym: Discord (disagreement between people).",marked:false,userAnswer:""},
+{id:34,section:"Antonyms",text:"Choose the ANTONYM of: INNOCENT",options:{a:"Pure",b:"Guiltless",c:"Guilty",d:"Blameless"},correctAnswer:"c",explanation:"Innocent means not guilty. Antonym: Guilty (having done wrong).",marked:false,userAnswer:""},
+{id:35,section:"Antonyms",text:"Choose the ANTONYM of: JOVIAL",options:{a:"Cheerful",b:"Merry",c:"Gloomy",d:"Jolly"},correctAnswer:"c",explanation:"Jovial means cheerful and friendly. Antonym: Gloomy (sad and depressed).",marked:false,userAnswer:""},
+{id:36,section:"Antonyms",text:"Choose the ANTONYM of: KNOWLEDGE",options:{a:"Wisdom",b:"Intelligence",c:"Ignorance",d:"Learning"},correctAnswer:"c",explanation:"Knowledge means facts and information. Antonym: Ignorance (lack of knowledge).",marked:false,userAnswer:""},
+{id:37,section:"Antonyms",text:"Choose the ANTONYM of: LENIENT",options:{a:"Tolerant",b:"Easy",c:"Strict",d:"Mild"},correctAnswer:"c",explanation:"Lenient means more merciful or tolerant than expected. Antonym: Strict (demanding that rules be obeyed).",marked:false,userAnswer:""},
+{id:38,section:"Antonyms",text:"Choose the ANTONYM of: MAGNIFICENT",options:{a:"Grand",b:"Splendid",c:"Ordinary",d:"Majestic"},correctAnswer:"c",explanation:"Magnificent means impressively beautiful. Antonym: Ordinary (with no special or distinctive features).",marked:false,userAnswer:""},
+{id:39,section:"Antonyms",text:"Choose the ANTONYM of: NONCHALANT",options:{a:"Casual",b:"Indifferent",c:"Concerned",d:"Relaxed"},correctAnswer:"c",explanation:"Nonchalant means feeling or appearing casually calm. Antonym: Concerned (worried or anxious).",marked:false,userAnswer:""},
+{id:40,section:"Antonyms",text:"Choose the ANTONYM of: OPTIMISTIC",options:{a:"Hopeful",b:"Positive",c:"Pessimistic",d:"Confident"},correctAnswer:"c",explanation:"Optimistic means hopeful about the future. Antonym: Pessimistic (tending to see the worst aspect).",marked:false,userAnswer:""},
+{id:41,section:"Antonyms",text:"Choose the ANTONYM of: PRAISE",options:{a:"Applaud",b:"Commend",c:"Criticize",d:"Admire"},correctAnswer:"c",explanation:"Praise means to express approval or admiration. Antonym: Criticize (to point out faults).",marked:false,userAnswer:""},
+{id:42,section:"Antonyms",text:"Choose the ANTONYM of: QUESTION",options:{a:"Ask",b:"Inquire",c:"Answer",d:"Query"},correctAnswer:"c",explanation:"Question means to ask. Antonym: Answer (to say or write in response to a question).",marked:false,userAnswer:""},
+{id:43,section:"Antonyms",text:"Choose the ANTONYM of: ROUGH",options:{a:"Coarse",b:"Rugged",c:"Smooth",d:"Harsh"},correctAnswer:"c",explanation:"Rough means having an uneven surface. Antonym: Smooth (having an even and regular surface).",marked:false,userAnswer:""},
+{id:44,section:"Antonyms",text:"Choose the ANTONYM of: SORROW",options:{a:"Grief",b:"Misery",c:"Joy",d:"Sadness"},correctAnswer:"c",explanation:"Sorrow means a feeling of deep distress. Antonym: Joy (a feeling of great pleasure and happiness).",marked:false,userAnswer:""},
+{id:45,section:"Antonyms",text:"Choose the ANTONYM of: TRANSPARENT",options:{a:"Clear",b:"See-through",c:"Opaque",d:"Lucid"},correctAnswer:"c",explanation:"Transparent means allowing light to pass through. Antonym: Opaque (not able to be seen through).",marked:false,userAnswer:""},
+{id:46,section:"Antonyms",text:"Choose the ANTONYM of: UNITE",options:{a:"Join",b:"Merge",c:"Divide",d:"Connect"},correctAnswer:"c",explanation:"Unite means to come or bring together. Antonym: Divide (to separate into parts).",marked:false,userAnswer:""},
+{id:47,section:"Antonyms",text:"Choose the ANTONYM of: VICTORY",options:{a:"Triumph",b:"Success",c:"Defeat",d:"Win"},correctAnswer:"c",explanation:"Victory means success in a contest. Antonym: Defeat (an instance of being beaten).",marked:false,userAnswer:""},
+{id:48,section:"Antonyms",text:"Choose the ANTONYM of: WEALTH",options:{a:"Riches",b:"Prosperity",c:"Poverty",d:"Abundance"},correctAnswer:"c",explanation:"Wealth means a large amount of money or valuable possessions. Antonym: Poverty (the state of being poor).",marked:false,userAnswer:""},
+{id:49,section:"Antonyms",text:"Choose the ANTONYM of: XENIAL",options:{a:"Hospitable",b:"Friendly",c:"Hostile",d:"Welcoming"},correctAnswer:"c",explanation:"Xenial means hospitable, especially to strangers. Antonym: Hostile (unfriendly and aggressive).",marked:false,userAnswer:""},
+{id:50,section:"Antonyms",text:"Choose the ANTONYM of: ZEALOUS",options:{a:"Passionate",b:"Fervent",c:"Apathetic",d:"Eager"},correctAnswer:"c",explanation:"Zealous means very enthusiastic and devoted. Antonym: Apathetic (showing no interest or enthusiasm).",marked:false,userAnswer:""}
+    ],
     duration: 60 * 60,
     markingScheme: { correct: 5, incorrect: -1 }
 };
 
-// DOM Elements
-const timerElement = document.querySelector('.timer');
-const questionTextElement = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const questionNumberElement = document.getElementById('q-number');
-const currentQNumberElement = document.getElementById('current-q-number');
-const progressBar = document.getElementById('test-progress');
-const progressPercent = document.getElementById('progress-percent');
-const questionPaletteGrid = document.getElementById('question-palette-grid');
-const answeredCountElement = document.getElementById('answered-count');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const markBtn = document.getElementById('mark-btn');
-const submitTestBtn = document.getElementById('submit-test-btn');
-const resultsModal = document.getElementById('results-modal');
-const closeModalBtn = document.getElementById('close-modal');
-const correctAnswersElement = document.getElementById('correct-answers');
-const incorrectAnswersElement = document.getElementById('incorrect-answers');
-const unansweredElement = document.getElementById('unanswered');
-const totalScoreElement = document.getElementById('total-score');
-const percentageElement = document.getElementById('percentage');
-const accuracyElement = document.getElementById('accuracy');
-const reviewBtn = document.getElementById('review-btn');
-
+/* ============================================================
+   TEST ENGINE
+   ============================================================ */
 let currentQuestionIndex = 0;
 let timeLeft = mockTest.duration;
 let timer;
 let testSubmitted = false;
-let testStarted = false;   // true only after Start Test button clicked
+let testStarted = false;
+
+const timerEl = document.querySelector('.timer');
+const questionTextEl = document.getElementById('question-text');
+const optionsEl = document.getElementById('options-container');
+const qNumEl = document.getElementById('q-number');
+const curQNumEl = document.getElementById('current-q-number');
+const progressFill = document.getElementById('test-progress');
+const progressPct = document.getElementById('progress-percent');
+const paletteGrid = document.getElementById('question-palette-grid');
+const answeredCountEl = document.getElementById('answered-count');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const markBtn = document.getElementById('mark-btn');
+const submitBtn = document.getElementById('submit-test-btn');
+const modal = document.getElementById('results-modal');
+const closeModal = document.getElementById('close-modal');
+const reviewBtn = document.getElementById('review-btn');
 
 function initTest() {
-    renderQuestionPalette();
+    renderPalette();
     renderQuestion();
     startTimer();
     updateProgress();
     renderLegend(false);
-    prevBtn.addEventListener('click', goToPreviousQuestion);
-    nextBtn.addEventListener('click', goToNextQuestion);
-    markBtn.addEventListener('click', toggleMarkForReview);
-    submitTestBtn.addEventListener('click', confirmSubmit);
-    closeModalBtn.addEventListener('click', closeResultsModal);
-    reviewBtn.addEventListener('click', reviewAnswers);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); } });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); } });
+    markBtn.addEventListener('click', toggleMark);
+    submitBtn.addEventListener('click', () => { if (confirm('Submit the test?')) submitTest(); });
+    closeModal.addEventListener('click', () => modal.classList.remove('show'));
+    reviewBtn.addEventListener('click', () => { modal.classList.remove('show'); currentQuestionIndex = 0; renderQuestion(); });
     document.getElementById('download-pdf-btn').addEventListener('click', generatePDF);
-}
-
-function renderLegend(reviewMode) {
-    const leg = document.getElementById('palette-legend');
-    if (!leg) return;
-    if (reviewMode) {
-        leg.innerHTML = `
-        <div style="display:flex;flex-direction:column;gap:5px;">
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#22c55e;"></div><span>Correct</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#ef4444;"></div><span>Wrong</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#3b82f6;"></div><span>Not Answered</span></div>
-        </div>`;
-    } else {
-        leg.innerHTML = `
-        <div style="display:flex;flex-direction:column;gap:5px;">
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90ee90;"></div><span>Answered</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#90D5FF;"></div><span>Marked</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#FF474D;"></div><span>Unanswered</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #a185de;"></div><span>Current</span></div>
-        </div>`;
-    }
+    document.getElementById('modal-result-btn').addEventListener('click', () => { modal.classList.remove('show'); document.getElementById('stream-picker-overlay').style.display = 'flex'; });
+    document.getElementById('pdf-action-btn').addEventListener('click', generatePDF);
+    document.getElementById('result-action-btn').addEventListener('click', () => { document.getElementById('stream-picker-overlay').style.display = 'flex'; });
 }
 
 function startTimer() {
@@ -2093,222 +995,153 @@ function startTimer() {
         timeLeft--;
         updateTimerDisplay();
         if (timeLeft <= 0) { clearInterval(timer); submitTest(); }
-        if (timeLeft === 300) { alert('Only 5 minutes remaining!'); }
+        if (timeLeft === 300) alert('⚠️ Only 5 minutes remaining!');
     }, 1000);
 }
 
 function updateTimerDisplay() {
-    const hours = Math.floor(timeLeft / 3600);
-    const minutes = Math.floor((timeLeft % 3600) / 60);
-    const seconds = timeLeft % 60;
-    const timeStr = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-    timerElement.textContent = timeStr;
-    const mobileTimer = document.querySelector('.mobile-timer-clone');
-    if (mobileTimer) mobileTimer.textContent = timeStr;
+    const h = Math.floor(timeLeft / 3600);
+    const m = Math.floor((timeLeft % 3600) / 60);
+    const s = timeLeft % 60;
+    const str = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    timerEl.textContent = str;
+    const mob = document.querySelector('.mob-timer');
+    if (mob) mob.textContent = str;
 }
+function pad(n) { return String(n).padStart(2, '0'); }
 
 function renderQuestion() {
-    const question = mockTest.questions[currentQuestionIndex];
-    document.getElementById('current-section').textContent = question.section;
-questionTextElement.innerHTML = `
-    <div style="
-        display:inline-block;
-        background: linear-gradient(135deg,#6a11cb,#2575fc);
-        color:white;
-        padding:4px 12px;
-        border-radius:20px;
-        font-size:12px;
-        font-weight:600;
-        margin-bottom:8px;
-    ">
-        📘 ${question.section || "General"}
-    </div>
+    const q = mockTest.questions[currentQuestionIndex];
+    document.getElementById('current-section').textContent = q.section;
+    document.getElementById('section-badge').textContent = '📘 ' + q.section;
+    questionTextEl.textContent = q.text;
+    qNumEl.textContent = q.id;
+    curQNumEl.textContent = q.id;
+    optionsEl.innerHTML = '';
 
-    ${question.image ? `
-        <div style="margin:10px 0;">
-            <img src="${question.image}" 
-                 style="max-width:100%; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-        </div>
-    ` : ""}
-
-    <div style="margin-top:8px;">
-        ${question.text}
-    </div>
-`;
-questionNumberElement.textContent = question.id;
-    currentQNumberElement.textContent = question.id;
-    optionsContainer.innerHTML = '';
-
-    for (const [key, value] of Object.entries(question.options)) {
-        const optionDiv = document.createElement('div');
-        optionDiv.className = 'option';
-
-        // Apply states
+    for (const [key, val] of Object.entries(q.options)) {
+        const div = document.createElement('div');
+        div.className = 'option';
         if (testSubmitted) {
-            if (key === question.correctAnswer) {
-                optionDiv.classList.add('correct');
-            } else if (key === question.userAnswer && key !== question.correctAnswer) {
-                optionDiv.classList.add('incorrect');
-            }
+            if (key === q.correctAnswer) div.classList.add('correct');
+            else if (key === q.userAnswer) div.classList.add('incorrect');
         } else {
-            if (key === question.userAnswer) {
-                optionDiv.classList.add('selected');
-            }
+            if (key === q.userAnswer) div.classList.add('selected');
         }
-
-        // Click handler on the whole box
         if (!testSubmitted) {
-            optionDiv.addEventListener('click', () => {
-                // Remove selected from all
-                optionsContainer.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-                optionDiv.classList.add('selected');
-                selectAnswer(key);
+            div.addEventListener('click', () => {
+                optionsEl.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                div.classList.add('selected');
+                q.userAnswer = key;
+                updatePalette();
+                updateProgress();
             });
         }
-
-        // Hidden radio (for state tracking)
-        const input = document.createElement('input');
-        input.type = 'radio';
-        input.name = 'question-option';
-        input.id = `option-${key}`;
-        input.value = key;
-        input.checked = question.userAnswer === key;
-        input.disabled = testSubmitted;
-
-        // Letter circle
-        const letterDiv = document.createElement('div');
-        letterDiv.className = 'opt-letter';
-        letterDiv.textContent = key.toUpperCase();
-
-        // Text span
-        const textSpan = document.createElement('span');
-        textSpan.className = 'opt-text';
-        textSpan.textContent = value;
-
-        // Correct/incorrect indicators after submission
+        const letter = document.createElement('div');
+        letter.className = 'opt-letter';
+        letter.textContent = key.toUpperCase();
+        const text = document.createElement('span');
+        text.className = 'opt-text';
+        text.textContent = val;
         if (testSubmitted) {
-            if (key === question.correctAnswer) {
+            if (key === q.correctAnswer) {
                 const ind = document.createElement('span');
-                ind.className = 'correct-indicator';
-                ind.textContent = ' ✓ Correct Answer';
-                textSpan.appendChild(ind);
-            } else if (key === question.userAnswer && key !== question.correctAnswer) {
+                ind.className = 'opt-indicator correct-indicator';
+                ind.textContent = ' ✓ Correct';
+                text.appendChild(ind);
+            } else if (key === q.userAnswer) {
                 const ind = document.createElement('span');
-                ind.className = 'incorrect-indicator';
+                ind.className = 'opt-indicator incorrect-indicator';
                 ind.textContent = ' ✗ Your Answer';
-                textSpan.appendChild(ind);
+                text.appendChild(ind);
             }
         }
-
-        optionDiv.appendChild(input);
-        optionDiv.appendChild(letterDiv);
-        optionDiv.appendChild(textSpan);
-        optionsContainer.appendChild(optionDiv);
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'q-opt';
+        radio.value = key;
+        radio.checked = q.userAnswer === key;
+        div.appendChild(radio);
+        div.appendChild(letter);
+        div.appendChild(text);
+        optionsEl.appendChild(div);
     }
-        // Show explanation after test submission
-if (testSubmitted) {
-    const explanationDiv = document.createElement('div');
-    explanationDiv.style.marginTop = "15px";
-    explanationDiv.style.padding = "12px";
-    explanationDiv.style.borderRadius = "8px";
-    explanationDiv.style.background = "#f0f4ff";
-    explanationDiv.style.borderLeft = "4px solid #6a11cb";
-    explanationDiv.style.fontSize = "15px";
-explanationDiv.style.background = "linear-gradient(135deg,#eef2ff,#e0f2ff)";
-explanationDiv.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
 
-    explanationDiv.innerHTML = `
-        <strong>Explanation:</strong><br>
-        ${question.explanation || "No explanation available."}
-    `;
+    if (testSubmitted && q.explanation) {
+        const exp = document.createElement('div');
+        exp.className = 'explanation-box';
+        exp.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        optionsEl.appendChild(exp);
+    }
 
-    optionsContainer.appendChild(explanationDiv);
-}
-        
-
-    markBtn.classList.toggle('marked', question.marked);
-    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
-
-    // First question: hide Previous, Last question: hide Next
+    markBtn.classList.toggle('marked', q.marked);
+    markBtn.textContent = q.marked ? '🔖 Marked' : '🔖 Mark';
     prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
     nextBtn.style.visibility = currentQuestionIndex === mockTest.questions.length - 1 ? 'hidden' : 'visible';
-    prevBtn.disabled = currentQuestionIndex === 0;
-    nextBtn.disabled = currentQuestionIndex === mockTest.questions.length - 1;
-    updateQuestionPalette();
+    updatePalette();
 }
 
-function selectAnswer(answer) {
-    mockTest.questions[currentQuestionIndex].userAnswer = answer;
-    updateQuestionPalette();
-    updateProgress();
+function toggleMark() {
+    const q = mockTest.questions[currentQuestionIndex];
+    q.marked = !q.marked;
+    markBtn.classList.toggle('marked', q.marked);
+    markBtn.textContent = q.marked ? '🔖 Marked' : '🔖 Mark';
+    updatePalette();
 }
 
-function toggleMarkForReview() {
-    const question = mockTest.questions[currentQuestionIndex];
-    question.marked = !question.marked;
-    markBtn.classList.toggle('marked', question.marked);
-    markBtn.textContent = question.marked ? 'Unmark' : 'Mark for Review';
-    updateQuestionPalette();
-}
-
-function goToPreviousQuestion() {
-    if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
-}
-
-function goToNextQuestion() {
-    if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
-}
-
-function renderQuestionPalette() {
-    questionPaletteGrid.innerHTML = '';
-    mockTest.questions.forEach((question, index) => {
+function renderPalette() {
+    paletteGrid.innerHTML = '';
+    mockTest.questions.forEach((q, i) => {
         const btn = document.createElement('button');
         btn.className = 'palette-btn';
-        btn.textContent = question.id;
-        btn.addEventListener('click', () => navigateToQuestion(index));
-        questionPaletteGrid.appendChild(btn);
+        btn.textContent = q.id;
+        btn.addEventListener('click', () => { currentQuestionIndex = i; renderQuestion(); });
+        paletteGrid.appendChild(btn);
     });
-    updateQuestionPalette();
+    updatePalette();
 }
 
-function updateQuestionPalette() {
-    const paletteButtons = questionPaletteGrid.querySelectorAll('.palette-btn');
-    paletteButtons.forEach(btn => { btn.className = 'palette-btn'; });
-    mockTest.questions.forEach((question, index) => {
-        const btn = paletteButtons[index];
+function updatePalette() {
+    const btns = paletteGrid.querySelectorAll('.palette-btn');
+    mockTest.questions.forEach((q, i) => {
+        const btn = btns[i];
+        btn.className = 'palette-btn';
         if (testSubmitted) {
-            // Review mode: green = correct, red = wrong, blue = not answered
-            if (!question.userAnswer) {
-                btn.classList.add('review-unanswered');
-            } else if (question.userAnswer === question.correctAnswer) {
-                btn.classList.add('review-correct');
-            } else {
-                btn.classList.add('review-wrong');
-            }
+            if (!q.userAnswer) btn.classList.add('review-unanswered');
+            else if (q.userAnswer === q.correctAnswer) btn.classList.add('review-correct');
+            else btn.classList.add('review-wrong');
         } else {
-            if (question.userAnswer) btn.classList.add('answered');
-            if (question.marked) btn.classList.add('marked');
+            if (q.userAnswer) btn.classList.add('answered');
+            if (q.marked) btn.classList.add('marked');
         }
-        if (index === currentQuestionIndex) btn.classList.add('current');
+        if (i === currentQuestionIndex) btn.classList.add('current');
     });
-    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
-    answeredCountElement.textContent = `${answeredCount}/${mockTest.questions.length}`;
-}
-
-function navigateToQuestion(index) {
-    currentQuestionIndex = index;
-    renderQuestion();
+    const ans = mockTest.questions.filter(q => q.userAnswer).length;
+    answeredCountEl.textContent = `${ans}/${mockTest.questions.length}`;
 }
 
 function updateProgress() {
-    const answeredCount = mockTest.questions.filter(q => q.userAnswer).length;
-    const progress = (answeredCount / mockTest.questions.length) * 100;
-    progressBar.style.width = `${progress}%`;
-    progressPercent.textContent = `${Math.round(progress)}%`;
+    const ans = mockTest.questions.filter(q => q.userAnswer).length;
+    const pct = Math.round((ans / mockTest.questions.length) * 100);
+    progressFill.style.width = pct + '%';
+    progressPct.textContent = pct + '%';
 }
 
-function confirmSubmit() {
-    if (confirm('Are you sure you want to submit the test?')) { submitTest(); }
+function renderLegend(reviewMode) {
+    const leg = document.getElementById('palette-legend');
+    if (!leg) return;
+    if (reviewMode) {
+        leg.innerHTML = `
+        <div class="leg-label"><div class="leg-dot" style="background:#22c55e;"></div>Correct</div>
+        <div class="leg-label"><div class="leg-dot" style="background:#ef4444;"></div>Wrong</div>
+        <div class="leg-label"><div class="leg-dot" style="background:#60a5fa;"></div>Unanswered</div>`;
+    } else {
+        leg.innerHTML = `
+        <div class="leg-label"><div class="leg-dot" style="background:#bbf7d0;border:1px solid #22c55e;"></div>Answered</div>
+        <div class="leg-label"><div class="leg-dot" style="background:#bae6fd;border:1px solid #0ea5e9;"></div>Marked</div>
+        <div class="leg-label"><div class="leg-dot" style="background:#fee2e2;border:1px solid #fca5a5;"></div>Unanswered</div>
+        <div class="leg-label"><div class="leg-dot" style="background:white;border:2px solid #1a6fc4;"></div>Current</div>`;
+    }
 }
 
 function submitTest() {
@@ -2323,387 +1156,213 @@ function submitTest() {
         else incorrect++;
     });
 
-    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
-    const percentage = ((totalScore / (mockTest.questions.length * mockTest.markingScheme.correct)) * 100).toFixed(2);
-    const accuracy = (correct / (correct + incorrect) * 100).toFixed(2);
+    const total = mockTest.questions.length;
+    const maxScore = total * mockTest.markingScheme.correct;
+    const score = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
+    const pct = ((score / maxScore) * 100).toFixed(2);
+    const acc = correct + incorrect > 0 ? ((correct / (correct + incorrect)) * 100).toFixed(2) : '0';
 
-    correctAnswersElement.textContent = correct;
-    incorrectAnswersElement.textContent = incorrect;
-    unansweredElement.textContent = unanswered;
-    totalScoreElement.textContent = totalScore;
-    percentageElement.textContent = percentage;
-    accuracyElement.textContent = isNaN(accuracy) ? '0' : accuracy;
-    resultsModal.style.display = 'flex';
+    const resultData = {
+        chapterId: CHAPTER_ID, subjectId: SUBJECT_ID,
+        userName: localStorage.getItem('cbtUserName') || 'Unknown',
+        date: new Date().toISOString(), score, maxScore, correct, incorrect, unanswered,
+        totalQ: total, percentage: parseFloat(pct), accuracy: parseFloat(acc),
+        timeTaken: mockTest.duration - timeLeft,
+        questions: mockTest.questions.map(q => ({ id: q.id, correct: q.userAnswer === q.correctAnswer, answered: !!q.userAnswer, userAnswer: q.userAnswer, correctAnswer: q.correctAnswer }))
+    };
+
+    const key = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
+    localStorage.setItem(key, JSON.stringify(resultData));
+    const idxKey = `thunderstudy_index_${SUBJECT_ID}`;
+    let idx = [];
+    try { idx = JSON.parse(localStorage.getItem(idxKey) || '[]'); } catch(e) {}
+    if (!idx.includes(CHAPTER_ID)) idx.push(CHAPTER_ID);
+    localStorage.setItem(idxKey, JSON.stringify(idx));
+
+    document.getElementById('correct-answers').textContent = correct;
+    document.getElementById('incorrect-answers').textContent = incorrect;
+    document.getElementById('unanswered').textContent = unanswered;
+    document.getElementById('total-score').textContent = score;
+    document.getElementById('percentage').textContent = pct;
+    document.getElementById('accuracy').textContent = acc;
+    modal.classList.add('show');
+
     renderQuestion();
-
-    // Swap Submit button → Download PDF
-    const submitBtn = document.getElementById('submit-test-btn');
-    submitBtn.textContent = '📄 Download PDF';
-    submitBtn.classList.remove('submit-fancy-btn');
-    submitBtn.classList.add('pdf-download-btn');
-    submitBtn.onclick = generatePDF;
-
-    // Switch legend to review colours
     renderLegend(true);
+
+    // Swap submit rows
+    document.getElementById('submit-row-before').style.display = 'none';
+    document.getElementById('submit-row-after').style.display = 'flex';
 }
 
-function closeResultsModal() { resultsModal.style.display = 'none'; }
-
-function reviewAnswers() {
-    resultsModal.style.display = 'none';
-    currentQuestionIndex = 0;
-    renderQuestion();
-}
-
-document.addEventListener("visibilitychange", function() {
+/* Visibility change guard */
+document.addEventListener("visibilitychange", () => {
     if (!testStarted || testSubmitted) return;
-    if (document.hidden) {
-        startCountdown('tab');
-    } else {
-        cancelCountdown();
-    }
+    if (document.hidden) startCountdown('tab');
+    else cancelCountdown();
 });
 
-/* Arrow key navigation — works during test AND review */
-document.addEventListener('keydown', function(e) {
+/* Arrow key nav */
+document.addEventListener('keydown', e => {
     if (document.getElementById('test-screen').style.display === 'none') return;
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        if (currentQuestionIndex < mockTest.questions.length - 1) {
-            currentQuestionIndex++;
-            renderQuestion();
-        }
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            renderQuestion();
-        }
-    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (currentQuestionIndex < mockTest.questions.length - 1) { currentQuestionIndex++; renderQuestion(); } }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); } }
 });
 </script>
 
 <script>
 function startMock() {
-    const input = document.getElementById('username-input').value.trim();
-    const userName = input === "" ? "Thunder" : input;
-    localStorage.setItem("cbtUserName", userName);
-    // Enter fullscreen immediately on Start Mock click
+    const name = document.getElementById('username-input').value.trim();
+    if (!name) { alert('⚠️ Please enter your name!'); document.getElementById('username-input').focus(); return; }
+    localStorage.setItem('cbtUserName', name);
     enterFullscreen();
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('instruction-screen').style.display = 'block';
 }
 
-const darkModeToggles = document.querySelectorAll('#dark-mode-toggle, #dark-mode-toggle-bottom, #dark-mode-toggle-top');
-darkModeToggles.forEach(toggle => {
-    toggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        darkModeToggles.forEach(btn => {
-            const iconSpan = btn.querySelector('.icon');
-            if (iconSpan) iconSpan.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-        });
-    });
+document.getElementById('dark-toggle').addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const dark = document.body.classList.contains('dark-mode');
+    document.getElementById('toggle-icon').textContent = dark ? '☀️' : '🌙';
+    document.getElementById('toggle-label').textContent = dark ? 'Light' : 'Dark';
 });
-</script>
 
-<script>
 const checkbox = document.getElementById('agree-checkbox');
-const startBtn = document.getElementById('start-test-btn');
-
+const startTestBtn = document.getElementById('start-test-btn');
 checkbox.addEventListener('change', () => {
-    startBtn.disabled = !checkbox.checked;
-    startBtn.style.opacity = checkbox.checked ? "1" : "0.6";
-    startBtn.style.cursor = checkbox.checked ? "pointer" : "not-allowed";
+    startTestBtn.disabled = !checkbox.checked;
 });
-
-startBtn.addEventListener('click', () => {
-    if (!checkbox.checked) { alert("Please accept instructions first!"); return; }
+startTestBtn.addEventListener('click', () => {
+    if (!checkbox.checked) { alert('Please agree to instructions!'); return; }
     document.getElementById('instruction-screen').style.display = 'none';
     document.getElementById('test-screen').style.display = 'block';
-    const name = localStorage.getItem("cbtUserName") || "Thunder";
-    document.getElementById('user-name-display').innerText = "👤 " + name;
-    const mobileNameEl = document.getElementById('mobile-name-display');
-    if (mobileNameEl) mobileNameEl.innerText = "👤 " + name;
-
-    // Mark test as started BEFORE fullscreen so guards know
+    const name = localStorage.getItem('cbtUserName') || 'Student';
+    document.getElementById('user-name-display').textContent = '👤 ' + name;
+    const mob = document.getElementById('mobile-name-display');
+    if (mob) mob.textContent = '👤 ' + name;
     testStarted = true;
-
-    // Enter fullscreen only when test actually begins
     enterFullscreen();
     initTest();
 });
 
-/* ── Fullscreen helpers ── */
 function enterFullscreen() {
     const el = document.documentElement;
     try {
         if (el.requestFullscreen) el.requestFullscreen();
         else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
         else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
-        else if (el.msRequestFullscreen) el.msRequestFullscreen();
     } catch(e) {}
 }
 
-/* Watch for fullscreen exit */
-document.addEventListener('fullscreenchange', onFSChange);
-document.addEventListener('webkitfullscreenchange', onFSChange);
-document.addEventListener('mozfullscreenchange', onFSChange);
-document.addEventListener('MSFullscreenChange', onFSChange);
+['fullscreenchange','webkitfullscreenchange','mozfullscreenchange','MSFullscreenChange'].forEach(evt => document.addEventListener(evt, onFSChange));
 
-function isInFullscreen() {
-    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
-              document.mozFullScreenElement || document.msFullscreenElement);
+function isFullscreen() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement);
 }
-
 function onFSChange() {
     if (!testStarted || testSubmitted) return;
-    // Only act if the test screen is actually running
     if (document.getElementById('test-screen').style.display === 'none') return;
-    if (!isInFullscreen()) {
-        startCountdown('fullscreen');
-    } else {
-        cancelCountdown();
-    }
+    if (!isFullscreen()) startCountdown('fullscreen');
+    else cancelCountdown();
 }
 
-/* ── Countdown ── */
-let countdownTimer = null;
-let countdownSeconds = 0;
-
+let cdTimer = null, cdSecs = 0;
 function startCountdown(reason) {
-    if (!testStarted || testSubmitted) return;
-    if (countdownTimer) return; // already running
-
-    countdownSeconds = (reason === 'tab') ? 2 : 5;
-    const msg  = (reason === 'tab') ? '⚠️ You switched tabs!' : '⚠️ You exited fullscreen!';
-    const hint = (reason === 'tab') ? 'Switch back to this tab to cancel.' : 'Click the button below to return to fullscreen.';
-    const showBtn = (reason === 'fullscreen');
-
-    showOverlay(msg, hint, countdownSeconds, showBtn);
-
-    countdownTimer = setInterval(() => {
-        countdownSeconds--;
-        updateOverlayCount(countdownSeconds);
-        if (countdownSeconds <= 0) {
-            cancelCountdown();
-            submitTest();
-        }
-    }, 1000);
+    if (!testStarted || testSubmitted || cdTimer) return;
+    cdSecs = reason === 'tab' ? 2 : 5;
+    const msg = reason === 'tab' ? '⚠️ Tab switched!' : '⚠️ Exited fullscreen!';
+    const hint = reason === 'tab' ? 'Return to this tab to cancel.' : 'Click below to return to fullscreen.';
+    showOverlay(msg, hint, cdSecs, reason === 'fullscreen');
+    cdTimer = setInterval(() => { cdSecs--; updateOverlay(cdSecs); if (cdSecs <= 0) { cancelCountdown(); submitTest(); } }, 1000);
 }
-
 function cancelCountdown() {
-    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    if (cdTimer) { clearInterval(cdTimer); cdTimer = null; }
     hideOverlay();
 }
-
-/* ── Overlay ── */
-function showOverlay(msg, hint, secs, showBtn) {
-    let ov = document.getElementById('security-overlay');
-    if (!ov) {
-        ov = document.createElement('div');
-        ov.id = 'security-overlay';
-        ov.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;
-            background:rgba(0,0,0,0.88);z-index:999999;
-            display:flex;flex-direction:column;justify-content:center;align-items:center;
-            font-family:'Segoe UI',sans-serif;color:#fff;text-align:center;padding:24px;`;
-        document.body.appendChild(ov);
-    }
-    ov.innerHTML = `
-        <div style="font-size:60px;margin-bottom:14px;">🚨</div>
-        <div style="font-size:22px;font-weight:800;margin-bottom:8px;">${msg}</div>
-        <div style="font-size:15px;color:#fbbf24;margin-bottom:20px;">${hint}</div>
-        <div style="font-size:16px;color:#e0e0e0;margin-bottom:6px;">Auto-submitting in</div>
-        <div id="overlay-count" style="font-size:72px;font-weight:900;color:#f87171;line-height:1;">${secs}</div>
-        <div style="font-size:14px;color:#9ca3af;margin-top:4px;">seconds</div>
-        ${showBtn ? `<button onclick="enterFullscreen()" style="
-            margin-top:24px;padding:13px 34px;border-radius:30px;border:none;
-            background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;
-            font-size:16px;font-weight:700;cursor:pointer;
-            box-shadow:0 4px 14px rgba(34,197,94,0.5);">
-            🔲 Return to Fullscreen
-        </button>` : ''}`;
+function showOverlay(msg, hint, secs, btn) {
+    let ov = document.getElementById('sec-overlay');
+    if (!ov) { ov = document.createElement('div'); ov.id = 'sec-overlay'; ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:999999;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:DM Sans,sans-serif;color:#fff;text-align:center;padding:24px;'; document.body.appendChild(ov); }
+    ov.innerHTML = `<div style="font-size:56px;margin-bottom:12px;">🚨</div><div style="font-size:22px;font-weight:800;margin-bottom:8px;">${msg}</div><div style="font-size:15px;color:#fbbf24;margin-bottom:18px;">${hint}</div><div style="font-size:14px;color:#e0e0e0;margin-bottom:4px;">Auto-submitting in</div><div id="ov-count" style="font-size:72px;font-weight:900;color:#f87171;line-height:1;">${secs}</div><div style="font-size:13px;color:#9ca3af;margin-top:4px;">seconds</div>${btn?`<button onclick="enterFullscreen()" style="margin-top:22px;padding:12px 32px;border-radius:30px;border:none;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-size:16px;font-weight:700;cursor:pointer;">🔲 Return to Fullscreen</button>`:''}`;
     ov.style.display = 'flex';
 }
-
-function updateOverlayCount(n) {
-    const el = document.getElementById('overlay-count');
-    if (el) el.textContent = n;
-}
-
-function hideOverlay() {
-    const ov = document.getElementById('security-overlay');
-    if (ov) ov.style.display = 'none';
-}
+function updateOverlay(n) { const el = document.getElementById('ov-count'); if (el) el.textContent = n; }
+function hideOverlay() { const ov = document.getElementById('sec-overlay'); if (ov) ov.style.display = 'none'; }
 </script>
-
-<!-- Hidden PDF print area -->
-<div id="pdf-print-area"></div>
 
 <script>
 function generatePDF() {
-    const name = localStorage.getItem('cbtUserName') || 'Thunder';
+    const name = localStorage.getItem('cbtUserName') || 'Student';
     const now = new Date();
-    const dateStr = now.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
-    const timeStr = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+    const dateStr = now.toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'});
+    const timeStr = now.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
 
-    let correct = 0, incorrect = 0, unanswered = 0;
+    let correct=0,incorrect=0,unanswered=0;
     mockTest.questions.forEach(q => {
         if (!q.userAnswer) unanswered++;
         else if (q.userAnswer === q.correctAnswer) correct++;
         else incorrect++;
     });
-    const totalScore = (correct * mockTest.markingScheme.correct) + (incorrect * mockTest.markingScheme.incorrect);
-    const maxScore = mockTest.questions.length * mockTest.markingScheme.correct;
-    const pct = ((totalScore / maxScore) * 100).toFixed(1);
+    const score = (correct*5)+(incorrect*-1);
+    const maxScore = mockTest.questions.length*5;
+    const pct = ((score/maxScore)*100).toFixed(1);
+    const lbl = {a:'A',b:'B',c:'C',d:'D'};
 
-    const optionLabel = { a:'A', b:'B', c:'C', d:'D' };
-
-    let questionsHTML = '';
-    mockTest.questions.forEach((q, i) => {
-        const isCorrect = q.userAnswer === q.correctAnswer;
-        const isWrong   = q.userAnswer && !isCorrect;
-        const isSkipped = !q.userAnswer;
-
-        const statusColor = isCorrect ? '#16a34a' : isWrong ? '#dc2626' : '#9ca3af';
-        const statusLabel = isCorrect ? '✓ Correct' : isWrong ? '✗ Wrong' : '— Skipped';
-        const rowBg = isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : '#fafafa';
-
-        let optionsHTML = '';
-        for (const [key, val] of Object.entries(q.options)) {
-            const isRight = key === q.correctAnswer;
-            const isUser  = key === q.userAnswer;
-            let bg = 'transparent', fw = 'normal', prefix = '';
-            if (isRight) { bg = '#dcfce7'; fw = 'bold'; prefix = '✓ '; }
-            if (isUser && !isRight) { bg = '#fee2e2'; fw = 'bold'; prefix = '✗ '; }
-            optionsHTML += `<div style="display:flex;gap:8px;padding:4px 8px;margin:2px 0;border-radius:4px;background:${bg};font-weight:${fw};font-size:12px;">
-                <span style="min-width:18px;font-weight:700;">${optionLabel[key]}.</span>
-                <span>${prefix}${val}</span>
-            </div>`;
+    let qHTML = '';
+    mockTest.questions.forEach((q,i) => {
+        const ok = q.userAnswer === q.correctAnswer;
+        const wrong = q.userAnswer && !ok;
+        const skip = !q.userAnswer;
+        const statusColor = ok?'#059669':wrong?'#dc2626':'#9ca3af';
+        const statusLabel = ok?'✓ Correct':wrong?'✗ Wrong':'— Skipped';
+        const rowBg = ok?'#f0fdf4':wrong?'#fef2f2':'#fafafa';
+        let optsHTML='';
+        for (const [k,v] of Object.entries(q.options)) {
+            const isRight=k===q.correctAnswer, isUser=k===q.userAnswer;
+            let bg='transparent',fw='normal',pre='';
+            if(isRight){bg='#dcfce7';fw='bold';pre='✓ ';}
+            if(isUser&&!isRight){bg='#fee2e2';fw='bold';pre='✗ ';}
+            optsHTML+=`<div style="display:flex;gap:8px;padding:4px 8px;border-radius:4px;background:${bg};font-weight:${fw};font-size:12px;margin:2px 0;"><span style="min-width:18px;font-weight:700;">${lbl[k]}.</span><span>${pre}${v}</span></div>`;
         }
-
-        let yourAnswer = isSkipped
-            ? '<span style="color:#9ca3af;">Not Attempted</span>'
-            : `<span style="color:${isCorrect?'#16a34a':'#dc2626'};font-weight:bold;">${optionLabel[q.userAnswer]}. ${q.options[q.userAnswer]}</span>`;
-
-        questionsHTML += `
-        <div style="margin-bottom:18px;padding:14px 16px;border-radius:8px;background:${rowBg};border:1px solid #e5e7eb;page-break-inside:avoid;">
+        const yourAns = skip?'<span style="color:#9ca3af;">Not Attempted</span>':`<span style="color:${ok?'#059669':'#dc2626'};font-weight:bold;">${lbl[q.userAnswer]}. ${q.options[q.userAnswer]}</span>`;
+        qHTML+=`<div style="margin-bottom:16px;padding:14px;border-radius:8px;background:${rowBg};border:1px solid #e5e7eb;page-break-inside:avoid;">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                <div style="font-weight:700;font-size:13px;color:#374151;">Q${i+1}. ${q.text}</div>
+                <div style="font-weight:700;font-size:13px;color:#1e293b;">Q${i+1}. ${q.text}</div>
                 <div style="font-weight:700;font-size:12px;color:${statusColor};white-space:nowrap;margin-left:12px;">${statusLabel}</div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:8px;">${optionsHTML}</div>
-            <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;margin-top:4px;">
-                <span style="color:#6b7280;">Your answer: </span>${yourAnswer}
-                &nbsp;&nbsp;
-                <span style="color:#6b7280;">Correct answer: </span>
-                <span style="color:#16a34a;font-weight:bold;">${optionLabel[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:8px;">${optsHTML}</div>
+            <div style="font-size:12px;border-top:1px solid #e5e7eb;padding-top:6px;">
+                Your answer: ${yourAns}&nbsp;&nbsp;
+                Correct: <span style="color:#059669;font-weight:bold;">${lbl[q.correctAnswer]}. ${q.options[q.correctAnswer]}</span>
             </div>
         </div>`;
     });
 
-    const scoreColor = pct >= 60 ? '#16a34a' : pct >= 35 ? '#d97706' : '#dc2626';
-
-    const html = `
-    <div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;color:#111;">
-
-        <!-- Header -->
-        <div style="background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;padding:20px 24px;border-radius:10px 10px 0 0;margin-bottom:0;">
+    const scoreColor = pct>=60?'#059669':pct>=35?'#d97706':'#dc2626';
+    const html=`<div style="max-width:780px;margin:0 auto;font-family:Arial,sans-serif;color:#111;">
+        <div style="background:linear-gradient(135deg,#1a6fc4,#0ea5e9);color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-                <div>
-                    <div style="font-size:22px;font-weight:800;letter-spacing:0.5px;">⚡ Thunderstudy CBT</div>
-                    <div style="font-size:13px;opacity:0.85;margin-top:3px;">Result Report</div>
-                </div>
-                <div style="text-align:right;font-size:12px;opacity:0.85;">
-                    <div>📅 ${dateStr} &nbsp; 🕐 ${timeStr}</div>
-                    <div style="margin-top:2px;">👤 ${name}</div>
-                </div>
+                <div><div style="font-size:22px;font-weight:800;">⚡ Thunderstudy CBT</div><div style="font-size:13px;opacity:0.85;margin-top:3px;">English Result Report</div></div>
+                <div style="text-align:right;font-size:12px;opacity:0.85;"><div>📅 ${dateStr} 🕐 ${timeStr}</div><div>👤 ${name}</div></div>
             </div>
         </div>
-
-        <!-- Score summary -->
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:16px 24px;border-radius:0 0 10px 10px;margin-bottom:20px;">
-            <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
-                <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;">
-                        <div style="font-size:11px;color:#6b7280;margin-bottom:2px;">SCORE</div>
-                        <div style="font-size:24px;font-weight:800;color:${scoreColor};">${totalScore}<span style="font-size:14px;color:#6b7280;">/${maxScore}</span></div>
-                    </div>
-                    <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;">
-                        <div style="font-size:11px;color:#6b7280;margin-bottom:2px;">PERCENTAGE</div>
-                        <div style="font-size:24px;font-weight:800;color:${scoreColor};">${pct}%</div>
-                    </div>
-                    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 18px;text-align:center;">
-                        <div style="font-size:11px;color:#16a34a;margin-bottom:2px;">CORRECT</div>
-                        <div style="font-size:24px;font-weight:800;color:#16a34a;">${correct}</div>
-                    </div>
-                    <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 18px;text-align:center;">
-                        <div style="font-size:11px;color:#dc2626;margin-bottom:2px;">WRONG</div>
-                        <div style="font-size:24px;font-weight:800;color:#dc2626;">${incorrect}</div>
-                    </div>
-                    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 18px;text-align:center;">
-                        <div style="font-size:11px;color:#6b7280;margin-bottom:2px;">SKIPPED</div>
-                        <div style="font-size:24px;font-weight:800;color:#6b7280;">${unanswered}</div>
-                    </div>
-                </div>
-                <div style="font-size:12px;color:#6b7280;line-height:1.7;">
-                    <div>Marking: <b>+${mockTest.markingScheme.correct}</b> correct &nbsp;|&nbsp; <b>${mockTest.markingScheme.incorrect}</b> wrong</div>
-                    <div>Total Questions: <b>${mockTest.questions.length}</b></div>
-                </div>
+        <div style="background:#f0f6ff;border:1px solid #bfdbfe;border-top:none;padding:16px 24px;margin-bottom:20px;border-radius:0 0 10px 10px;">
+            <div style="display:flex;flex-wrap:wrap;gap:12px;">
+                <div style="background:white;border:1px solid #dbeafe;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SCORE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${score}<span style="font-size:14px;color:#6b7280;">/${maxScore}</span></div></div>
+                <div style="background:white;border:1px solid #dbeafe;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">PERCENTAGE</div><div style="font-size:24px;font-weight:800;color:${scoreColor};">${pct}%</div></div>
+                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#059669;">CORRECT</div><div style="font-size:24px;font-weight:800;color:#059669;">${correct}</div></div>
+                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#dc2626;">WRONG</div><div style="font-size:24px;font-weight:800;color:#dc2626;">${incorrect}</div></div>
+                <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:11px;color:#6b7280;">SKIPPED</div><div style="font-size:24px;font-weight:800;color:#6b7280;">${unanswered}</div></div>
             </div>
         </div>
-
-        <!-- Section heading -->
-        <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #6a11cb;">
-            📋 Question-wise Answer Key
-        </div>
-
-        <!-- Questions -->
-        ${questionsHTML}
-
-        <!-- Footer -->
-        <div style="text-align:center;margin-top:24px;padding:14px;background:#f1f5f9;border-radius:8px;font-size:12px;color:#6b7280;">
-            Generated by <b>Thunderstudy CBT</b> &nbsp;|&nbsp; t.me/thunderstudy_official &nbsp;|&nbsp; ${dateStr}
-        </div>
+        <div style="font-size:15px;font-weight:700;color:#1a6fc4;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #1a6fc4;">📋 Answer Key</div>
+        ${qHTML}
+        <div style="text-align:center;margin-top:20px;padding:12px;background:#f0f6ff;border-radius:8px;font-size:12px;color:#6b7280;">Generated by <b>Thunderstudy CBT</b> | t.me/thunderstudy_official | ${dateStr}</div>
     </div>`;
 
-// Open fresh window — bypasses Blogger DOM nesting issue
-    const printWin = window.open('', '_blank', 'width=950,height=700,scrollbars=yes');
-    if (!printWin) {
-        alert('Popup blocked! Please allow popups for this site and try again.');
-        return;
-    }
-    printWin.document.write(`<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8"/>
-<title>Thunderstudy_Result_${name}_${dateStr.replace(/ /g,'-')}</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #fff; padding: 20px; }
-  @media print {
-    body { padding: 0; }
-    .no-print { display: none !important; }
-  }
-  .print-btn {
-    display: block;
-    margin: 0 auto 20px;
-    padding: 12px 36px;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 4px 14px rgba(101,41,255,0.4);
-  }
-</style>
-</head>
-<body>
-<button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
-${html}
-</body>
-</html>`);
-    printWin.document.close();
-    printWin.focus();
+    const w = window.open('','_blank','width=950,height=700,scrollbars=yes');
+    if (!w) { alert('Popup blocked! Allow popups and retry.'); return; }
+    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Thunderstudy_English_${name}</title><style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:#fff;padding:20px;}@media print{.no-print{display:none!important;}}.print-btn{display:block;margin:0 auto 20px;padding:12px 36px;background:linear-gradient(135deg,#1a6fc4,#0ea5e9);color:white;font-size:16px;font-weight:700;border:none;border-radius:30px;cursor:pointer;}</style></head><body><button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save PDF</button>${html}</body></html>`);
+    w.document.close(); w.focus();
 }
 </script>
 
