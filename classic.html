@@ -1,15 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Thunderstudy CBT — Synonyms & Antonyms</title>
+<title>Thunderstudy CBT — Grammar Basic</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <script>
 const SUBJECT_ID  = "eng";
-const CHAPTER_ID  = "eng-voc-synant";
+const CHAPTER_ID  = "eng-grm-basic";
 </script>
 
 <style>
@@ -691,7 +690,7 @@ body.dark-mode .analysis { color: var(--dm-text); }
 <div class="start-hero">
     <div class="start-logo">📝</div>
     <div class="start-brand">Thunderstudy CBT</div>
-    <h1 class="start-title">Synonyms &amp; Antonyms</h1>
+    <h1 class="start-title">Grammar Basic</h1>
     <p class="start-sub">English Vocabulary | Provided by <strong>Thunderstudy</strong></p>
 
     <a href="https://t.me/thunderstudy_official" target="_blank" class="tg-btn">
@@ -711,8 +710,10 @@ body.dark-mode .analysis { color: var(--dm-text); }
         </div>
     </div>
 
-    <input type="text" id="username-input" class="name-input" placeholder="Enter your name to begin">
-
+<input type="text" id="username-input" class="name-input" placeholder="Enter your name to begin">
+    <div id="sid-display-area" style="font-size: 13px; font-weight: 700; color: #4f6ef7; background: rgba(79,110,247,0.1); padding: 5px 15px; border-radius: 20px; display: none; margin-top: 8px;">
+        🪪 ID: <span id="sid-value">---</span>
+    </div>
     <div class="start-btns">
         <button class="s-btn s-btn-primary" onclick="startMock()">🚀 Start Mock Test</button>
         <button class="s-btn s-btn-green" onclick="window.location.href='https://commercesehoga.github.io/commerce/bst/result.html'">📊 Previous Results</button>
@@ -764,6 +765,8 @@ body.dark-mode .analysis { color: var(--dm-text); }
     <div class="timer">01:00:00</div>
     <div class="sidebar-brand">⚡ Thunderstudy CBT</div>
 
+          <div class="test-info-row"><strong>Name:</strong> <span id="display-user-name">Student</span></div>
+    <div class="test-info-row"><strong>ID:</strong> <span id="display-user-sid" style="font-family:monospace;">---</span></div>
     <div class="test-info-row"><strong>Subject:</strong> English — Syn/Ant</div>
     <div class="test-info-row"><strong>Questions:</strong> 50</div>
     <div class="test-info-row"><strong>Duration:</strong> 60 min</div>
@@ -888,59 +891,59 @@ body.dark-mode .analysis { color: var(--dm-text); }
    MOCK TEST DATA — English Chapter 1
    ============================================================ */
 const mockTest = {
-    title: "English — Synonyms & Antonyms",
+    title: "English — Grammar Basic",
     questions: [
-{id:1,section:"Synonyms",text:"Choose the SYNONYM of: ABUNDANT",options:{a:"Scarce",b:"Plentiful",c:"Barren",d:"Dull"},correctAnswer:"b",explanation:"Abundant means existing in large quantities. Its synonym is Plentiful.",marked:false,userAnswer:""},
-{id:2,section:"Synonyms",text:"Choose the SYNONYM of: AUDACIOUS",options:{a:"Timid",b:"Cowardly",c:"Bold",d:"Gentle"},correctAnswer:"c",explanation:"Audacious means willing to take surprisingly bold risks. Synonym: Bold.",marked:false,userAnswer:""},
-{id:3,section:"Synonyms",text:"Choose the SYNONYM of: BENIGN",options:{a:"Harmful",b:"Hostile",c:"Gentle",d:"Cruel"},correctAnswer:"c",explanation:"Benign means gentle and kindly. Synonym: Gentle.",marked:false,userAnswer:""},
-{id:4,section:"Synonyms",text:"Choose the SYNONYM of: CANDID",options:{a:"Dishonest",b:"Secretive",c:"Frank",d:"Reserved"},correctAnswer:"c",explanation:"Candid means truthful and straightforward. Synonym: Frank.",marked:false,userAnswer:""},
-{id:5,section:"Synonyms",text:"Choose the SYNONYM of: DILIGENT",options:{a:"Lazy",b:"Careless",c:"Hardworking",d:"Sluggish"},correctAnswer:"c",explanation:"Diligent means having or showing care and conscientiousness. Synonym: Hardworking.",marked:false,userAnswer:""},
-{id:6,section:"Synonyms",text:"Choose the SYNONYM of: ELOQUENT",options:{a:"Inarticulate",b:"Fluent",c:"Mumbling",d:"Silent"},correctAnswer:"b",explanation:"Eloquent means fluent or persuasive in speaking. Synonym: Fluent.",marked:false,userAnswer:""},
-{id:7,section:"Synonyms",text:"Choose the SYNONYM of: FEROCIOUS",options:{a:"Calm",b:"Mild",c:"Fierce",d:"Gentle"},correctAnswer:"c",explanation:"Ferocious means savagely fierce, cruel, or violent. Synonym: Fierce.",marked:false,userAnswer:""},
-{id:8,section:"Synonyms",text:"Choose the SYNONYM of: GLOOMY",options:{a:"Bright",b:"Cheerful",c:"Dark",d:"Joyful"},correctAnswer:"c",explanation:"Gloomy means dark or poorly lit, causing sadness. Synonym: Dark.",marked:false,userAnswer:""},
-{id:9,section:"Synonyms",text:"Choose the SYNONYM of: HUMBLE",options:{a:"Arrogant",b:"Proud",c:"Modest",d:"Boastful"},correctAnswer:"c",explanation:"Humble means having a modest opinion of oneself. Synonym: Modest.",marked:false,userAnswer:""},
-{id:10,section:"Synonyms",text:"Choose the SYNONYM of: INQUISITIVE",options:{a:"Indifferent",b:"Curious",c:"Uninterested",d:"Bored"},correctAnswer:"b",explanation:"Inquisitive means having a desire to learn or know. Synonym: Curious.",marked:false,userAnswer:""},
-{id:11,section:"Synonyms",text:"Choose the SYNONYM of: JUBILANT",options:{a:"Sad",b:"Mournful",c:"Elated",d:"Gloomy"},correctAnswer:"c",explanation:"Jubilant means feeling or expressing great happiness. Synonym: Elated.",marked:false,userAnswer:""},
-{id:12,section:"Synonyms",text:"Choose the SYNONYM of: KEEN",options:{a:"Dull",b:"Eager",c:"Reluctant",d:"Lazy"},correctAnswer:"b",explanation:"Keen means having a strong interest or enthusiasm. Synonym: Eager.",marked:false,userAnswer:""},
-{id:13,section:"Synonyms",text:"Choose the SYNONYM of: LETHARGIC",options:{a:"Energetic",b:"Active",c:"Sluggish",d:"Lively"},correctAnswer:"c",explanation:"Lethargic means affected by lethargy; sluggish and apathetic. Synonym: Sluggish.",marked:false,userAnswer:""},
-{id:14,section:"Synonyms",text:"Choose the SYNONYM of: METICULOUS",options:{a:"Careless",b:"Sloppy",c:"Thorough",d:"Hasty"},correctAnswer:"c",explanation:"Meticulous means showing great attention to detail. Synonym: Thorough.",marked:false,userAnswer:""},
-{id:15,section:"Synonyms",text:"Choose the SYNONYM of: NOTORIOUS",options:{a:"Unknown",b:"Obscure",c:"Infamous",d:"Admired"},correctAnswer:"c",explanation:"Notorious means famous or well known, typically for some bad quality. Synonym: Infamous.",marked:false,userAnswer:""},
-{id:16,section:"Synonyms",text:"Choose the SYNONYM of: OBSOLETE",options:{a:"Modern",b:"Current",c:"Outdated",d:"Updated"},correctAnswer:"c",explanation:"Obsolete means no longer produced or used; out of date. Synonym: Outdated.",marked:false,userAnswer:""},
-{id:17,section:"Synonyms",text:"Choose the SYNONYM of: PRUDENT",options:{a:"Reckless",b:"Careless",c:"Wise",d:"Impulsive"},correctAnswer:"c",explanation:"Prudent means acting with care and thought for the future. Synonym: Wise.",marked:false,userAnswer:""},
-{id:18,section:"Synonyms",text:"Choose the SYNONYM of: RADIANT",options:{a:"Dim",b:"Dull",c:"Glowing",d:"Dark"},correctAnswer:"c",explanation:"Radiant means sending out light; shining or glowing brightly. Synonym: Glowing.",marked:false,userAnswer:""},
-{id:19,section:"Synonyms",text:"Choose the SYNONYM of: SERENE",options:{a:"Turbulent",b:"Anxious",c:"Calm",d:"Troubled"},correctAnswer:"c",explanation:"Serene means calm, peaceful, and untroubled. Synonym: Calm.",marked:false,userAnswer:""},
-{id:20,section:"Synonyms",text:"Choose the SYNONYM of: TENACIOUS",options:{a:"Weak",b:"Persistent",c:"Feeble",d:"Yielding"},correctAnswer:"b",explanation:"Tenacious means tending to keep a firm hold; persistent. Synonym: Persistent.",marked:false,userAnswer:""},
-{id:21,section:"Synonyms",text:"Choose the SYNONYM of: UBIQUITOUS",options:{a:"Rare",b:"Scarce",c:"Omnipresent",d:"Hidden"},correctAnswer:"c",explanation:"Ubiquitous means present, appearing, or found everywhere. Synonym: Omnipresent.",marked:false,userAnswer:""},
-{id:22,section:"Synonyms",text:"Choose the SYNONYM of: VIVID",options:{a:"Faded",b:"Bleak",c:"Bright",d:"Dim"},correctAnswer:"c",explanation:"Vivid means producing powerful feelings or strong, clear images. Synonym: Bright.",marked:false,userAnswer:""},
-{id:23,section:"Synonyms",text:"Choose the SYNONYM of: WARY",options:{a:"Careless",b:"Reckless",c:"Cautious",d:"Trusting"},correctAnswer:"c",explanation:"Wary means feeling or showing caution about possible dangers. Synonym: Cautious.",marked:false,userAnswer:""},
-{id:24,section:"Synonyms",text:"Choose the SYNONYM of: ZEALOUS",options:{a:"Indifferent",b:"Apathetic",c:"Enthusiastic",d:"Bored"},correctAnswer:"c",explanation:"Zealous means having or showing zeal (great energy or enthusiasm). Synonym: Enthusiastic.",marked:false,userAnswer:""},
-{id:25,section:"Synonyms",text:"Choose the SYNONYM of: APPREHENSIVE",options:{a:"Confident",b:"Fearful",c:"Brave",d:"Relaxed"},correctAnswer:"b",explanation:"Apprehensive means anxious or fearful that something bad will happen. Synonym: Fearful.",marked:false,userAnswer:""},
-{id:26,section:"Antonyms",text:"Choose the ANTONYM of: ANCIENT",options:{a:"Old",b:"Aged",c:"Modern",d:"Historical"},correctAnswer:"c",explanation:"Ancient means very old. Its antonym is Modern (belonging to the present or recent times).",marked:false,userAnswer:""},
-{id:27,section:"Antonyms",text:"Choose the ANTONYM of: BOLD",options:{a:"Daring",b:"Brave",c:"Timid",d:"Confident"},correctAnswer:"c",explanation:"Bold means confident and courageous. Antonym: Timid (showing lack of courage).",marked:false,userAnswer:""},
-{id:28,section:"Antonyms",text:"Choose the ANTONYM of: CONCEAL",options:{a:"Hide",b:"Cover",c:"Reveal",d:"Bury"},correctAnswer:"c",explanation:"Conceal means to keep from sight. Antonym: Reveal (to make known or visible).",marked:false,userAnswer:""},
-{id:29,section:"Antonyms",text:"Choose the ANTONYM of: DILIGENT",options:{a:"Careful",b:"Lazy",c:"Thorough",d:"Attentive"},correctAnswer:"b",explanation:"Diligent means hardworking. Antonym: Lazy (unwilling to work or use energy).",marked:false,userAnswer:""},
-{id:30,section:"Antonyms",text:"Choose the ANTONYM of: EXPAND",options:{a:"Grow",b:"Enlarge",c:"Shrink",d:"Stretch"},correctAnswer:"c",explanation:"Expand means to become larger. Antonym: Shrink (to become smaller).",marked:false,userAnswer:""},
-{id:31,section:"Antonyms",text:"Choose the ANTONYM of: FRUGAL",options:{a:"Thrifty",b:"Economical",c:"Extravagant",d:"Saving"},correctAnswer:"c",explanation:"Frugal means sparing or economical. Antonym: Extravagant (lacking restraint in spending).",marked:false,userAnswer:""},
-{id:32,section:"Antonyms",text:"Choose the ANTONYM of: GENUINE",options:{a:"Real",b:"Authentic",c:"Fake",d:"True"},correctAnswer:"c",explanation:"Genuine means truly what something is said to be. Antonym: Fake (not genuine).",marked:false,userAnswer:""},
-{id:33,section:"Antonyms",text:"Choose the ANTONYM of: HARMONY",options:{a:"Peace",b:"Unity",c:"Discord",d:"Agreement"},correctAnswer:"c",explanation:"Harmony means agreement or concord. Antonym: Discord (disagreement between people).",marked:false,userAnswer:""},
-{id:34,section:"Antonyms",text:"Choose the ANTONYM of: INNOCENT",options:{a:"Pure",b:"Guiltless",c:"Guilty",d:"Blameless"},correctAnswer:"c",explanation:"Innocent means not guilty. Antonym: Guilty (having done wrong).",marked:false,userAnswer:""},
-{id:35,section:"Antonyms",text:"Choose the ANTONYM of: JOVIAL",options:{a:"Cheerful",b:"Merry",c:"Gloomy",d:"Jolly"},correctAnswer:"c",explanation:"Jovial means cheerful and friendly. Antonym: Gloomy (sad and depressed).",marked:false,userAnswer:""},
-{id:36,section:"Antonyms",text:"Choose the ANTONYM of: KNOWLEDGE",options:{a:"Wisdom",b:"Intelligence",c:"Ignorance",d:"Learning"},correctAnswer:"c",explanation:"Knowledge means facts and information. Antonym: Ignorance (lack of knowledge).",marked:false,userAnswer:""},
-{id:37,section:"Antonyms",text:"Choose the ANTONYM of: LENIENT",options:{a:"Tolerant",b:"Easy",c:"Strict",d:"Mild"},correctAnswer:"c",explanation:"Lenient means more merciful or tolerant than expected. Antonym: Strict (demanding that rules be obeyed).",marked:false,userAnswer:""},
-{id:38,section:"Antonyms",text:"Choose the ANTONYM of: MAGNIFICENT",options:{a:"Grand",b:"Splendid",c:"Ordinary",d:"Majestic"},correctAnswer:"c",explanation:"Magnificent means impressively beautiful. Antonym: Ordinary (with no special or distinctive features).",marked:false,userAnswer:""},
-{id:39,section:"Antonyms",text:"Choose the ANTONYM of: NONCHALANT",options:{a:"Casual",b:"Indifferent",c:"Concerned",d:"Relaxed"},correctAnswer:"c",explanation:"Nonchalant means feeling or appearing casually calm. Antonym: Concerned (worried or anxious).",marked:false,userAnswer:""},
-{id:40,section:"Antonyms",text:"Choose the ANTONYM of: OPTIMISTIC",options:{a:"Hopeful",b:"Positive",c:"Pessimistic",d:"Confident"},correctAnswer:"c",explanation:"Optimistic means hopeful about the future. Antonym: Pessimistic (tending to see the worst aspect).",marked:false,userAnswer:""},
-{id:41,section:"Antonyms",text:"Choose the ANTONYM of: PRAISE",options:{a:"Applaud",b:"Commend",c:"Criticize",d:"Admire"},correctAnswer:"c",explanation:"Praise means to express approval or admiration. Antonym: Criticize (to point out faults).",marked:false,userAnswer:""},
-{id:42,section:"Antonyms",text:"Choose the ANTONYM of: QUESTION",options:{a:"Ask",b:"Inquire",c:"Answer",d:"Query"},correctAnswer:"c",explanation:"Question means to ask. Antonym: Answer (to say or write in response to a question).",marked:false,userAnswer:""},
-{id:43,section:"Antonyms",text:"Choose the ANTONYM of: ROUGH",options:{a:"Coarse",b:"Rugged",c:"Smooth",d:"Harsh"},correctAnswer:"c",explanation:"Rough means having an uneven surface. Antonym: Smooth (having an even and regular surface).",marked:false,userAnswer:""},
-{id:44,section:"Antonyms",text:"Choose the ANTONYM of: SORROW",options:{a:"Grief",b:"Misery",c:"Joy",d:"Sadness"},correctAnswer:"c",explanation:"Sorrow means a feeling of deep distress. Antonym: Joy (a feeling of great pleasure and happiness).",marked:false,userAnswer:""},
-{id:45,section:"Antonyms",text:"Choose the ANTONYM of: TRANSPARENT",options:{a:"Clear",b:"See-through",c:"Opaque",d:"Lucid"},correctAnswer:"c",explanation:"Transparent means allowing light to pass through. Antonym: Opaque (not able to be seen through).",marked:false,userAnswer:""},
-{id:46,section:"Antonyms",text:"Choose the ANTONYM of: UNITE",options:{a:"Join",b:"Merge",c:"Divide",d:"Connect"},correctAnswer:"c",explanation:"Unite means to come or bring together. Antonym: Divide (to separate into parts).",marked:false,userAnswer:""},
-{id:47,section:"Antonyms",text:"Choose the ANTONYM of: VICTORY",options:{a:"Triumph",b:"Success",c:"Defeat",d:"Win"},correctAnswer:"c",explanation:"Victory means success in a contest. Antonym: Defeat (an instance of being beaten).",marked:false,userAnswer:""},
-{id:48,section:"Antonyms",text:"Choose the ANTONYM of: WEALTH",options:{a:"Riches",b:"Prosperity",c:"Poverty",d:"Abundance"},correctAnswer:"c",explanation:"Wealth means a large amount of money or valuable possessions. Antonym: Poverty (the state of being poor).",marked:false,userAnswer:""},
-{id:49,section:"Antonyms",text:"Choose the ANTONYM of: XENIAL",options:{a:"Hospitable",b:"Friendly",c:"Hostile",d:"Welcoming"},correctAnswer:"c",explanation:"Xenial means hospitable, especially to strangers. Antonym: Hostile (unfriendly and aggressive).",marked:false,userAnswer:""},
-{id:50,section:"Antonyms",text:"Choose the ANTONYM of: ZEALOUS",options:{a:"Passionate",b:"Fervent",c:"Apathetic",d:"Eager"},correctAnswer:"c",explanation:"Zealous means very enthusiastic and devoted. Antonym: Apathetic (showing no interest or enthusiasm).",marked:false,userAnswer:""}
-    ],
+  { "id": 1, "section": "Grammar Basic", "text": "Neither the teacher nor the students ______ present at the function yesterday.", "options": { "a": "was", "b": "were", "c": "is", "d": "has been" }, "correctAnswer": "b", "explanation": "When 'neither...nor' joins a singular and a plural subject, the verb agrees with the nearer subject ('students' → plural → 'were').", "marked": false, "userAnswer": "" },
+  { "id": 2, "section": "Grammar Basic", "text": "Each of the participants ______ given a certificate of appreciation.", "options": { "a": "were", "b": "have been", "c": "was", "d": "are" }, "correctAnswer": "c", "explanation": "With 'each of + plural noun', the verb is singular ('was' or 'is').", "marked": false, "userAnswer": "" },
+  { "id": 3, "section": "Grammar Basic", "text": "If I ______ you, I would not make such a hasty decision.", "options": { "a": "was", "b": "were", "c": "am", "d": "had been" }, "correctAnswer": "b", "explanation": "In unreal conditional sentences (subjunctive mood), 'were' is used for all subjects, including singular.", "marked": false, "userAnswer": "" },
+  { "id": 4, "section": "Grammar Basic", "text": "The committee ______ divided in their opinion about the new policy.", "options": { "a": "is", "b": "was", "c": "are", "d": "has" }, "correctAnswer": "c", "explanation": "Collective nouns like 'committee' take a plural verb when the members are acting individually ('are divided').", "marked": false, "userAnswer": "" },
+  { "id": 5, "section": "Grammar Basic", "text": "She scarcely ______ time to finish the report before the deadline.", "options": { "a": "have", "b": "has", "c": "having", "d": "had" }, "correctAnswer": "b", "explanation": "'Scarcely' is a negative adverb, but the verb remains positive and agrees with 'she' (present tense → 'has').", "marked": false, "userAnswer": "" },
+  { "id": 6, "section": "Grammar Basic", "text": "Not only the students but also the principal ______ been invited to the conference.", "options": { "a": "have", "b": "has", "c": "are", "d": "were" }, "correctAnswer": "b", "explanation": "With 'not only...but also', the verb agrees with the nearer subject ('principal' → singular → 'has').", "marked": false, "userAnswer": "" },
+  { "id": 7, "section": "Grammar Basic", "text": "One of the most significant challenges that researchers face ______ obtaining sufficient funding.", "options": { "a": "are", "b": "were", "c": "is", "d": "have been" }, "correctAnswer": "c", "explanation": "'One of the...' is singular; the relative clause 'that researchers face' modifies 'challenges', but the main verb agrees with 'one' → 'is'.", "marked": false, "userAnswer": "" },
+  { "id": 8, "section": "Grammar Basic", "text": "The number of people affected by the virus ______ increased dramatically.", "options": { "a": "have", "b": "are", "c": "has", "d": "were" }, "correctAnswer": "c", "explanation": "'The number of + plural noun' is singular → 'has increased'.", "marked": false, "userAnswer": "" },
+  { "id": 9, "section": "Grammar Basic", "text": "A variety of options ______ available to students after graduation.", "options": { "a": "is", "b": "was", "c": "are", "d": "has" }, "correctAnswer": "c", "explanation": "'A variety of + plural noun' takes a plural verb → 'are available'.", "marked": false, "userAnswer": "" },
+  { "id": 10, "section": "Grammar Basic", "text": "Had he arrived on time, the meeting ______ already been over.", "options": { "a": "would have", "b": "would", "c": "will have", "d": "has" }, "correctAnswer": "a", "explanation": "Inverted conditional (Had + subject + past participle) → main clause uses 'would have + past participle'.", "marked": false, "userAnswer": "" },
+  { "id": 11, "section": "Grammar Basic", "text": "She is one of those people who ______ always ready to help others.", "options": { "a": "is", "b": "are", "c": "has", "d": "was" }, "correctAnswer": "b", "explanation": "The relative pronoun 'who' refers to 'people' (plural), so the verb is 'are'.", "marked": false, "userAnswer": "" },
+  { "id": 12, "section": "Grammar Basic", "text": "Either the manager or his assistants ______ to take responsibility for the loss.", "options": { "a": "is", "b": "was", "c": "has", "d": "are" }, "correctAnswer": "d", "explanation": "With 'either...or', the verb agrees with the nearer subject ('assistants' → plural → 'are').", "marked": false, "userAnswer": "" },
+  { "id": 13, "section": "Grammar Basic", "text": "The data collected from the experiment ______ inconsistent with the hypothesis.", "options": { "a": "is", "b": "was", "c": "are", "d": "has" }, "correctAnswer": "c", "explanation": "'Data' is the plural form of 'datum' and takes a plural verb in academic English ('are inconsistent').", "marked": false, "userAnswer": "" },
+  { "id": 14, "section": "Grammar Basic", "text": "It is imperative that every candidate ______ the instructions carefully.", "options": { "a": "follow", "b": "follows", "c": "followed", "d": "has followed" }, "correctAnswer": "a", "explanation": "Subjunctive mood after 'It is imperative that' uses the base form of the verb ('follow').", "marked": false, "userAnswer": "" },
+  { "id": 15, "section": "Grammar Basic", "text": "Many a student ______ failed to submit the assignment on time.", "options": { "a": "have", "b": "has", "c": "were", "d": "are" }, "correctAnswer": "b", "explanation": "'Many a + singular noun' takes a singular verb ('has failed').", "marked": false, "userAnswer": "" },
+  { "id": 16, "section": "Grammar Basic", "text": "She would rather you ______ her the truth from the beginning.", "options": { "a": "tell", "b": "told", "c": "have told", "d": "had told" }, "correctAnswer": "b", "explanation": "'Would rather' followed by a clause uses past subjunctive ('told') for present/future reference.", "marked": false, "userAnswer": "" },
+  { "id": 17, "section": "Grammar Basic", "text": "No sooner ______ the speech than the audience began to applaud.", "options": { "a": "he finished", "b": "did he finish", "c": "had he finished", "d": "he had finished" }, "correctAnswer": "c", "explanation": "'No sooner' triggers inversion and past perfect ('had he finished') before a simple past clause.", "marked": false, "userAnswer": "" },
+  { "id": 18, "section": "Grammar Basic", "text": "The professor, along with his research team, ______ working on the project since last year.", "options": { "a": "are", "b": "have been", "c": "has been", "d": "were" }, "correctAnswer": "c", "explanation": "Phrases like 'along with' do not change the singular subject 'professor' → 'has been'.", "marked": false, "userAnswer": "" },
+  { "id": 19, "section": "Grammar Basic", "text": "______ the heavy rain, the match was not cancelled.", "options": { "a": "Despite of", "b": "In spite", "c": "Although", "d": "Despite" }, "correctAnswer": "d", "explanation": "'Despite' is a preposition (no 'of' needed). 'Although' would require a clause ('Although it rained').", "marked": false, "userAnswer": "" },
+  { "id": 20, "section": "Grammar Basic", "text": "The harder he worked, ______ he seemed to achieve.", "options": { "a": "the less", "b": "less", "c": "the lesser", "d": "lesser" }, "correctAnswer": "a", "explanation": "Correlative comparative structure: 'The + comparative, the + comparative' → 'the less'.", "marked": false, "userAnswer": "" },
+  { "id": 21, "section": "Grammar Basic", "text": "She has a habit of ______ everything for granted.", "options": { "a": "take", "b": "taken", "c": "taking", "d": "having taken" }, "correctAnswer": "c", "explanation": "After a preposition ('of'), use the gerund form ('taking').", "marked": false, "userAnswer": "" },
+  { "id": 22, "section": "Grammar Basic", "text": "If only I ______ harder for the entrance exam last year.", "options": { "a": "studied", "b": "have studied", "c": "had studied", "d": "would study" }, "correctAnswer": "c", "explanation": "'If only' expresses regret about the past → past perfect ('had studied').", "marked": false, "userAnswer": "" },
+  { "id": 23, "section": "Grammar Basic", "text": "The proposal requires that each member ______ a written statement.", "options": { "a": "submits", "b": "submit", "c": "submitted", "d": "has submitted" }, "correctAnswer": "b", "explanation": "Subjunctive after 'requires that' → base form 'submit'.", "marked": false, "userAnswer": "" },
+  { "id": 24, "section": "Grammar Basic", "text": "This is the third time you ______ that excuse for being late.", "options": { "a": "use", "b": "used", "c": "have used", "d": "had used" }, "correctAnswer": "c", "explanation": "'This is the third time' + present perfect ('have used') for an action repeated up to now.", "marked": false, "userAnswer": "" },
+  { "id": 25, "section": "Grammar Basic", "text": "Had the government intervened earlier, the crisis ______ so severe.", "options": { "a": "would not become", "b": "would not have become", "c": "will not become", "d": "did not become" }, "correctAnswer": "b", "explanation": "Inverted third conditional → 'would not have + past participle'.", "marked": false, "userAnswer": "" },
+  { "id": 26, "section": "Grammar Basic", "text": "Not once ______ the promise he made to his parents.", "options": { "a": "he kept", "b": "did he keep", "c": "has he keep", "d": "he has kept" }, "correctAnswer": "b", "explanation": "Negative adverbial 'Not once' at the beginning requires inversion: auxiliary + subject + verb.", "marked": false, "userAnswer": "" },
+  { "id": 27, "section": "Grammar Basic", "text": "The athlete, together with his coaches, ______ for the national camp tomorrow.", "options": { "a": "leave", "b": "leaves", "c": "are leaving", "d": "have left" }, "correctAnswer": "b", "explanation": "Subject is 'athlete' (singular); 'together with...' is parenthetical → 'leaves'.", "marked": false, "userAnswer": "" },
+  { "id": 28, "section": "Grammar Basic", "text": "The idea that the earth revolves around the sun ______ accepted for centuries.", "options": { "a": "have been", "b": "are", "c": "has been", "d": "were" }, "correctAnswer": "c", "explanation": "Singular subject 'idea' → singular verb 'has been' (present perfect).", "marked": false, "userAnswer": "" },
+  { "id": 29, "section": "Grammar Basic", "text": "She spoke in such a low voice that hardly anybody ______ hear her.", "options": { "a": "could", "b": "can", "c": "was able to", "d": "might" }, "correctAnswer": "a", "explanation": "'Hardly' in past context → 'could' (general ability in past).", "marked": false, "userAnswer": "" },
+  { "id": 30, "section": "Grammar Basic", "text": "What ______ you do if you were in his position?", "options": { "a": "will", "b": "would", "c": "shall", "d": "do" }, "correctAnswer": "b", "explanation": "Hypothetical situation (were) → 'would' in the main clause.", "marked": false, "userAnswer": "" },
+  { "id": 31, "section": "Grammar Basic", "text": "______ his illness, he attended the meeting.", "options": { "a": "Although", "b": "Despite", "c": "Because of", "d": "In spite" }, "correctAnswer": "b", "explanation": "'Despite' + noun ('his illness'). 'Although' needs a clause.", "marked": false, "userAnswer": "" },
+  { "id": 32, "section": "Grammar Basic", "text": "The manager insisted that the report ______ submitted by Friday.", "options": { "a": "was", "b": "is", "c": "be", "d": "has been" }, "correctAnswer": "c", "explanation": "Subjunctive after 'insisted that' → base form 'be'.", "marked": false, "userAnswer": "" },
+  { "id": 33, "section": "Grammar Basic", "text": "It is high time you ______ your bad habits.", "options": { "a": "change", "b": "changed", "c": "have changed", "d": "will change" }, "correctAnswer": "b", "explanation": "'It is high time' + past subjunctive ('changed') for present recommendation.", "marked": false, "userAnswer": "" },
+  { "id": 34, "section": "Grammar Basic", "text": "She is not only a talented singer, but also ______ a skilled dancer.", "options": { "a": "is", "b": "she is", "c": "being", "d": "has been" }, "correctAnswer": "a", "explanation": "Parallel structure after 'but also' → verb 'is' to match 'is' after 'not only'.", "marked": false, "userAnswer": "" },
+  { "id": 35, "section": "Grammar Basic", "text": "Seldom ______ such a spectacular performance.", "options": { "a": "I have seen", "b": "have I seen", "c": "I saw", "d": "did I saw" }, "correctAnswer": "b", "explanation": "'Seldom' (negative adverb) at the beginning → inversion: 'have I seen'.", "marked": false, "userAnswer": "" },
+  { "id": 36, "section": "Grammar Basic", "text": "The jury ______ unable to reach a unanimous decision.", "options": { "a": "was", "b": "were", "c": "is", "d": "has" }, "correctAnswer": "b", "explanation": "Collective noun 'jury' as individuals acting → plural verb 'were'.", "marked": false, "userAnswer": "" },
+  { "id": 37, "section": "Grammar Basic", "text": "She would sooner ______ than ask for help.", "options": { "a": "die", "b": "to die", "c": "dying", "d": "died" }, "correctAnswer": "a", "explanation": "'Would sooner' is followed by the base form of the verb ('die').", "marked": false, "userAnswer": "" },
+  { "id": 38, "section": "Grammar Basic", "text": "The more you practice, ______ you will become.", "options": { "a": "more confident", "b": "the more confident", "c": "most confident", "d": "the most confident" }, "correctAnswer": "b", "explanation": "Correlative comparative: 'The more..., the more...' structure.", "marked": false, "userAnswer": "" },
+  { "id": 39, "section": "Grammar Basic", "text": "He behaves as if he ______ the owner of the company.", "options": { "a": "is", "b": "were", "c": "was", "d": "has been" }, "correctAnswer": "b", "explanation": "'As if' for unreal present → past subjunctive 'were' for all persons.", "marked": false, "userAnswer": "" },
+  { "id": 40, "section": "Grammar Basic", "text": "The committee members, but not the chairman, ______ to vote.", "options": { "a": "is entitled", "b": "has entitled", "c": "are entitled", "d": "entitles" }, "correctAnswer": "c", "explanation": "Subject is 'members' (plural) → plural verb 'are entitled'.", "marked": false, "userAnswer": "" },
+  { "id": 41, "section": "Grammar Basic", "text": "Little ______ about the consequences of his actions.", "options": { "a": "he cared", "b": "did he care", "c": "he cares", "d": "has he care" }, "correctAnswer": "b", "explanation": "'Little' (negative meaning) at the beginning → inversion: 'did he care'.", "marked": false, "userAnswer": "" },
+  { "id": 42, "section": "Grammar Basic", "text": "Either you or I ______ to be held responsible.", "options": { "a": "is", "b": "are", "c": "am", "d": "was" }, "correctAnswer": "c", "explanation": "With 'either...or', verb agrees with the nearer subject ('I' → 'am').", "marked": false, "userAnswer": "" },
+  { "id": 43, "section": "Grammar Basic", "text": "She wished she ______ more attention to her health earlier.", "options": { "a": "paid", "b": "had paid", "c": "would pay", "d": "has paid" }, "correctAnswer": "b", "explanation": "Past wish about a past action → past perfect ('had paid').", "marked": false, "userAnswer": "" },
+  { "id": 44, "section": "Grammar Basic", "text": "Not only ______ the book, but he also recommended it to everyone.", "options": { "a": "he read", "b": "did he read", "c": "has he read", "d": "he has read" }, "correctAnswer": "b", "explanation": "'Not only' at the beginning → inversion: 'did he read' (past simple).", "marked": false, "userAnswer": "" },
+  { "id": 45, "section": "Grammar Basic", "text": "The flock of sheep ______ grazing in the field when the storm began.", "options": { "a": "was", "b": "were", "c": "has been", "d": "are" }, "correctAnswer": "a", "explanation": "'Flock' (collective noun acting as a unit) → singular verb 'was'.", "marked": false, "userAnswer": "" },
+  { "id": 46, "section": "Grammar Basic", "text": "I would rather you ______ that decision without consulting me.", "options": { "a": "not make", "b": "did not make", "c": "had not made", "d": "have not made" }, "correctAnswer": "b", "explanation": "'Would rather' + clause for present/future → past simple ('did not make').", "marked": false, "userAnswer": "" },
+  { "id": 47, "section": "Grammar Basic", "text": "Much ______ been said about the importance of digital literacy.", "options": { "a": "have", "b": "are", "c": "has", "d": "were" }, "correctAnswer": "c", "explanation": "'Much' is singular → 'has been said'.", "marked": false, "userAnswer": "" },
+  { "id": 48, "section": "Grammar Basic", "text": "He is the kind of person who ______ always complaining about something.", "options": { "a": "is", "b": "are", "c": "am", "d": "were" }, "correctAnswer": "a", "explanation": "Relative pronoun 'who' refers to 'person' (singular) → 'is complaining'.", "marked": false, "userAnswer": "" },
+  { "id": 49, "section": "Grammar Basic", "text": "______ the difficulty, they managed to complete the project on time.", "options": { "a": "Because of", "b": "In spite of", "c": "Although", "d": "Even though" }, "correctAnswer": "b", "explanation": "'In spite of' + noun phrase ('the difficulty') shows contrast.", "marked": false, "userAnswer": "" },
+  { "id": 50, "section": "Grammar Basic", "text": "The odds of winning the lottery ______ extremely low.", "options": { "a": "is", "b": "was", "c": "are", "d": "has been" }, "correctAnswer": "c", "explanation": "Subject 'odds' is plural → plural verb 'are'.", "marked": false, "userAnswer": "" }
+],
     duration: 60 * 60,
     markingScheme: { correct: 5, incorrect: -1 }
 };
@@ -1162,17 +1165,34 @@ function submitTest() {
     const pct = ((score / maxScore) * 100).toFixed(2);
     const acc = correct + incorrect > 0 ? ((correct / (correct + incorrect)) * 100).toFixed(2) : '0';
 
-    const resultData = {
-        chapterId: CHAPTER_ID, subjectId: SUBJECT_ID,
-        userName: localStorage.getItem('cbtUserName') || 'Unknown',
-        date: new Date().toISOString(), score, maxScore, correct, incorrect, unanswered,
-        totalQ: total, percentage: parseFloat(pct), accuracy: parseFloat(acc),
-        timeTaken: mockTest.duration - timeLeft,
-        questions: mockTest.questions.map(q => ({ id: q.id, correct: q.userAnswer === q.correctAnswer, answered: !!q.userAnswer, userAnswer: q.userAnswer, correctAnswer: q.correctAnswer }))
+const resultData = {
+        studentId: localStorage.getItem('ts_student_id') || '',
+        name: localStorage.getItem('cbtUserName') || 'Unknown',
+        subject: SUBJECT_ID,
+        chapter: CHAPTER_ID,
+        date: new Date().toISOString(),
+        score, maxScore, correct,
+        wrong: incorrect,
+        skipped: unanswered,
+        totalQ: total,
+        percentage: parseFloat(pct),
+        accuracy: parseFloat(acc),
+        timeTaken: mockTest.duration - timeLeft
     };
 
     const key = `thunderstudy_result_${SUBJECT_ID}_${CHAPTER_ID}`;
     localStorage.setItem(key, JSON.stringify(resultData));
+
+    const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+    fetch(GS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resultData)
+    }).then(() => {
+        localStorage.setItem(`synced_${SUBJECT_ID}_${CHAPTER_ID}`, "true");
+    }).catch(err => console.error("Sync failed", err));
+
     const idxKey = `thunderstudy_index_${SUBJECT_ID}`;
     let idx = [];
     try { idx = JSON.parse(localStorage.getItem(idxKey) || '[]'); } catch(e) {}
@@ -1212,13 +1232,63 @@ document.addEventListener('keydown', e => {
 
 <script>
 function startMock() {
-    const name = document.getElementById('username-input').value.trim();
-    if (!name) { alert('⚠️ Please enter your name!'); document.getElementById('username-input').focus(); return; }
-    localStorage.setItem('cbtUserName', name);
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+    const inputName = document.getElementById('username-input').value.trim();
+
+    if (!savedName && !inputName) {
+        alert("⚠️ Please enter your name to continue!");
+        document.getElementById('username-input').focus();
+        return;
+    }
+
+    if (!savedName && inputName) {
+        localStorage.setItem("cbtUserName", inputName);
+    }
+
+    if (!savedSID) {
+        const goToDash = confirm("⚠️ Student ID not found!\n\nYou must have a Student ID to start the mock.\n\nClick OK to open Dashboard to generate one, or Cancel to stay here.");
+        if (goToDash) {
+            window.open('https://commercesehoga.github.io/dashboard/', '_blank');
+        }
+        return;
+    }
+
     enterFullscreen();
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('instruction-screen').style.display = 'block';
 }
+
+    window.addEventListener('DOMContentLoaded', () => {
+    const savedName = localStorage.getItem('cbtUserName') || '';
+    const savedSID = localStorage.getItem('ts_student_id') || '';
+
+    if (savedName) {
+        const inp = document.getElementById('username-input');
+        if (inp) {
+            inp.value = savedName;
+            inp.style.background = 'rgba(79,110,247,.07)';
+            inp.style.borderColor = '#4f6ef7';
+            inp.style.color = '#4f6ef7';
+            inp.style.fontWeight = 'bold';
+            inp.setAttribute('readonly', true);
+            inp.insertAdjacentHTML('afterend',
+                `<div style="font-size:11px; color:#4f6ef7; font-weight:700; margin-top:5px;">
+                    ✅ Verified Dashboard Profile
+                </div>`
+            );
+        }
+    }
+
+    if (savedSID) {
+        const sidArea = document.getElementById('sid-display-area');
+        const sidVal = document.getElementById('sid-value');
+        if (sidArea && sidVal) {
+            sidArea.style.display = 'block';
+            sidVal.textContent = savedSID;
+        }
+    }
+});
 
 document.getElementById('dark-toggle').addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
@@ -1237,9 +1307,12 @@ startTestBtn.addEventListener('click', () => {
     document.getElementById('instruction-screen').style.display = 'none';
     document.getElementById('test-screen').style.display = 'block';
     const name = localStorage.getItem('cbtUserName') || 'Student';
+    const sid = localStorage.getItem('ts_student_id') || 'N/A';
     document.getElementById('user-name-display').textContent = '👤 ' + name;
+    if (document.getElementById('display-user-name')) document.getElementById('display-user-name').textContent = name;
+    if (document.getElementById('display-user-sid')) document.getElementById('display-user-sid').textContent = sid;
     const mob = document.getElementById('mobile-name-display');
-    if (mob) mob.textContent = '👤 ' + name;
+    if (mob) mob.textContent = '👤 ' + name + ' | ' + sid;
     testStarted = true;
     enterFullscreen();
     initTest();
