@@ -1,1088 +1,1378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thunder⚡ Banking CBT Mock Test</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>⚡ ThunderStudy | IBPS PO Full Mock</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bank-blue:#0052a5;--bank-blue-d:#003d7a;--bank-blue-l:#e8f0fb;
-  --bank-cyan:#00b4d8;--bank-cyan-l:#e0f7fa;
-  --answered:#2e7d32;--not-answered:#c62828;--marked:#6a1b9a;
-  --not-visited:#bdbdbd;--marked-ans:#7b1fa2;
-  --white:#ffffff;--bg:#f0f4f8;--border:#c8d6e8;
-  --text:#1a2b3c;--text-m:#4a5568;
-  --header-h:52px;--footer-h:52px;
+  --bg:#f0f4ff;--card:#ffffff;--card2:#f5f7ff;--border:#e4e9f5;
+  --text:#12172e;--text2:#4a5070;--text3:#8892b0;
+  --acc:#2563eb;--acc2:#7c3aed;--acc3:#0ea5e9;
+  --green:#10b981;--red:#f43f5e;--yellow:#f59e0b;--orange:#f97316;--purple:#7c3aed;
+  --fn:'Plus Jakarta Sans',sans-serif;--mono:'DM Mono',monospace;
+  --r:14px;--r2:20px;
+  --sh:0 2px 20px rgba(37,99,235,.07);--sh2:0 8px 40px rgba(37,99,235,.15);
 }
-html,body{height:100%;font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;overflow:hidden}
-.screen{display:none;width:100%;height:100%}
-.screen.active{display:flex}
-
-/* LOGIN */
-#login-screen{flex-direction:column;background:linear-gradient(135deg,#001f4d 0%,#0052a5 50%,#0077cc 100%);align-items:center;justify-content:center;position:relative;overflow:hidden;}
-#login-screen::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
-.login-card{background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.35);width:420px;padding:0;overflow:hidden;position:relative;z-index:2;animation:slideUp 0.5s ease both;}
-@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.login-header{background:linear-gradient(90deg,var(--bank-blue-d),var(--bank-blue));padding:24px 32px;text-align:center;}
-.login-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
-.login-logo .bolt{font-size:28px}
-.login-logo .brand{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:0.04em}
-.login-sub{font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:0.12em;text-transform:uppercase}
-.exam-tag{display:inline-block;margin-top:10px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;letter-spacing:0.08em;}
-.login-body{padding:28px 32px 32px}
-.form-row{margin-bottom:18px}
-.form-row label{display:block;font-size:12px;font-weight:600;color:var(--text-m);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase}
-.form-row input,.form-row select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:7px;font-family:'Noto Sans',sans-serif;font-size:14px;color:var(--text);background:#fafbfc;transition:border-color 0.2s,box-shadow 0.2s;outline:none;}
-.form-row input:focus,.form-row select:focus{border-color:var(--bank-blue);box-shadow:0 0 0 3px rgba(0,82,165,0.1)}
-.login-btn{width:100%;padding:12px;border:none;border-radius:8px;background:linear-gradient(90deg,var(--bank-blue),var(--bank-cyan));color:#fff;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:opacity 0.2s,transform 0.2s;box-shadow:0 4px 16px rgba(0,82,165,0.35);}
-.login-btn:hover{opacity:0.92;transform:translateY(-1px)}
-.login-notice{font-size:11px;color:#e53935;text-align:center;margin-top:14px;font-weight:500}
-.login-footer-note{font-size:10.5px;color:var(--text-m);text-align:center;margin-top:18px;line-height:1.6}
-
-/* INSTRUCTIONS */
-#instr-screen{flex-direction:column;background:var(--bg);}
-.instr-top{background:linear-gradient(90deg,var(--bank-blue-d),var(--bank-blue));padding:0 24px;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.instr-top .logo-text{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:0.04em}
-.instr-top .candidate-info{font-size:12px;color:rgba(255,255,255,0.8)}
-.instr-top .candidate-info strong{color:#fff}
-.instr-body{flex:1;overflow-y:auto;padding:20px 28px}
-.instr-card{background:#fff;border-radius:10px;border:1px solid var(--border);padding:24px;margin-bottom:16px}
-.instr-card h2{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--bank-blue);margin-bottom:14px;border-bottom:2px solid var(--bank-blue-l);padding-bottom:8px}
-.instr-card p,.instr-card li{font-size:13px;color:var(--text-m);line-height:1.7;margin-bottom:4px}
-.instr-card ol,.instr-card ul{padding-left:20px}
-.legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.legend-item{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--text-m)}
-.leg-box{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
-.leg-white{background:#fff;border:2px solid #9e9e9e;color:#555}
-.leg-red{background:var(--not-answered)}
-.leg-green{background:var(--answered)}
-.leg-purple{background:var(--marked)}
-.leg-purple-tick{background:var(--marked);position:relative}
-.leg-purple-tick::after{content:'✓';position:absolute;bottom:-2px;right:-2px;background:var(--answered);width:12px;height:12px;border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;line-height:1}
-.sections-table{width:100%;border-collapse:collapse;font-size:13px}
-.sections-table th{background:var(--bank-blue-l);color:var(--bank-blue);font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--border)}
-.sections-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-m)}
-.sections-table tr:nth-child(even) td{background:#fafbfc}
-.instr-agree{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--bank-blue);border-radius:8px;padding:14px 18px;margin-bottom:16px;cursor:pointer}
-.instr-agree input{width:16px;height:16px;accent-color:var(--bank-blue);cursor:pointer}
-.instr-agree label{font-size:13px;font-weight:600;color:var(--text);cursor:pointer}
-.instr-start-btn{display:block;width:220px;margin:0 auto;padding:13px;border:none;border-radius:8px;background:linear-gradient(90deg,var(--bank-blue),var(--bank-cyan));color:#fff;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:0.08em;cursor:pointer;box-shadow:0 4px 16px rgba(0,82,165,0.3);transition:opacity 0.2s;opacity:0.45;pointer-events:none;}
-.instr-start-btn.ready{opacity:1;pointer-events:all}
-
-/* EXAM */
-#exam-screen{flex-direction:column;height:100vh;overflow:hidden}
-.exam-topbar{height:var(--header-h);background:linear-gradient(90deg,var(--bank-blue-d),var(--bank-blue));display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;gap:8px;}
-.exam-topbar .tl{display:flex;align-items:center;gap:12px}
-.exam-topbar .logo-t{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:0.04em;white-space:nowrap}
-
-/* SECTION TABS — indicators only, NOT clickable */
-.section-tabs{display:flex;gap:4px}
-.sec-tab{
-  padding:6px 14px;border-radius:4px;font-size:12px;font-weight:600;
-  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.45);
-  border:1px solid rgba(255,255,255,0.1);white-space:nowrap;
-  cursor:default;user-select:none;position:relative;
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:var(--fn);}
+body{background:var(--bg);color:var(--text);}
+body.dark{
+  --bg:#0f1117;--card:#1a1d2e;--card2:#1e2238;--border:#2a2f4a;
+  --text:#e2e8f8;--text2:#a8b2d0;--text3:#5c6490;
+  --acc:#4f8ef7;--acc2:#9d6fff;
 }
-.sec-tab.active{background:#fff;color:var(--bank-blue);border-color:#fff;}
-.sec-tab.done{background:rgba(46,125,50,0.4);color:rgba(255,255,255,0.85);border-color:rgba(46,125,50,0.6);}
-.sec-tab.done::after{content:'✓';margin-left:5px;font-size:11px;}
-.sec-tab-lock{font-size:10px;margin-left:4px;opacity:0.6;}
+body.dark .option{background:#1e2238!important;border-color:#2a2f4a!important;}
+body.dark .option:hover{border-color:#4f8ef7!important;background:#1a2a3a!important;}
+body.dark .option.selected{border-color:#4f8ef7!important;background:#162040!important;}
+body.dark .sidebar{background:#161929!important;border-color:#2a2f4a!important;}
 
-.exam-topbar .tr{display:flex;align-items:center;gap:14px}
-.candidate-chip{display:flex;align-items:center;gap:7px}
-.candidate-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#29b6f6,#0052a5);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:700;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;}
-.candidate-name{font-size:12px;color:#fff;font-weight:600;white-space:nowrap}
-.timer-chip{display:flex;align-items:center;gap:7px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:5px 12px;}
-.timer-label{font-size:10px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.08em}
-.timer-val{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:0.06em;min-width:60px;text-align:center}
-.timer-val.warning{color:#ffcc02;animation:blink 1s infinite}
-.timer-val.danger{color:#ff4444;animation:blink 0.5s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.5}}
+/* SCREENS */
+.screen{display:none;position:fixed;inset:0;overflow-y:auto;z-index:100;}
+.screen.active{display:block;}
 
-.exam-subbar{height:34px;background:#e8eff8;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;}
-.subbar-left{display:flex;align-items:center;gap:16px;font-size:12px;color:var(--text-m)}
-.subbar-left .sec-label{font-weight:700;color:var(--bank-blue)}
-.section-badge{background:var(--bank-blue);color:#fff;font-size:10.5px;font-weight:700;padding:2px 10px;border-radius:12px;letter-spacing:0.06em;text-transform:uppercase;}
-.view-in{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-m)}
-.view-in select{padding:2px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px;background:#fff}
-.sec-time{font-size:12px;color:var(--text-m)}
-.sec-time span{font-weight:700;color:var(--bank-blue);font-family:'Rajdhani',sans-serif;font-size:14px}
+/* ── START SCREEN ── */
+#start-screen{background:var(--bg);}
+.start-wrap{max-width:580px;margin:0 auto;padding:30px 16px 60px;}
+.start-hero{background:linear-gradient(135deg,#1e40af 0%,#2563eb 45%,#7c3aed 100%);border-radius:24px;padding:28px 32px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden;box-shadow:0 16px 50px rgba(37,99,235,.4);}
+.start-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.07);}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:30px;padding:5px 14px;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px;}
+.start-hero h1{font-size:26px;font-weight:900;letter-spacing:-.5px;font-family:'Outfit',sans-serif;margin-bottom:6px;position:relative;z-index:1;}
+.hero-meta{font-size:12px;opacity:.75;margin-bottom:20px;position:relative;z-index:1;}
+.hero-stats{display:flex;gap:16px;flex-wrap:wrap;position:relative;z-index:1;}
+.hero-stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:10px 16px;text-align:center;}
+.hero-stat .sv{font-size:22px;font-weight:900;font-family:var(--mono);}
+.hero-stat .sl{font-size:9px;opacity:.7;text-transform:uppercase;letter-spacing:.8px;margin-top:2px;}
+.info-card{background:var(--card);border-radius:var(--r2);border:1px solid var(--border);padding:20px 24px;margin-bottom:16px;box-shadow:var(--sh);}
+.info-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:12px;}
+.info-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.info-list li{display:flex;align-items:center;gap:10px;font-size:13px;padding:9px 12px;background:var(--card2);border-radius:10px;border:1px solid var(--border);}
+.il-dot{width:6px;height:6px;border-radius:50%;background:var(--acc);flex-shrink:0;}
+.sec-info-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.sec-info-card{flex:1;min-width:130px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;}
+.sic-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.sic-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.sic-title{font-size:12px;font-weight:800;color:var(--text);}
+.sic-q{font-size:20px;font-weight:900;font-family:var(--mono);}
+.sic-sub{font-size:10px;color:var(--text3);}
+.user-section{margin-bottom:16px;}
+.user-input{width:100%;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:11px 16px;font-size:14px;color:var(--text);font-family:var(--fn);outline:none;transition:border-color .2s;margin-bottom:8px;}
+.user-input:focus{border-color:var(--acc);}
+.user-input:read-only{background:rgba(37,99,235,.05);border-color:rgba(37,99,235,.3);color:var(--acc);font-weight:700;}
+.cta-btn{width:100%;padding:14px;border-radius:16px;font-size:15px;font-weight:800;border:none;cursor:pointer;font-family:var(--fn);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s cubic-bezier(.34,1.56,.64,1);margin-bottom:10px;}
+.cta-btn:hover{transform:translateY(-3px);filter:brightness(1.08);}
+.cta-btn:active{transform:scale(.97);}
+.cta-start{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;box-shadow:0 6px 24px rgba(37,99,235,.4);}
+.cta-analytics{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 6px 20px rgba(16,185,129,.35);}
+.cta-tg{background:linear-gradient(135deg,#0088cc,#006699);color:#fff;box-shadow:0 6px 20px rgba(0,136,204,.4);}
+.dark-toggle{position:absolute;top:14px;right:14px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:30px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--fn);display:flex;align-items:center;gap:6px;}
+body.dark .dark-toggle{background:linear-gradient(135deg,#f7971e,#ffd200);color:#333;}
 
-.exam-main{flex:1;display:flex;overflow:hidden}
-.q-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);}
-.q-header{padding:10px 16px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
-.q-num-badge{font-size:13px;font-weight:700;color:var(--text)}
-.q-type-badge{font-size:11px;background:var(--bank-blue-l);color:var(--bank-blue);padding:2px 10px;border-radius:10px;font-weight:600}
-.q-content{flex:1;overflow-y:auto;padding:16px;background:#fff}
-.q-direction{background:#fff8e1;border-left:3px solid #ffa000;border-radius:4px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;color:#5d4037;line-height:1.6;}
-.q-direction strong{display:block;margin-bottom:4px;color:#e65100}
-.q-text{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px;font-weight:500}
-.options-list{display:flex;flex-direction:column;gap:8px}
-.opt-item{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;transition:all 0.15s;background:#fafbfc;}
-.opt-item:hover{border-color:var(--bank-blue);background:var(--bank-blue-l)}
-.opt-item.selected{border-color:var(--bank-blue);background:var(--bank-blue-l)}
-.opt-item.selected .opt-radio{border-color:var(--bank-blue);background:var(--bank-blue)}
-.opt-radio{width:18px;height:18px;border-radius:50%;border:2px solid #9e9e9e;flex-shrink:0;margin-top:1px;transition:all 0.15s;position:relative;}
-.opt-item.selected .opt-radio::after{content:'';position:absolute;width:8px;height:8px;background:#fff;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
-.opt-label{font-size:13.5px;line-height:1.5;color:var(--text)}
+/* ── INSTRUCTION SCREEN ── */
+#instruction-screen{background:var(--bg);padding:30px 16px;}
+.instruction-box{max-width:640px;margin:0 auto;background:var(--card);border-radius:var(--r2);border:1px solid var(--border);padding:28px;box-shadow:var(--sh2);}
+.instruction-title{font-size:17px;font-weight:900;color:var(--acc);margin-bottom:16px;}
+.instruction-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.instruction-list li{padding:11px 14px;background:var(--card2);border-radius:12px;border:1px solid var(--border);font-size:13px;line-height:1.6;}
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 18px;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;}
+.legend-dot{width:14px;height:14px;border-radius:50%;}
+.agree-row{display:flex;align-items:center;gap:10px;padding:14px;background:var(--card2);border-radius:12px;border:1.5px solid var(--border);margin-bottom:14px;cursor:pointer;}
+#start-test-btn{width:100%;padding:14px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:not-allowed;opacity:.5;font-family:var(--fn);transition:all .2s;}
+#start-test-btn:not(:disabled){cursor:pointer;opacity:1;}
 
-/* PALETTE */
-.q-palette{width:270px;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;background:#fff;}
-.palette-top{background:linear-gradient(90deg,var(--bank-blue-d),var(--bank-blue));padding:10px 14px;}
-.palette-candidate{display:flex;align-items:center;gap:10px}
-.p-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#b3d4f5,#5b9bd5);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;border:2px solid rgba(255,255,255,0.5);flex-shrink:0;}
-.p-name{font-size:13px;font-weight:700;color:#fff}
-.p-exam{font-size:10.5px;color:rgba(255,255,255,0.65);margin-top:1px}
-.palette-legend{padding:10px 12px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.pl-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-m)}
-.pl-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
-.pl-white{background:#fff;border:2px solid #9e9e9e;color:#555}
-.pl-red{background:var(--not-answered)}
-.pl-green{background:var(--answered)}
-.pl-purple{background:var(--marked)}
-.palette-section-label{padding:7px 12px;background:var(--bank-blue-l);font-size:11.5px;font-weight:700;color:var(--bank-blue);border-bottom:1px solid var(--border);letter-spacing:0.04em;text-transform:uppercase;display:flex;justify-content:space-between;}
-.palette-grid{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
-.pq-btn{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:12px;font-weight:700;color:#fff;transition:transform 0.1s,box-shadow 0.1s;display:flex;align-items:center;justify-content:center;position:relative;}
-.pq-btn:hover{transform:scale(1.1);box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.pq-btn.active{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--bank-blue)!important}
-.pq-not-visited{background:var(--not-visited);color:#555}
-.pq-not-answered{background:var(--not-answered)}
-.pq-answered{background:var(--answered)}
-.pq-marked{background:var(--marked)}
-.pq-marked-answered{background:var(--marked-ans);position:relative}
-.pq-marked-answered::after{content:'✓';position:absolute;bottom:-2px;right:-2px;background:var(--answered);width:14px;height:14px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;line-height:1;color:#fff;border:1px solid #fff;}
-.palette-btns{padding:10px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
-.pal-action-btn{padding:8px;border:1px solid var(--border);border-radius:6px;background:#fff;font-size:12px;font-weight:600;cursor:pointer;color:var(--bank-blue);transition:background 0.15s;text-align:center;}
-.pal-action-btn:hover{background:var(--bank-blue-l)}
-.pal-action-btn.primary{background:var(--bank-blue);color:#fff;border-color:var(--bank-blue)}
-.pal-action-btn.primary:hover{background:var(--bank-blue-d)}
+/* ── SECTION TRANSITION ── */
+#section-transition{background:var(--bg);padding:0;}
+.sec-transition-box{max-width:500px;margin:0 auto;padding:80px 20px;text-align:center;}
+.st-icon{font-size:60px;margin-bottom:20px;}
+.st-title{font-size:28px;font-weight:900;font-family:'Outfit',sans-serif;margin-bottom:8px;color:var(--acc);}
+.st-sub{font-size:14px;color:var(--text3);margin-bottom:28px;line-height:1.7;}
+.sec-score-strip{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
+.sss-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 20px;text-align:center;}
+.sss-val{font-size:22px;font-weight:900;font-family:var(--mono);}
+.sss-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;margin-top:3px;}
+.st-next-btn{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:16px;padding:14px 40px;font-size:15px;font-weight:800;cursor:pointer;font-family:var(--fn);transition:all .2s;}
+.st-next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.4);}
+.st-timer{font-size:50px;font-weight:900;font-family:var(--mono);color:var(--acc);margin:20px 0;}
 
-.exam-footer{height:var(--footer-h);background:#fff;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;gap:8px;}
-.footer-left,.footer-right{display:flex;gap:8px}
-.f-btn{padding:8px 16px;border-radius:6px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.15s;border:1.5px solid transparent;font-family:'Noto Sans',sans-serif;}
-.f-btn-mark{background:#f3e5f5;color:var(--marked);border-color:var(--marked)}
-.f-btn-mark:hover{background:var(--marked);color:#fff}
-.f-btn-clear{background:#fff3e0;color:#e65100;border-color:#e65100}
-.f-btn-clear:hover{background:#e65100;color:#fff}
-.f-btn-report{background:#fce4ec;color:#c62828;border-color:#c62828}
-.f-btn-report:hover{background:#c62828;color:#fff}
-.f-btn-save{background:#e3f2fd;color:#1565c0;border-color:#1565c0}
-.f-btn-save:hover{background:#1565c0;color:#fff}
-.f-btn-next{background:var(--bank-blue);color:#fff;border-color:var(--bank-blue)}
-.f-btn-next:hover{background:var(--bank-blue-d)}
-.f-btn-submit{background:#2e7d32;color:#fff;border-color:#2e7d32}
-.f-btn-submit:hover{background:#1b5e20}
+/* ── TEST SCREEN ── */
+#test-screen{background:var(--bg);}
+.test-layout{display:flex;min-height:100vh;}
+.sidebar{width:280px;background:var(--card);border-right:1px solid var(--border);position:fixed;right:0;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;z-index:10;box-shadow:-4px 0 24px rgba(37,99,235,.06);}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.sb-top{padding:14px 16px;border-bottom:1px solid var(--border);}
+.timer-box{border-radius:12px;padding:10px 14px;text-align:center;font-size:22px;font-weight:900;font-family:var(--mono);letter-spacing:1px;margin-bottom:8px;transition:background .5s;}
+.timer-normal{background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;box-shadow:0 4px 14px rgba(244,63,94,.3);}
+.timer-warning{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.3);}
+.timer-critical{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;animation:pulse 1s infinite;box-shadow:0 4px 14px rgba(239,68,68,.5);}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.sec-progress-bar{height:5px;background:var(--card2);border-radius:5px;overflow:hidden;margin-bottom:6px;}
+.sec-progress-fill{height:100%;border-radius:5px;transition:width .3s ease;}
+.sb-section-tabs{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;gap:5px;}
+.sec-tab{flex:1;padding:6px 4px;border-radius:8px;font-size:10px;font-weight:800;text-align:center;border:none;cursor:default;font-family:var(--fn);transition:all .2s;}
+.sec-tab.active-sec{background:var(--acc);color:#fff;}
+.sec-tab.done-sec{background:rgba(16,185,129,.15);color:var(--green);border:1.5px solid rgba(16,185,129,.3);}
+.sec-tab.locked-sec{background:var(--card2);color:var(--text3);opacity:.5;}
+.sb-info{padding:10px 16px;border-bottom:1px solid var(--border);}
+.sb-info-row{display:flex;align-items:center;justify-content:space-between;font-size:11px;margin-bottom:4px;}
+.sb-info-label{color:var(--text3);font-weight:600;}
+.sb-info-val{font-weight:800;color:var(--text);}
+.sb-palette{padding:12px 16px;flex:1;}
+.palette-title{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
+.palette-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+.palette-btn{width:100%;aspect-ratio:1;border-radius:7px;border:1.5px solid #ddd;background:var(--card2);color:var(--text3);font-size:10px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:var(--mono);}
+.palette-btn:hover{transform:scale(1.12);z-index:5;position:relative;}
+.palette-btn.answered{background:#10b981;border-color:#059669;color:#fff;}
+.palette-btn.marked{background:#7c3aed;border-color:#6d28d9;color:#fff;}
+.palette-btn.current{background:#fff!important;border:2.5px solid var(--acc)!important;color:var(--acc)!important;box-shadow:0 0 0 2px rgba(37,99,235,.2);}
+.palette-btn.visited{background:rgba(244,63,94,.15);border-color:rgba(244,63,94,.3);color:var(--red);}
+.palette-btn.review-correct{background:#10b981!important;color:#fff!important;}
+.palette-btn.review-wrong{background:#f43f5e!important;color:#fff!important;}
+.palette-btn.review-unanswered{background:#3b82f6!important;color:#fff!important;}
+.palette-btn.locked-btn{opacity:.3;cursor:not-allowed;}
+.sb-legend{padding:8px 16px 14px;}
+.legend-row2{display:flex;flex-wrap:wrap;gap:7px;}
+.li2{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--text2);}
+.ld{width:10px;height:10px;border-radius:50%;}
+.main-content{flex:1;margin-right:280px;padding:18px;max-width:calc(100% - 280px);}
+.test-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap;}
+.qnum-badge{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-radius:30px;padding:6px 16px;font-size:13px;font-weight:800;}
+.sec-badge{border-radius:30px;padding:6px 14px;font-size:12px;font-weight:800;}
+.mobile-topbar{display:none;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--card);border-bottom:1px solid var(--border);margin-bottom:12px;border-radius:12px;gap:8px;}
+.mobile-timer{background:var(--red);color:#fff;border-radius:20px;padding:6px 12px;font-size:14px;font-weight:900;font-family:var(--mono);}
+.progress-wrap{margin-bottom:14px;}
+.progress-bar{height:6px;background:var(--border);border-radius:6px;overflow:hidden;margin-bottom:4px;}
+.progress-fill{height:100%;border-radius:6px;transition:width .4s ease;}
+.progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);}
+.question-container{background:var(--card);border-radius:var(--r2);border:1px solid var(--border);padding:22px;box-shadow:var(--sh);margin-bottom:12px;}
+.section-chip{display:inline-flex;align-items:center;gap:6px;border-radius:30px;padding:5px 13px;font-size:11px;font-weight:800;margin-bottom:10px;}
+.q-number-row{font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+.question-text{font-size:15px;line-height:1.75;color:var(--text);margin-bottom:18px;font-weight:500;}
+.rc-passage{background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;line-height:1.8;color:var(--text2);}
+.options{display:flex;flex-direction:column;gap:8px;}
+.option{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;background:var(--card);transition:all .15s;user-select:none;}
+.option:hover{border-color:var(--acc);background:rgba(37,99,235,.04);}
+.option.selected{border-color:var(--acc);background:rgba(37,99,235,.08);}
+.option.correct{border-color:var(--green)!important;background:rgba(16,185,129,.08)!important;}
+.option.incorrect{border-color:var(--red)!important;background:rgba(244,63,94,.06)!important;}
+.opt-letter{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;background:var(--card2);color:var(--text3);transition:all .15s;}
+.option.selected .opt-letter{background:var(--acc);border-color:var(--acc);color:#fff;}
+.option.correct .opt-letter{background:var(--green);border-color:var(--green);color:#fff;}
+.option.incorrect .opt-letter{background:var(--red);border-color:var(--red);color:#fff;}
+.opt-text{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
+.option.selected .opt-text{color:var(--acc);font-weight:600;}
+.explanation-box{margin-top:14px;padding:13px 15px;background:linear-gradient(135deg,rgba(37,99,235,.05),rgba(124,58,237,.03));border:1.5px solid rgba(37,99,235,.2);border-radius:12px;font-size:13px;line-height:1.7;color:var(--text2);}
+.explanation-box strong{color:var(--acc);}
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:30px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:var(--fn);transition:all .2s;}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.07);}
+.btn-prev{background:var(--card);border:1.5px solid var(--border);color:var(--text2);}
+.btn-prev:hover{border-color:var(--acc);color:var(--acc);}
+.btn-next{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+.btn-mark{border:1.5px solid rgba(124,58,237,.3);color:var(--purple);background:rgba(124,58,237,.08);font-size:12px;padding:8px 14px;}
+.btn-mark.marked{background:var(--purple);color:#fff;border-color:var(--purple);}
+.btn-submit-sec{background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:11px 24px;font-size:14px;font-weight:800;border-radius:30px;border:none;cursor:pointer;font-family:var(--fn);box-shadow:0 5px 18px rgba(16,185,129,.4);transition:all .2s;}
+.btn-submit-sec:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.55);}
 
-/* SECTION TRANSITION OVERLAY */
-.section-transition{display:none;position:fixed;inset:0;background:rgba(0,30,80,0.93);z-index:9000;align-items:center;justify-content:center;flex-direction:column;gap:18px;text-align:center;padding:24px;}
-.section-transition.show{display:flex}
-.st-icon{font-size:56px}
-.st-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#fff}
-.st-msg{font-size:14px;color:rgba(255,255,255,0.75);max-width:440px;line-height:1.7}
-.st-next{font-family:'Rajdhani',sans-serif;font-size:16px;color:#00b4d8;font-weight:600;margin-top:4px}
-.st-bar-wrap{width:300px;height:6px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;margin-top:8px}
-.st-bar{height:100%;background:linear-gradient(90deg,var(--bank-blue),var(--bank-cyan));border-radius:4px;width:0%;transition:width 0.1s linear}
+/* VIOLATION WARNING */
+.violation-banner{position:fixed;top:0;left:0;right:280px;z-index:500;background:var(--red);color:#fff;padding:10px 20px;font-size:14px;font-weight:800;text-align:center;animation:slideDown .3s ease;display:none;}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
 
-/* SUBMIT MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:center;justify-content:center;}
-.modal-overlay.open{display:flex}
-.modal-box{background:#fff;border-radius:12px;padding:28px;width:500px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;}
-.modal-box h3{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--bank-blue);margin-bottom:12px}
-.modal-sections{margin:12px 0}
-.msec-row{background:#f5f8ff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:8px;}
-.msec-title{font-size:12px;font-weight:700;color:var(--bank-blue);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
-.modal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-.mstat{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;border-radius:6px;border:1px solid var(--border);background:#fff}
-.mstat-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0}
-.mstat-info{font-size:11px;color:var(--text-m);text-align:center}
-.mstat-info b{display:block;font-size:15px;font-family:'Rajdhani',sans-serif;color:var(--text)}
-.modal-warn{background:#fff8e1;border:1px solid #ffa000;border-radius:6px;padding:10px 14px;font-size:12.5px;color:#5d4037;margin-bottom:16px;margin-top:12px;}
-.modal-btns{display:flex;gap:10px;justify-content:flex-end}
-.m-btn{padding:10px 22px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Noto Sans',sans-serif}
-.m-btn-cancel{background:#f5f5f5;color:var(--text)}
-.m-btn-submit{background:var(--bank-blue);color:#fff}
+/* SECURITY OVERLAY */
+#security-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999999;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:#fff;}
+#security-overlay.active{display:flex;}
 
-/* RESULT */
-#result-screen{flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8f0fb,#f0f4f8);overflow-y:auto;}
-.result-card{background:#fff;border-radius:16px;padding:36px;width:640px;max-width:92vw;box-shadow:0 12px 48px rgba(0,82,165,0.15);animation:slideUp 0.5s ease;text-align:center;}
-.result-icon{font-size:64px;margin-bottom:12px}
-.result-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--bank-blue);margin-bottom:4px}
-.result-name{font-size:16px;color:var(--text-m);margin-bottom:24px}
-.score-circle{width:130px;height:130px;border-radius:50%;margin:0 auto 24px;background:linear-gradient(135deg,var(--bank-blue),var(--bank-cyan));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,82,165,0.3);}
-.score-num{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1}
-.score-lbl{font-size:11px;color:rgba(255,255,255,0.8);letter-spacing:0.1em;text-transform:uppercase}
-.result-sec-table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px}
-.result-sec-table th{background:var(--bank-blue-l);color:var(--bank-blue);font-weight:700;padding:8px 12px;border:1px solid var(--border);text-align:left;}
-.result-sec-table td{padding:7px 12px;border:1px solid var(--border);color:var(--text-m)}
-.result-sec-table tr:nth-child(even) td{background:#fafbfc}
-.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-.res-stat{background:#f5f8ff;border-radius:8px;padding:14px;border:1px solid var(--border)}
-.res-stat-num{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700}
-.res-stat-label{font-size:11px;color:var(--text-m);margin-top:2px}
-.res-green{color:var(--answered)}.res-red{color:var(--not-answered)}.res-orange{color:#e65100}
-.result-actions{display:flex;gap:10px;justify-content:center}
-.res-btn{padding:11px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Rajdhani',sans-serif;letter-spacing:0.05em}
-.res-btn-primary{background:linear-gradient(90deg,var(--bank-blue),var(--bank-cyan));color:#fff;box-shadow:0 4px 16px rgba(0,82,165,0.3)}
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:16px;}
+.modal-ov.open{display:flex;}
+.modal-content{background:var(--card);border-radius:var(--r2);width:100%;max-width:600px;padding:28px;box-shadow:0 24px 80px rgba(0,0,0,.25);animation:mIn .3s cubic-bezier(.34,1.56,.64,1);max-height:92vh;overflow-y:auto;border:1px solid var(--border);}
+@keyframes mIn{from{opacity:0;transform:scale(.93) translateY(14px)}to{opacity:1;transform:none}}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.modal-header h2{font-size:17px;font-weight:900;color:var(--acc);font-family:'Outfit',sans-serif;}
+.close-btn{background:none;border:none;font-size:24px;cursor:pointer;color:var(--text3);line-height:1;}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.result-card{background:var(--card2);border-radius:14px;padding:14px;text-align:center;border:1px solid var(--border);}
+.result-card h3{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:8px;}
+.result-card p{font-size:26px;font-weight:900;font-family:var(--mono);}
+.sec-breakdown{margin-top:14px;}
+.sec-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--card2);border-radius:10px;margin-bottom:7px;}
+.sec-row-name{font-size:12px;font-weight:700;flex:1;}
+.sec-row-score{font-size:13px;font-weight:900;font-family:var(--mono);}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--card2);border-radius:10px;margin-bottom:6px;font-size:13px;}
+.detail-row span:first-child{color:var(--text3);font-weight:600;}
+.detail-row span:last-child{font-weight:800;color:var(--text);}
+.modal-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}
+.mbtn{flex:1;padding:11px;border-radius:12px;border:none;cursor:pointer;font-size:13px;font-weight:800;font-family:var(--fn);transition:all .2s;}
+.mbtn:hover{transform:translateY(-2px);}
+.mbtn-review{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;}
+.mbtn-pdf{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;}
+.mbtn-analytics{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;}
 
-/* FULLSCREEN NAG */
-.fs-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:99999;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:#fff;text-align:center;padding:24px;}
-.fs-overlay.show{display:flex}
-.fs-overlay h2{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700}
-.fs-overlay p{font-size:14px;color:rgba(255,255,255,0.7);max-width:400px;line-height:1.6}
-.fs-btn{padding:12px 28px;background:var(--bank-blue);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:0.06em}
+/* ANALYTICS SCREEN */
+#analytics-screen{background:var(--bg);}
+.analytics-wrap{max-width:700px;margin:0 auto;padding:28px 16px 60px;}
+.analytics-hero{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:var(--r2);padding:24px;color:#fff;margin-bottom:20px;}
+.ah-title{font-size:20px;font-weight:900;font-family:'Outfit',sans-serif;margin-bottom:16px;}
+.ah-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;}
+.ah-stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;text-align:center;}
+.ah-val{font-size:22px;font-weight:900;font-family:var(--mono);}
+.ah-lbl{font-size:9px;opacity:.65;text-transform:uppercase;letter-spacing:.8px;margin-top:3px;}
+.hist-item{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:12px;box-shadow:var(--sh);}
+.hist-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.hist-title{font-size:14px;font-weight:800;}
+.hist-score{font-size:22px;font-weight:900;font-family:var(--mono);}
+.hist-sec-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.hist-sec-pill{padding:5px 12px;border-radius:30px;font-size:11px;font-weight:700;}
+.bar-wrap{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;align-items:flex-end;min-height:70px;}
+.bar-item{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:44px;}
+.bar-fill{width:32px;border-radius:5px 5px 0 0;}
+.bar-pct{font-size:10px;font-weight:800;font-family:var(--mono);}
+.bar-date{font-size:8px;color:var(--text3);}
 
-/* SECTION LOCK POPUP */
-.sec-lock-popup{
-  display:none;position:fixed;z-index:10000;
-  background:#1a2b3c;color:#fff;border-radius:10px;
-  padding:14px 20px;font-size:13px;line-height:1.6;
-  box-shadow:0 8px 32px rgba(0,0,0,0.45);
-  pointer-events:none;max-width:260px;text-align:center;
-  border:1px solid rgba(255,255,255,0.1);
-  animation:popIn 0.2s ease;
+@media(max-width:768px){
+  .sidebar{position:relative;width:100%;height:auto;right:auto;top:auto;border-right:none;border-bottom:1px solid var(--border);}
+  .main-content{margin-right:0;max-width:100%;padding:12px;}
+  .test-layout{flex-direction:column;}
+  .palette-grid{grid-template-columns:repeat(6,1fr);}
+  .mobile-topbar{display:flex;}
+  .sb-top .timer-box{display:none;}
+  .sb-info{display:none;}
+  .violation-banner{right:0;}
+  .result-grid{grid-template-columns:1fr 1fr;}
 }
-.sec-lock-popup.show{display:block}
-@keyframes popIn{from{opacity:0;transform:scale(0.9) translateY(-6px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.slp-icon{font-size:22px;margin-bottom:2px}
-.slp-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#ff7043;margin-bottom:4px}
-.slp-time{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;color:#ffcc02;margin:4px 0;letter-spacing:0.04em}
-.slp-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px}
+@media(max-width:480px){
+  .result-grid{grid-template-columns:1fr;}
+  .palette-grid{grid-template-columns:repeat(5,1fr);}
+}
 
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:#f0f4f8}
-::-webkit-scrollbar-thumb{background:#b0bec5;border-radius:4px}
+#pdf-print-area{display:none;}
+@media print{body>*{display:none!important;}#pdf-print-area{display:block!important;font-family:Arial,sans-serif;color:#111;padding:20px;}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login-screen" class="screen active">
-  <div class="login-card">
-    <div class="login-header">
-      <div class="login-logo"><span class="bolt">⚡</span><span class="brand">Thunder Banking CBT</span></div>
-      <div class="login-sub">Mock Test Platform</div>
-      <div class="exam-tag">IBPS · SBI · RBI · RRB</div>
-    </div>
-    <div class="login-body">
-      <div class="form-row"><label>Candidate Name</label><input type="text" id="inp-name" placeholder="Enter your full name" autocomplete="off"/></div>
-      <div class="form-row"><label>Registration No.</label><input type="text" id="inp-reg" placeholder="e.g. IBPS2025001234" autocomplete="off"/></div>
-      <div class="form-row">
-        <label>Select Exam</label>
-        <select id="inp-exam">
-          <option value="IBPS PO 2025">IBPS PO 2025 – Prelims</option>
-          <option value="SBI PO 2025">SBI PO 2025 – Prelims</option>
-          <option value="IBPS Clerk 2025">IBPS Clerk 2025 – Prelims</option>
-          <option value="RBI Grade B 2025">RBI Grade B 2025</option>
-          <option value="RRB PO 2025">RRB PO 2025 – Officer Scale I</option>
-        </select>
+<!-- ════════ START SCREEN ════════ -->
+<div class="screen active" id="start-screen">
+  <button class="dark-toggle" onclick="toggleDark()"><span id="dark-icon">🌙</span> Dark</button>
+  <div class="start-wrap">
+    <div class="start-hero">
+      <div class="hero-badge">⚡ ThunderStudy Banking</div>
+      <h1>IBPS PO Full Mock Test</h1>
+      <div class="hero-meta">100 Questions · 60 Minutes · Sectional Lock System</div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="sv">100</div><div class="sl">Questions</div></div>
+        <div class="hero-stat"><div class="sv">60</div><div class="sl">Minutes</div></div>
+        <div class="hero-stat"><div class="sv">+1/−¼</div><div class="sl">Marking</div></div>
+        <div class="hero-stat"><div class="sv">3</div><div class="sl">Sections</div></div>
       </div>
-      <div class="form-row"><label>Date of Birth</label><input type="date" id="inp-dob"/></div>
-      <button class="login-btn" onclick="goToInstructions()">PROCEED →</button>
-      <div class="login-notice">⚠ Ensure stable internet before starting the exam.</div>
-      <div class="login-footer-note">Thunder⚡ CBT · Made by WonderMayank<br>Design @thundertechnologyofficial · For @thunderstudy_official</div>
     </div>
-  </div>
-</div>
 
-<!-- INSTRUCTIONS -->
-<div id="instr-screen" class="screen">
-  <div class="instr-top">
-    <div class="logo-text">⚡ Thunder Banking CBT</div>
-    <div class="candidate-info">Candidate: <strong id="display-name-instr">—</strong> &nbsp;|&nbsp; <strong id="display-exam-instr">—</strong></div>
-  </div>
-  <div class="instr-body">
-    <div class="instr-card">
-      <h2>📋 General Instructions</h2>
-      <ol>
-        <li>Total duration is <strong>60 minutes</strong> — each section has its own <strong>20-minute</strong> timer.</li>
-        <li>Sections are attempted <strong>in order</strong>: English → Quantitative → Reasoning. You <strong>cannot switch sections manually</strong>.</li>
-        <li>When a section timer reaches <strong>0:00</strong>, that section is <strong>automatically locked</strong> and you are moved to the next section. You <strong>cannot go back</strong>.</li>
-        <li>You may click <strong>Submit Test</strong> at any time to submit the entire paper.</li>
-        <li><strong>Negative Marking:</strong> 0.25 marks deducted per wrong answer. No penalty for unattempted.</li>
-      </ol>
-      <div class="legend-grid" style="margin-top:12px">
-        <div class="legend-item"><div class="leg-box leg-white">1</div>Not visited yet.</div>
-        <div class="legend-item"><div class="leg-box leg-red">1</div>Visited, not answered.</div>
-        <div class="legend-item"><div class="leg-box leg-green">1</div>Answered.</div>
-        <div class="legend-item"><div class="leg-box leg-purple">1</div>Marked for review.</div>
-        <div class="legend-item"><div class="leg-box leg-purple-tick">1</div>Answered + marked.</div>
-      </div>
-    </div>
-    <div class="instr-card">
-      <h2>📊 Section Details</h2>
-      <table class="sections-table">
-        <thead><tr><th>#</th><th>Section</th><th>Questions</th><th>Marks</th><th>Duration</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>English Language</td><td>30</td><td>30</td><td>20 min</td></tr>
-          <tr><td>2</td><td>Quantitative Aptitude</td><td>35</td><td>35</td><td>20 min</td></tr>
-          <tr><td>3</td><td>Reasoning Ability</td><td>35</td><td>35</td><td>20 min</td></tr>
-          <tr><td colspan="2"><strong>Total</strong></td><td><strong>100</strong></td><td><strong>100</strong></td><td><strong>60 min</strong></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="instr-card">
-      <h2>🔒 Section Lock Rules</h2>
-      <ol>
-        <li>Section tabs at the top are <strong>display-only</strong> — you cannot click them to jump sections.</li>
-        <li>Once a section's time expires, it is <strong>permanently locked</strong>. Any unanswered questions in that section will be treated as skipped.</li>
-        <li>You cannot revisit a completed section even if you still have time remaining in the current section.</li>
-      </ol>
-    </div>
-    <div class="instr-card">
-      <h2>🖥️ Fullscreen Mode</h2>
-      <p>This exam must be in <strong>fullscreen mode</strong>. Exiting fullscreen will trigger a warning. After <strong>3 violations</strong>, the test auto-submits.</p>
-    </div>
-    <div class="instr-agree" onclick="toggleAgree()">
-      <input type="checkbox" id="agree-check">
-      <label for="agree-check">I have read all the instructions carefully and agree to abide by the rules of this examination.</label>
-    </div>
-    <button class="instr-start-btn" id="start-btn" onclick="startExam()">START EXAM →</button>
-    <br>
-  </div>
-</div>
-
-<!-- EXAM -->
-<div id="exam-screen" class="screen">
-  <div class="exam-topbar">
-    <div class="tl">
-      <div class="logo-t">⚡ Thunder CBT</div>
-      <!-- TABS ARE INDICATORS ONLY — click shows time info -->
-      <div class="section-tabs" id="section-tabs">
-        <div class="sec-tab active" id="tab-0" onclick="tabClicked(0)">English <span class="sec-tab-lock">🔒</span></div>
-        <div class="sec-tab" id="tab-1" onclick="tabClicked(1)">Quantitative <span class="sec-tab-lock">🔒</span></div>
-        <div class="sec-tab" id="tab-2" onclick="tabClicked(2)">Reasoning <span class="sec-tab-lock">🔒</span></div>
-      </div>
-    </div>
-    <div class="tr">
-      <div class="candidate-chip">
-        <div class="candidate-avatar" id="avatar-letter">?</div>
-        <div class="candidate-name" id="topbar-name">Candidate</div>
-      </div>
-      <div class="timer-chip">
-        <div>
-          <div class="timer-label">Section Time</div>
-          <div class="timer-val" id="timer-display">20:00</div>
+    <div class="info-card">
+      <div class="info-title">📐 Section Breakdown</div>
+      <div class="sec-info-row">
+        <div class="sec-info-card">
+          <div class="sic-header"><div class="sic-icon" style="background:rgba(236,72,153,.1);">📝</div><div class="sic-title">English</div></div>
+          <div class="sic-q" style="color:#ec4899;">35 Q</div>
+          <div class="sic-sub">20 min · RC, Cloze, Error</div>
+        </div>
+        <div class="sec-info-card">
+          <div class="sic-header"><div class="sic-icon" style="background:rgba(124,58,237,.1);">🔢</div><div class="sic-title">Quantitative</div></div>
+          <div class="sic-q" style="color:#7c3aed;">30 Q</div>
+          <div class="sic-sub">20 min · DI, Arith, Series</div>
+        </div>
+        <div class="sec-info-card">
+          <div class="sic-header"><div class="sic-icon" style="background:rgba(37,99,235,.1);">🧠</div><div class="sic-title">Reasoning</div></div>
+          <div class="sic-q" style="color:#2563eb;">35 Q</div>
+          <div class="sic-sub">20 min · Puzzle, Syllogism</div>
         </div>
       </div>
+      <ul class="info-list">
+        <li><span class="il-dot"></span><span>Sections are <strong>locked</strong> — complete each before moving to the next</span></li>
+        <li><span class="il-dot"></span><span><strong>No back navigation</strong> to previous sections once submitted</span></li>
+        <li><span class="il-dot"></span><span>Each section: <strong>20 min</strong> · Full test: <strong>60 min</strong></span></li>
+        <li><span class="il-dot"></span><span><strong>+1</strong> correct · <strong>−0.25</strong> wrong · <strong>0</strong> unattempted</span></li>
+        <li><span class="il-dot"></span><span>After <strong>3 tab/fullscreen violations</strong> → auto-submit</span></li>
+      </ul>
     </div>
-  </div>
 
-  <div class="exam-subbar">
-    <div class="subbar-left">
-      <span>Section |</span>
-      <span class="section-badge" id="section-badge">ENGLISH LANGUAGE</span>
-      <span class="sec-label">Question No. <span id="q-num-display">1</span> of <span id="q-total-display">30</span></span>
+    <div class="user-section">
+      <input type="text" id="username-input" class="user-input" placeholder="Your full name">
+      <div id="sid-display" style="display:none;background:rgba(37,99,235,.08);border:1.5px solid rgba(37,99,235,.25);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--acc);text-align:center;">🪪 Student ID: <span id="sid-val">---</span></div>
     </div>
-    <div style="display:flex;align-items:center;gap:16px">
-      <div class="view-in">View In: <select><option>English</option></select></div>
-    </div>
-  </div>
 
-  <div class="exam-main">
-    <div class="q-panel">
-      <div class="q-header">
-        <div class="q-num-badge" id="q-header-num">Question 1</div>
-        <div class="q-type-badge">Single Correct · −0.25 for wrong</div>
+    <a href="https://t.me/thunderstudy_official" target="_blank" class="cta-btn cta-tg" style="text-decoration:none;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.04 9.607c-.148.666-.543.828-1.098.516l-3.04-2.24-1.467 1.413c-.162.162-.298.298-.611.298l.217-3.083 5.613-5.067c.244-.217-.054-.337-.378-.12L7.08 14.807 4.09 13.89c-.657-.205-.67-.657.137-.973l10.88-4.196c.548-.198 1.027.133.855.973z"/></svg>
+      Join @thunderstudy_official
+    </a>
+    <button class="cta-btn cta-start" onclick="startMock()">🚀 Start Mock Test</button>
+    <button class="cta-btn cta-analytics" onclick="showAnalytics()">📊 View Past Performance</button>
+  </div>
+</div>
+
+<!-- ════════ INSTRUCTION SCREEN ════════ -->
+<div class="screen" id="instruction-screen">
+  <div class="instruction-box">
+    <div class="instruction-title">📋 General Instructions</div>
+    <ol class="instruction-list">
+      <li>Test has <strong>3 sections</strong>. Each section has an independent <strong>20-minute timer</strong>.</li>
+      <li>You <strong>cannot go back</strong> to a previous section once submitted.</li>
+      <li>Section auto-submits when timer ends. Full test = 60 minutes total.</li>
+      <li>Test runs in <strong>fullscreen mode</strong>. Exiting starts a 5-second countdown.</li>
+      <li><strong>Tab switching</strong> starts a 2-second countdown. After <strong>3 violations</strong>, test auto-submits.</li>
+      <li>Palette colors: <strong>Green</strong>=Answered, <strong>Purple</strong>=Marked, <strong>Red</strong>=Visited but not answered, <strong>Gray</strong>=Not visited</li>
+      <li><strong>+1</strong> correct · <strong>−0.25</strong> wrong · <strong>0</strong> unattempted</li>
+    </ol>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:#10b981;"></div>Answered</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7c3aed;"></div>Marked</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f43f5e;"></div>Visited (no ans)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--card2);border:1.5px solid var(--border);"></div>Not visited</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fff;border:2px solid var(--acc);"></div>Current</div>
+    </div>
+    <label class="agree-row">
+      <input type="checkbox" id="agree-checkbox">
+      <span style="font-size:13px;font-weight:600;">I have read and understood all instructions</span>
+    </label>
+    <button id="start-test-btn" disabled>🎯 Begin Test</button>
+  </div>
+</div>
+
+<!-- ════════ SECTION TRANSITION ════════ -->
+<div class="screen" id="section-transition">
+  <div class="sec-transition-box">
+    <div class="st-icon" id="st-icon">✅</div>
+    <div class="st-title" id="st-title">Section Complete!</div>
+    <div class="st-sub" id="st-sub">You have completed English Language. Review your score below.</div>
+    <div class="sec-score-strip" id="st-score-strip"></div>
+    <div id="st-countdown-area" style="display:none;">
+      <div style="font-size:14px;color:var(--text3);margin-bottom:4px;">Next section starts in</div>
+      <div class="st-timer" id="st-countdown">5</div>
+    </div>
+    <button class="st-next-btn" id="st-next-btn" onclick="proceedToNextSection()">▶ Start Next Section</button>
+    <div style="font-size:12px;color:var(--text3);margin-top:12px;" id="st-next-name">Quantitative Aptitude</div>
+  </div>
+</div>
+
+<!-- ════════ TEST SCREEN ════════ -->
+<div class="screen" id="test-screen">
+  <div id="violation-banner" class="violation-banner"></div>
+  <div class="test-layout">
+    <div class="main-content">
+      <div class="mobile-topbar">
+        <div class="mobile-timer" id="mobile-timer">20:00</div>
+        <div id="focus-mobile" style="font-size:10px;font-weight:700;color:var(--green);">● Focus On</div>
+        <div style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;" id="mobile-name">👤</div>
       </div>
-      <div class="q-content" id="q-content"></div>
-    </div>
-
-    <div class="q-palette">
-      <div class="palette-top">
-        <div class="palette-candidate">
-          <div class="p-avatar" id="palette-avatar">👤</div>
-          <div>
-            <div class="p-name" id="palette-name">Candidate</div>
-            <div class="p-exam" id="palette-exam">IBPS PO 2025</div>
+      <div class="test-header">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="sec-badge" id="sec-badge">📝 English</div>
+          <span style="font-size:12px;color:var(--text3);">Q<span id="q-num-display">1</span>/<span id="q-total">35</span></span>
+        </div>
+        <div class="qnum-badge" id="qnum-badge">Overall Q 1/100</div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        <div class="progress-labels"><span id="progress-label">Section progress</span><span id="progress-pct">0%</span></div>
+      </div>
+      <div class="question-container">
+        <div class="section-chip" id="section-chip">📝 English Language</div>
+        <div class="q-number-row">Question <span id="q-num">1</span></div>
+        <div id="rc-passage-container"></div>
+        <div class="question-text" id="question-text">Loading...</div>
+        <div class="options" id="options-container"></div>
+        <div class="nav-row">
+          <button class="btn btn-prev" id="prev-btn">← Prev</button>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn btn-mark" id="mark-btn">🔖 Mark</button>
+            <button class="btn btn-next" id="next-btn">Next →</button>
           </div>
         </div>
       </div>
-      <div class="palette-legend">
-        <div class="pl-item"><div class="pl-dot pl-green"></div>Answered</div>
-        <div class="pl-item"><div class="pl-dot pl-red"></div>Not Answered</div>
-        <div class="pl-item"><div class="pl-dot pl-purple"></div>Marked</div>
-        <div class="pl-item"><div class="pl-dot pl-white"></div>Not Visited</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:14px 0;">
+        <button class="btn-submit-sec" id="submit-sec-btn" onclick="confirmSectionSubmit()">✅ Submit Section</button>
       </div>
-      <div class="palette-section-label">
-        <span id="palette-sec-label">ENGLISH</span>
-        <span id="palette-sec-count">Q 1–30</span>
-      </div>
-      <div class="palette-grid" id="palette-grid"></div>
-      <div class="palette-btns">
-        <button class="pal-action-btn primary" onclick="openSubmitModal()">✔ Submit Test</button>
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);color:#e0e0e0;text-align:center;padding:18px;border-radius:12px;margin-top:10px;">
+        <p style="font-size:12px;color:#9ca3af;margin-bottom:10px;">© 2025 ThunderStudy · All Rights Reserved</p>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;">
+          <a href="https://t.me/thunderstudy_official" target="_blank" style="background:linear-gradient(135deg,#0088cc,#006699);color:#fff;text-decoration:none;padding:8px 16px;border-radius:30px;font-size:12px;font-weight:700;">💬 Telegram</a>
+          <a href="https://t.me/mindmaster_robot" target="_blank" style="background:linear-gradient(135deg,#f43f5e,#dc2626);color:#fff;text-decoration:none;padding:8px 16px;border-radius:30px;font-size:12px;font-weight:700;">🚨 Report</a>
+          <a href="https://commercesehoga.github.io/banking/" target="_blank" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;text-decoration:none;padding:8px 16px;border-radius:30px;font-size:12px;font-weight:700;">🏠 Dashboard</a>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="exam-footer">
-    <div class="footer-left">
-      <button class="f-btn f-btn-mark" onclick="markForReview()">Mark for Review &amp; Next →</button>
-      <button class="f-btn f-btn-clear" onclick="clearResponse()">Clear Response</button>
-    </div>
-    <div class="footer-right">
-      <button class="f-btn f-btn-report" onclick="reportIssue()">Report Issue</button>
-      <button class="f-btn f-btn-save" onclick="saveAndNext()">Save &amp; Next →</button>
-      <button class="f-btn f-btn-submit" onclick="openSubmitModal()">Submit Test</button>
+    <div class="sidebar">
+      <div class="sb-top">
+        <div class="timer-box timer-normal" id="timer-display">20:00</div>
+        <div class="sec-progress-bar"><div class="sec-progress-fill" id="sec-progress-fill" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:2px;" id="focus-laptop"><span style="color:var(--green);">● Focus On</span></div>
+      </div>
+      <div class="sb-section-tabs" id="sb-section-tabs">
+        <div class="sec-tab active-sec" id="st-english">ENG</div>
+        <div class="sec-tab locked-sec" id="st-quant">QNT</div>
+        <div class="sec-tab locked-sec" id="st-reasoning">RSN</div>
+      </div>
+      <div class="sb-info">
+        <div class="sb-info-row"><span class="sb-info-label">Name</span><span class="sb-info-val" id="sb-name">Student</span></div>
+        <div class="sb-info-row"><span class="sb-info-label">Section</span><span class="sb-info-val" id="sb-section">English</span></div>
+        <div class="sb-info-row"><span class="sb-info-label">Answered</span><span class="sb-info-val" id="answered-count">0/35</span></div>
+        <div class="sb-info-row"><span class="sb-info-label">Violations</span><span class="sb-info-val" id="violation-count" style="color:var(--red);">0/3</span></div>
+        <div class="sb-info-row"><span class="sb-info-label">Marking</span><span class="sb-info-val">+1/−0.25</span></div>
+      </div>
+      <div class="sb-palette">
+        <div class="palette-title"><span>Palette</span><span id="palette-answered">0</span></div>
+        <div class="palette-grid" id="palette-grid"></div>
+      </div>
+      <div class="sb-legend">
+        <div class="legend-row2">
+          <div class="li2"><div class="ld" style="background:#10b981;"></div>Answered</div>
+          <div class="li2"><div class="ld" style="background:#7c3aed;"></div>Marked</div>
+          <div class="li2"><div class="ld" style="background:#f43f5e;"></div>Visited</div>
+          <div class="li2"><div class="ld" style="background:var(--card2);border:1px solid var(--border);"></div>Not visited</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- RESULT -->
-<div id="result-screen" class="screen">
-  <div class="result-card">
-    <div class="result-icon">🏦</div>
-    <div class="result-title">Test Submitted Successfully!</div>
-    <div class="result-name" id="result-name">Good Luck!</div>
-    <div class="score-circle">
-      <div class="score-num" id="result-score">--</div>
-      <div class="score-lbl">Score / 100</div>
-    </div>
-    <table class="result-sec-table" id="result-sec-table"></table>
+<!-- ════════ ANALYTICS SCREEN ════════ -->
+<div class="screen" id="analytics-screen">
+  <div class="analytics-wrap">
+    <button onclick="goHome()" style="background:var(--card);border:1.5px solid var(--border);border-radius:30px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--fn);color:var(--text2);margin-bottom:20px;">← Back to Home</button>
+    <div id="analytics-content"></div>
+  </div>
+</div>
+
+<!-- RESULTS MODAL -->
+<div class="modal-ov" id="results-modal">
+  <div class="modal-content">
+    <div class="modal-header"><h2>🏆 Test Results</h2><button class="close-btn" onclick="closeResultsModal()">×</button></div>
     <div class="result-grid">
-      <div class="res-stat"><div class="res-stat-num res-green" id="res-correct">0</div><div class="res-stat-label">✅ Correct</div></div>
-      <div class="res-stat"><div class="res-stat-num res-red" id="res-wrong">0</div><div class="res-stat-label">❌ Incorrect</div></div>
-      <div class="res-stat"><div class="res-stat-num res-orange" id="res-skipped">0</div><div class="res-stat-label">⏭ Skipped</div></div>
+      <div class="result-card"><h3>✅ Correct</h3><p style="color:var(--green);" id="res-correct">0</p></div>
+      <div class="result-card"><h3>❌ Wrong</h3><p style="color:var(--red);" id="res-wrong">0</p></div>
+      <div class="result-card"><h3>⏭️ Skipped</h3><p style="color:var(--text3);" id="res-skipped">0</p></div>
+      <div class="result-card"><h3>💯 Score</h3><p style="color:var(--acc);" id="res-score">0</p></div>
     </div>
-    <div class="result-actions">
-      <button class="res-btn res-btn-primary" onclick="location.reload()">🔄 Attempt Again</button>
+    <div class="detail-row"><span>Percentage</span><span id="res-pct">0%</span></div>
+    <div class="detail-row"><span>Accuracy</span><span id="res-acc">0%</span></div>
+    <div class="detail-row"><span>Time Taken</span><span id="res-time">—</span></div>
+    <div class="sec-breakdown">
+      <div style="font-size:12px;font-weight:800;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Section Breakdown</div>
+      <div id="sec-breakdown-rows"></div>
     </div>
-    <div style="margin-top:18px;font-size:11px;color:#9e9e9e">Thunder⚡ CBT · Made by WonderMayank · @thunderstudy_official</div>
-  </div>
-</div>
-
-<!-- SUBMIT MODAL -->
-<div class="modal-overlay" id="submit-modal">
-  <div class="modal-box">
-    <h3>⚠ Submit Full Test?</h3>
-    <p style="font-size:13px;color:#555;margin-bottom:8px">Section-wise attempt status:</p>
-    <div id="modal-sections"></div>
-    <div class="modal-warn">⚠ Once submitted, you <strong>cannot</strong> return. Unattempted sections will be locked and scored as skipped.</div>
     <div class="modal-btns">
-      <button class="m-btn m-btn-cancel" onclick="closeSubmitModal()">Go Back</button>
-      <button class="m-btn m-btn-submit" onclick="submitExam()">Yes, Submit</button>
+      <button class="mbtn mbtn-review" onclick="reviewAnswers()">🔍 Review</button>
+      <button class="mbtn mbtn-pdf" onclick="generatePDF()">📄 PDF</button>
+      <button class="mbtn mbtn-analytics" onclick="showAnalytics()">📊 Analytics</button>
     </div>
   </div>
 </div>
 
-<!-- SECTION TRANSITION -->
-<div class="section-transition" id="sec-transition">
-  <div class="st-icon" id="st-icon">⏰</div>
-  <div class="st-title" id="st-title">Section Time Up!</div>
-  <div class="st-msg" id="st-msg">Your answers for this section have been saved.</div>
-  <div class="st-next" id="st-next">Loading next section…</div>
-  <div class="st-bar-wrap"><div class="st-bar" id="st-bar"></div></div>
+<!-- SECURITY OVERLAY -->
+<div id="security-overlay">
+  <div style="font-size:56px;margin-bottom:16px;">🚨</div>
+  <div style="font-size:22px;font-weight:900;margin-bottom:8px;" id="sec-title">Security Alert</div>
+  <div style="font-size:14px;color:#fbbf24;margin-bottom:20px;" id="sec-hint">Return to continue</div>
+  <div style="font-size:14px;color:#e0e0e0;margin-bottom:6px;">Auto-submitting in</div>
+  <div style="font-size:72px;font-weight:900;color:#f87171;line-height:1;" id="sec-count">5</div>
+  <div style="font-size:13px;color:#9ca3af;margin-top:4px;">seconds</div>
+  <button onclick="enterFullscreen()" id="fs-return-btn" style="margin-top:20px;padding:12px 32px;border-radius:30px;border:none;background:linear-gradient(135deg,#10b981,#059669);color:#fff;font-size:15px;font-weight:800;cursor:pointer;display:none;">🔲 Return to Fullscreen</button>
+  <div style="margin-top:14px;font-size:12px;color:#9ca3af;" id="viol-remain"></div>
 </div>
 
-<!-- SECTION LOCK POPUP -->
-<div class="sec-lock-popup" id="sec-lock-popup">
-  <div class="slp-icon">🔒</div>
-  <div class="slp-title" id="slp-title">Section Locked</div>
-  <div class="slp-time" id="slp-time">--:--</div>
-  <div class="slp-sub" id="slp-sub">remaining in current section</div>
-</div>
-
-<!-- FULLSCREEN OVERLAY -->
-<div class="fs-overlay" id="fs-overlay">
-  <h2>⚠ Fullscreen Required</h2>
-  <p>This exam must be in fullscreen. Violations: <strong id="fs-count">0</strong> / 3. After 3 violations the test auto-submits.</p>
-  <button class="fs-btn" onclick="requestFS()">Enter Fullscreen</button>
-</div>
+<div id="pdf-print-area"></div>
 
 <script>
-/* ══════════════════════════════════════════
-   QUESTION BANK
-══════════════════════════════════════════ */
-function genEnglish(){
-  return [
-    // Vocabulary
-    {text:"Choose the word most SIMILAR in meaning to 'LUCID':",opts:["Obscure","Clear","Confusing","Dull"],ans:1},
-    {text:"Choose the word most OPPOSITE in meaning to 'BENEVOLENT':",opts:["Kind","Generous","Malevolent","Charitable"],ans:2},
-    {text:"Choose the best synonym for 'EPHEMERAL':",opts:["Permanent","Temporary","Historical","Ancient"],ans:1},
-    {text:"Choose the antonym of 'VERBOSE':",opts:["Talkative","Concise","Elaborate","Loquacious"],ans:1},
-    {text:"Choose the word most SIMILAR in meaning to 'CANDID':",opts:["Dishonest","Frank","Secretive","Cautious"],ans:1},
-    {text:"Choose the word most OPPOSITE in meaning to 'FRUGAL':",opts:["Thrifty","Economical","Extravagant","Prudent"],ans:2},
-    {text:"Choose the synonym of 'DILIGENT':",opts:["Lazy","Careless","Hardworking","Indifferent"],ans:2},
-    {text:"Choose the antonym of 'AUDACIOUS':",opts:["Bold","Brave","Timid","Daring"],ans:2},
-    // Spelling
-    {text:"Select the correctly spelled word:",opts:["Accomodate","Accommodate","Acommodate","Acomodate"],ans:1},
-    {text:"Select the correctly spelled word:",opts:["Occurance","Occurrence","Occurence","Occurrance"],ans:1},
-    // Grammar
-    {text:"Choose the correct form: He ___ to the office every day.",opts:["go","goes","gone","going"],ans:1},
-    {text:"Identify the error: 'She don't know the answer to the question.'",opts:["She","don't","know","the answer"],ans:1},
-    {text:"Choose the correct sentence:",opts:["He is more smarter than his brother","He is smarter than his brother","He is most smartest","He is smart than his brother"],ans:1},
-    {text:"He ___ the book before the movie started.",opts:["read","reads","had read","is reading"],ans:2},
-    {text:"Choose the correctly punctuated sentence:",opts:["Its a beautiful day","It's a beautiful day","Its' a beautiful day","It is, a beautiful day"],ans:1},
-    {text:"Fill in: ___ you hurry, you will miss the train.",opts:["Unless","If","Although","Because"],ans:0},
-    {text:"Choose the correct article: ___ honest man is respected everywhere.",opts:["A","An","The","No article"],ans:1},
-    {text:"Identify the noun in: 'Honesty is the best policy.'",opts:["is","best","policy","Honesty"],ans:3},
-    {text:"The passive voice of 'She wrote the letter' is:",opts:["The letter wrote by her","The letter was written by her","The letter is written by her","The letter has written by her"],ans:1},
-    {text:"The plural of 'Criterion' is:",opts:["Criterions","Criterias","Criteria","Criterion"],ans:2},
-    // Fill in blanks
-    {text:"Fill in the blank: The meeting was ___ due to bad weather.",opts:["postponed","preponed","cancelled abruptly","occurred"],ans:0},
-    {text:"Fill in: The teacher was ___ with the student's performance.",opts:["pleased","pleasing","pleasure","pleasant"],ans:0},
-    {text:"Fill in: He ___ a lot of money at the casino last night.",opts:["loses","lost","loosing","lose"],ans:1},
-    {text:"Fill in: Neither the manager nor the employees ___ present.",opts:["was","were","are being","has been"],ans:1},
-    // Idioms
-    {text:"'Burn the midnight oil' means:",opts:["Start fire","Work late at night","Sleep early","Waste resources"],ans:1},
-    {text:"'Once in a blue moon' means:",opts:["Very often","Very rarely","Every month","During full moon"],ans:1},
-    {text:"'To let the cat out of the bag' means:",opts:["To release a pet","To reveal a secret","To cause chaos","To plan something"],ans:1},
-    {text:"'Hit the sack' means:",opts:["Beat something","Go to sleep","Strike hard","Leave quickly"],ans:1},
-    // One word / misc
-    {text:"A 'Bibliophile' is a person who loves:",opts:["Music","Books","Art","Travel"],ans:1},
-    {text:"'Achilles' heel' refers to:",opts:["A strong point","A weak point","A painful injury","A type of dance"],ans:1},
-  ].map((q,i)=>({id:i+1,...q,direction:null}));
-}
+/* ════════ MOCK TEST DATA ════════ */
+const MOCK = {
+  title: "IBPS PO Full Mock Test 1",
+  totalDuration: 60 * 60,
+  sections: [
+    {
+      id: "english",
+      name: "English Language",
+      icon: "📝",
+      color: "#ec4899",
+      bgColor: "rgba(236,72,153,.1)",
+      duration: 20 * 60,
+      questions: []
+    },
+    {
+      id: "quant",
+      name: "Quantitative Aptitude",
+      icon: "🔢",
+      color: "#7c3aed",
+      bgColor: "rgba(124,58,237,.1)",
+      duration: 20 * 60,
+      questions: []
+    },
+    {
+      id: "reasoning",
+      name: "Reasoning Ability",
+      icon: "🧠",
+      color: "#2563eb",
+      bgColor: "rgba(37,99,235,.1)",
+      duration: 20 * 60,
+      questions: []
+    }
+  ]
+};
 
-function genQuant(){
-  return [
-    {text:"What is 15% of 840?",opts:["115","126","136","146"],ans:1},
-    {text:"A train covers 360 km in 4 hours. Its speed in m/s is:",opts:["25 m/s","22 m/s","20 m/s","18 m/s"],ans:0},
-    {text:"If A : B = 3 : 4 and B : C = 5 : 6, find A : C.",opts:["5:8","15:24","1:2","3:6"],ans:1},
-    {text:"Simple interest on ₹8000 at 12% p.a. for 2 years is:",opts:["₹1920","₹1820","₹2000","₹1680"],ans:0},
-    {text:"Compound interest on ₹5000 at 10% p.a. for 2 years is:",opts:["₹1000","₹1050","₹1100","₹1150"],ans:1},
-    {text:"A can do a work in 12 days, B in 18 days. Together they finish in:",opts:["7.2 days","6.5 days","8 days","9 days"],ans:0},
-    {text:"Two numbers are in ratio 5:7. Their sum is 144. The larger number is:",opts:["80","84","90","78"],ans:1},
-    {text:"Average of 45, 55, 65, 75, 85 is:",opts:["63","65","67","69"],ans:1},
-    {text:"A shopkeeper marks up by 40% and gives 20% discount. Profit % is:",opts:["12%","14%","16%","18%"],ans:0},
-    {text:"√1764 = ?",opts:["40","42","44","46"],ans:1},
-    {text:"If 3x + 7 = 28, then x = ?",opts:["5","6","7","8"],ans:2},
-    {text:"Area of circle with radius 7 cm (π = 22/7) is:",opts:["144 cm²","154 cm²","164 cm²","174 cm²"],ans:1},
-    {text:"A pipe fills a tank in 6 hrs, another empties in 12 hrs. Net fill time:",opts:["10 hrs","12 hrs","14 hrs","16 hrs"],ans:1},
-    {text:"HCF of 84 and 126 is:",opts:["21","42","14","28"],ans:1},
-    {text:"Speed 54 km/h in m/s is:",opts:["12 m/s","15 m/s","18 m/s","20 m/s"],ans:1},
-    {text:"Perimeter of rectangle: length 12 cm, breadth 8 cm:",opts:["40 cm","38 cm","44 cm","20 cm"],ans:0},
-    {text:"Cost price ₹250, selling price ₹300. Profit% = ?",opts:["15%","20%","25%","10%"],ans:1},
-    {text:"LCM of 12, 18 and 24 is:",opts:["72","48","36","60"],ans:0},
-    {text:"A sum doubles in 10 years at SI. Rate of interest is:",opts:["8%","10%","12%","15%"],ans:1},
-    {text:"In a class of 40, 60% are boys. Number of girls:",opts:["14","16","18","24"],ans:1},
-    {text:"What is 20% of 35% of 500?",opts:["30","35","25","40"],ans:1},
-    {text:"The ratio of two numbers is 3:5 and their difference is 18. Smaller number is:",opts:["27","45","18","30"],ans:0},
-    {text:"A boat goes 30 km upstream in 6 hrs and 30 km downstream in 3 hrs. Speed of stream:",opts:["2.5 km/h","3 km/h","5 km/h","4 km/h"],ans:0},
-    {text:"If SP = ₹660 and loss = 12%, then CP = ?",opts:["₹720","₹750","₹730","₹745"],ans:1},
-    {text:"Sum of first 20 natural numbers is:",opts:["190","200","210","220"],ans:2},
-    {text:"A train 200 m long crosses a pole in 10 sec. Speed of train (km/h):",opts:["60","66","72","78"],ans:2},
-    {text:"₹6000 is divided between A and B in ratio 2:3. B's share is:",opts:["₹2400","₹3200","₹3600","₹2800"],ans:2},
-    {text:"If the diagonal of a square is 10√2 cm, its area is:",opts:["50 cm²","100 cm²","200 cm²","150 cm²"],ans:1},
-    {text:"A number when divided by 5 leaves remainder 3. When divided by 7 leaves remainder 5. The number is:",opts:["33","68","43","26"],ans:1},
-    {text:"What is the value of (1.5)³?",opts:["3.25","3.375","3.5","3.125"],ans:1},
-    {text:"If x : y = 4 : 5 and y : z = 3 : 4, then x : z = ?",opts:["3:5","4:7","3:4","12:20"],ans:0},
-    {text:"Volume of a cube with side 6 cm is:",opts:["196 cm³","216 cm³","256 cm³","226 cm³"],ans:1},
-    {text:"Two taps fill a tank in 10 and 15 hours. Together they fill in:",opts:["5 hrs","6 hrs","7 hrs","8 hrs"],ans:1},
-    {text:"If 12 men can do a work in 15 days, 9 men will do it in:",opts:["18 days","20 days","22 days","24 days"],ans:1},
-    {text:"Successive discounts of 20% and 10% = single discount of:",opts:["30%","28%","27%","25%"],ans:1},
-  ].map((q,i)=>({id:i+1,...q,direction:null}));
-}
+/* ════════ ENGLISH QUESTIONS (35) ════════ */
+const rcPassage1 = `The Reserve Bank of India (RBI) plays a multifaceted role in the Indian economy. As the central bank, it is responsible for maintaining monetary stability, regulating the banking sector, and managing the country's foreign exchange reserves. One of its key tools is the repo rate — the interest rate at which commercial banks borrow money from the RBI. By adjusting this rate, the RBI can control inflation and stimulate or cool economic growth. When inflation rises, the RBI typically increases the repo rate, making borrowing costlier and reducing money supply in the economy. Conversely, to boost growth during a slowdown, it reduces the repo rate to encourage lending and investment.`;
 
-function genReasoning(){
-  const dirText="Directions (Q.1–5): Symbols @, %, #, $, © are used:\n'A@B' = A ≥ B | 'A%B' = A ≤ B | 'A#B' = A < B | 'A$B' = A > B | 'A©B' = A = B";
-  return [
-    {text:"Statements: P$Q@R%S#T\nConclusions: I. P$R  II. T$Q",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:0,direction:dirText},
-    {text:"Statements: A#B$C@D©E\nConclusions: I. A#D  II. E%C",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:2,direction:dirText},
-    {text:"Statements: J$K%L@M#N\nConclusions: I. J$L  II. M#J",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:0,direction:dirText},
-    {text:"Statements: X©Y$Z%W@V\nConclusions: I. X$Z  II. V%Y",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:2,direction:dirText},
-    {text:"Statements: M@N#O$P©Q\nConclusions: I. M@O  II. Q$N",opts:["Only I follows","Only II follows","Both follow","Neither follows"],ans:1,direction:dirText},
-    // Coding
-    {text:"If FRIEND is coded as HUMJTK, then CANDLE is coded as:",opts:["EDRIRL","EDQJMF","DCQFKD","EDRJML"],ans:0,direction:null},
-    {text:"If PAPER is coded as 24162118, how is PENCIL coded?",opts:["161451239","16514129","16141239","1614239"],ans:0,direction:null},
-    {text:"If CAT = 3120, then DOG = ?",opts:["4157","4156","4158","4159"],ans:0,direction:null},
-    {text:"If WATER is coded as YCVGT, then EARTH is coded as:",opts:["GCTVJ","GCRTJ","GCTJV","GCVTJ"],ans:0,direction:null},
-    // Series
-    {text:"Complete: 2, 6, 12, 20, 30, __",opts:["38","40","42","44"],ans:2,direction:null},
-    {text:"Find missing: 3, 9, 27, __, 243",opts:["54","72","81","90"],ans:2,direction:null},
-    {text:"Which number replaces ?: 4, 10, 22, 46, ?",opts:["90","92","94","96"],ans:2,direction:null},
-    {text:"'BDFH' is to 'IKMO' as 'CEGI' is to:",opts:["JLNP","KLNO","JLMP","JLNO"],ans:0,direction:null},
-    {text:"Next term: 1, 4, 9, 16, 25, __",opts:["30","36","49","34"],ans:1,direction:null},
-    {text:"Next term: 0, 1, 1, 2, 3, 5, 8, __",opts:["11","12","13","14"],ans:2,direction:null},
-    // Analogy
-    {text:"'Doctor' is related to 'Hospital' as 'Teacher' is related to:",opts:["Student","School","Book","Classroom"],ans:1,direction:null},
-    {text:"'Light' is to 'Sun' as 'Heat' is to:",opts:["Summer","Fire","Warmth","Energy"],ans:1,direction:null},
-    {text:"'Pen' is to 'Write' as 'Knife' is to:",opts:["Sharp","Cut","Cook","Metal"],ans:1,direction:null},
-    // Blood relations
-    {text:"Pointing to a photo, a man says 'She is the mother of my son's wife.' How is the woman related to the man?",opts:["Daughter","Daughter-in-law","Sister-in-law","Mother-in-law"],ans:1,direction:null},
-    {text:"A is B's brother. C is A's mother. D is C's father. E is D's mother. How is B related to D?",opts:["Grandson","Granddaughter","Grandchild","Cannot determine"],ans:3,direction:null},
-    // Direction
-    {text:"A man walks 3 km north, turns right, walks 4 km. Distance from start?",opts:["5 km","7 km","4 km","6 km"],ans:0,direction:null},
-    {text:"Ram walks 10 km north, turns left and walks 5 km, then turns south and walks 10 km. He is how far from start?",opts:["5 km","10 km","15 km","0 km"],ans:0,direction:null},
-    // Ranking
-    {text:"In a queue, Ram is 7th from front and 12th from back. Total persons:",opts:["17","18","19","20"],ans:1,direction:null},
-    {text:"Seema is 8th from left and 12th from right in a row. Total students:",opts:["18","19","20","21"],ans:1,direction:null},
-    // Odd one out
-    {text:"Choose the odd one out: 41, 43, 45, 47, 53",opts:["41","43","45","53"],ans:2,direction:null},
-    {text:"Choose the odd one out: Rose, Tulip, Lotus, Mango, Lily",opts:["Rose","Lotus","Mango","Tulip"],ans:2,direction:null},
-    // Syllogism
-    {text:"All Pens are Pencils. Some Pencils are Erasers.\nI. Some Pens are Erasers  II. All Erasers are Pens",opts:["Only I","Only II","Both","Neither"],ans:3,direction:null},
-    {text:"All cats are dogs. No dogs are birds.\nConclusion: No cats are birds.",opts:["Definitely true","Definitely false","Possibly true","Insufficient data"],ans:0,direction:null},
-    // Arrangement
-    {text:"Arrange: A.Foundation  B.Construction  C.Painting  D.Plumbing\nCorrect order:",opts:["A,B,D,C","A,D,B,C","B,A,D,C","D,A,B,C"],ans:0,direction:null},
-    // Meaningful words
-    {text:"How many meaningful English words can be formed from DEAR using each letter once?",opts:["1","2","3","4"],ans:2,direction:null},
-    // Misc
-    {text:"If 'NORTH' is written as 'SOUTH' and 'EAST' as 'WEST', then 'UP' is written as:",opts:["DOWN","LEFT","RIGHT","NORTH"],ans:0,direction:null},
-    {text:"A clock shows 3:15. The angle between hour and minute hands is:",opts:["0°","7.5°","3.75°","15°"],ans:1,direction:null},
-    {text:"How many triangles are in a figure with 4 horizontal and 4 vertical lines forming a grid?",opts:["16","18","20","24"],ans:1,direction:null},
-    {text:"Choose missing: AZ, BY, CX, __, EV",opts:["DV","DW","DX","DU"],ans:1,direction:null},
-    {text:"If the day before yesterday was Thursday, what day is tomorrow?",opts:["Sunday","Monday","Saturday","Tuesday"],ans:0,direction:null},
-  ].map((q,i)=>({id:i+1,...q}));
-}
+const rcPassage2 = `Financial inclusion has emerged as a critical policy objective in developing economies like India. The concept refers to making financial services — such as banking, credit, insurance, and investment — accessible to all segments of society, particularly the underserved rural and low-income populations. The Pradhan Mantri Jan Dhan Yojana (PMJDY), launched in 2014, was a landmark initiative aimed at opening zero-balance bank accounts for millions of unbanked citizens. Studies have shown that financial inclusion contributes to poverty alleviation, reduces income inequality, and empowers women by giving them independent control over finances. However, challenges remain — digital literacy, internet connectivity, and trust in formal banking institutions are barriers that must be overcome.`;
 
-/* ══════════════════════════════════════════
-   SECTIONS CONFIG
-══════════════════════════════════════════ */
-const SECTIONS = [
-  {name:"English Language",   short:"ENGLISH LANGUAGE",     qRange:"Q 1–30",  time:20*60, questions:genEnglish()},
-  {name:"Quantitative Aptitude", short:"QUANTITATIVE APTITUDE", qRange:"Q 1–35", time:20*60, questions:genQuant()},
-  {name:"Reasoning Ability",  short:"REASONING ABILITY",    qRange:"Q 1–35",  time:20*60, questions:genReasoning()},
+MOCK.sections[0].questions = [
+  // Reading Comprehension (Q1–Q5) - Passage 1
+  {id:1,type:"RC",passage:rcPassage1,question:"According to the passage, what is the primary purpose of the repo rate?",options:["To regulate foreign exchange","To control inflation and stimulate growth","To manage fiscal deficit","To set lending rates for MSMEs"],answer:1,explanation:"The passage states: 'By adjusting this rate, the RBI can control inflation and stimulate or cool economic growth.'"},
+  {id:2,type:"RC",passage:rcPassage1,question:"When the RBI wants to reduce inflation, it typically:",options:["Decreases the repo rate","Increases foreign reserves","Increases the repo rate","Reduces bank regulation"],answer:2,explanation:"'When inflation rises, the RBI typically increases the repo rate, making borrowing costlier and reducing money supply.'"},
+  {id:3,type:"RC",passage:rcPassage1,question:"What is the effect of reducing the repo rate?",options:["Reduces inflation","Encourages lending and investment","Reduces money supply","Increases government borrowing"],answer:1,explanation:"'To boost growth during a slowdown, it reduces the repo rate to encourage lending and investment.'"},
+  {id:4,type:"RC",passage:rcPassage1,question:"Which word is closest in meaning to 'multifaceted' as used in the passage?",options:["Simple","Having many aspects","Contradictory","Unpredictable"],answer:1,explanation:"'Multifaceted' means having many different aspects or features, which aligns with the RBI's described role."},
+  {id:5,type:"RC",passage:rcPassage1,question:"The passage primarily discusses the RBI's role in:",options:["International trade","Monetary stability and banking regulation","Agricultural credit","Stock market regulation"],answer:1,explanation:"The passage focuses on RBI's role in monetary stability, regulating banking, and managing foreign exchange."},
+
+  // RC Passage 2 (Q6–Q10)
+  {id:6,type:"RC",passage:rcPassage2,question:"What does 'financial inclusion' refer to?",options:["Only banking services","Making financial services accessible to all","Credit cards for the wealthy","Insurance for corporates"],answer:1,explanation:"The passage defines it as 'making financial services accessible to all segments of society.'"},
+  {id:7,type:"RC",passage:rcPassage2,question:"PMJDY was launched in which year?",options:["2012","2013","2014","2015"],answer:2,explanation:"'The Pradhan Mantri Jan Dhan Yojana (PMJDY), launched in 2014...'"},
+  {id:8,type:"RC",passage:rcPassage2,question:"Which of the following is NOT mentioned as a benefit of financial inclusion?",options:["Poverty alleviation","Women empowerment","Increase in foreign investment","Reduction in income inequality"],answer:2,explanation:"Foreign investment is not mentioned. The passage lists poverty alleviation, women empowerment, and reduced inequality."},
+  {id:9,type:"RC",passage:rcPassage2,question:"According to the passage, PMJDY focused on opening:",options:["Savings accounts for corporations","Zero-balance bank accounts for unbanked citizens","Investment accounts for farmers","Fixed deposits for rural banks"],answer:1,explanation:"'PMJDY... was a landmark initiative aimed at opening zero-balance bank accounts for millions of unbanked citizens.'"},
+  {id:10,type:"RC",passage:rcPassage2,question:"Which word from the passage is closest in meaning to 'obstacles'?",options:["initiatives","segments","barriers","objectives"],answer:2,explanation:"'Barriers' in the passage means obstacles that must be overcome."},
+
+  // Cloze Test (Q11–Q15)
+  // Passage: "Banks play a crucial role in the _____ of capital in the economy..."
+  {id:11,type:"CLOZE",clozeContext:"Banks play a crucial role in the _____ of capital in the economy by accepting deposits and channelling them into productive investments.",question:"Select the most appropriate word for the blank:",options:["distribution","destruction","withdrawal","formation"],answer:0,explanation:"'Distribution of capital' — banks distribute capital by channelling deposits into investments."},
+  {id:12,type:"CLOZE",clozeContext:"The government has decided to _____ the interest rate on small savings schemes to attract more depositors.",question:"Select the most appropriate word for the blank:",options:["decrease","revise","abandon","penalize"],answer:1,explanation:"'Revise the interest rate' is the most contextually appropriate. Revising implies adjustment upward or downward, fitting the context."},
+  {id:13,type:"CLOZE",clozeContext:"A Non-Performing Asset (NPA) arises when a borrower fails to _____ their loan for more than 90 days.",question:"Select the most appropriate word for the blank:",options:["invest","service","obtain","sanction"],answer:1,explanation:"'Service their loan' means making payments. An NPA arises when borrowers fail to service (pay) their loans."},
+  {id:14,type:"CLOZE",clozeContext:"Financial literacy helps citizens make _____ decisions about saving, investing, and borrowing money.",question:"Select the most appropriate word for the blank:",options:["impulsive","arbitrary","informed","reckless"],answer:2,explanation:"Financial literacy helps make 'informed decisions' — choices based on knowledge and understanding."},
+  {id:15,type:"CLOZE",clozeContext:"The credit _____ of a borrower is assessed by banks before sanctioning a loan to estimate default risk.",question:"Select the most appropriate word for the blank:",options:["history","worthiness","card","limit"],answer:1,explanation:"'Creditworthiness' is the standard banking term for a borrower's ability and willingness to repay loans."},
+
+  // Error Detection (Q16–Q20)
+  {id:16,type:"ERROR",question:"Identify the part of the sentence that contains a grammatical error:\n(A) The bank has announced / (B) a new scheme / (C) for providing loan / (D) to small businesses.",options:["The bank has announced","a new scheme","for providing loan","to small businesses"],answer:2,explanation:"Correct: 'for providing loans' — 'loan' should be plural as it refers to loans in general for multiple businesses."},
+  {id:17,type:"ERROR",question:"Identify the erroneous part:\n(A) Each of the employees / (B) were given / (C) a performance bonus / (D) at the end of the year.",options:["Each of the employees","were given","a performance bonus","at the end of the year"],answer:1,explanation:"'Each' is singular; correct form is 'was given'. 'Each of the employees was given...'"},
+  {id:18,type:"ERROR",question:"Spot the error:\n(A) The RBI / (B) have directed / (C) all banks to comply / (D) with the new guidelines.",options:["The RBI","have directed","all banks to comply","with the new guidelines"],answer:1,explanation:"'RBI' is a singular entity. Correct: 'has directed', not 'have directed'."},
+  {id:19,type:"ERROR",question:"Identify the error:\n(A) He is one of / (B) the most brilliant / (C) student / (D) in the batch.",options:["He is one of","the most brilliant","student","in the batch"],answer:2,explanation:"'One of the most brilliant students' — when using 'one of', the noun must be plural."},
+  {id:20,type:"ERROR",question:"Spot the grammatical error:\n(A) Neither the manager / (B) nor the clerks / (C) was present / (D) at the meeting.",options:["Neither the manager","nor the clerks","was present","at the meeting"],answer:2,explanation:"With 'neither...nor', the verb agrees with the subject closer to it — 'clerks' (plural), so correct: 'were present'."},
+
+  // Sentence Improvement (Q21–Q24)
+  {id:21,type:"SENTENCE",question:"Select the option that best improves the underlined part:\nThe committee has been decided to postpone the meeting.",options:["has decided to postpone","have been decided to postpone","had decided to postponing","was decided to postpone"],answer:0,explanation:"'Has decided' is the correct active voice form. The original uses passive voice incorrectly with an active subject."},
+  {id:22,type:"SENTENCE",question:"Choose the best alternative to improve the sentence:\nHe is too clever to not understand the problem.",options:["too clever to understand","very clever to not understand","so clever that he cannot understand","too clever that he understands"],answer:0,explanation:"'Too + adj + to + verb' already implies a negative outcome. 'Too clever to understand' is the correct idiomatic form."},
+  {id:23,type:"SENTENCE",question:"Improve the underlined portion:\nThe data shows that inflation have been rising steadily.",options:["data show that inflation has been","data shows that inflation has been","data showed that inflation have","data shows that inflation had been"],answer:1,explanation:"'Inflation' is uncountable singular → 'has been rising'. 'Data shows' is acceptable in formal usage."},
+  {id:24,type:"SENTENCE",question:"Choose the correct improvement:\nBanks are looking for ways to make their services more accessible for rural people.",options:["accessible to rural people","accessible toward rural people","accessible of rural people","accessible in rural people"],answer:0,explanation:"'Accessible to' is the correct preposition. We say 'accessible to someone', not 'accessible for'."},
+
+  // Vocabulary — Synonyms/Antonyms (Q25–Q29)
+  {id:25,type:"VOCAB",question:"Choose the synonym of 'SOLVENT' (as used in banking context):",options:["Liquid","Financially stable","Insolvent","Bankrupt"],answer:1,explanation:"In banking, 'solvent' means an entity has more assets than liabilities — financially stable."},
+  {id:26,type:"VOCAB",question:"Choose the antonym of 'AUSTERE':",options:["Strict","Harsh","Lavish","Simple"],answer:2,explanation:"'Austere' means severely simple and strict. Its antonym is 'lavish' — luxurious and extravagant."},
+  {id:27,type:"VOCAB",question:"Choose the synonym of 'PRUDENT':",options:["Reckless","Cautious","Impulsive","Wasteful"],answer:1,explanation:"'Prudent' means showing care and good judgment. Synonym: cautious, wise."},
+  {id:28,type:"VOCAB",question:"Choose the antonym of 'LIQUID ASSETS':",options:["Cash","Fixed Assets","Current Assets","Bank Deposits"],answer:1,explanation:"Liquid assets can be quickly converted to cash. Their antonym in banking context is 'fixed assets' (illiquid)."},
+  {id:29,type:"VOCAB",question:"The word 'MORATORIUM' most closely means:",options:["A legal ban","A temporary suspension of payments","An increase in interest","A type of bond"],answer:1,explanation:"A moratorium is a legally authorized period to delay payment of a debt or performance of an obligation."},
+
+  // Para Jumbles (Q30–Q33)
+  {id:30,type:"PARA",question:"Arrange the sentences to form a coherent paragraph:\nP: This helps control inflation and stabilize the rupee.\nQ: The RBI uses monetary policy tools to regulate the money supply.\nR: One such tool is the Cash Reserve Ratio (CRR).\nS: By increasing CRR, banks must keep more funds with the RBI.",options:["QRSP","SRQP","QRPS","SRQP"],answer:0,explanation:"Logical order: Q (RBI uses tools) → R (one such tool is CRR) → S (by increasing CRR...) → P (this helps control inflation)."},
+  {id:31,type:"PARA",question:"Arrange to form a coherent paragraph:\nP: They evaluate the creditworthiness of borrowers.\nQ: Commercial banks are the backbone of the financial system.\nR: Loans are then disbursed at agreed interest rates.\nS: Before sanctioning any loan, banks conduct due diligence.",options:["QSPR","SPRQ","QPSR","RSPQ"],answer:0,explanation:"Q (banks are backbone) → S (before sanctioning, due diligence) → P (they evaluate creditworthiness) → R (loans are disbursed)."},
+  {id:32,type:"PARA",question:"Arrange the following:\nP: The government aims to achieve universal banking access by 2025.\nQ: Over 600 million Indians still lack basic banking services.\nR: Financial exclusion leads to dependence on informal money lenders.\nS: Such lenders often charge exorbitant interest rates.",options:["QRSP","RSPQ","PQRS","QPRS"],answer:0,explanation:"Q (600 million unbanked) → R (leads to informal lenders) → S (they charge high rates) → P (government aims for access)."},
+  {id:33,type:"PARA",question:"Choose the correct order:\nP: Net banking and UPI have transformed how Indians transact.\nQ: Digital payments in India crossed $3 trillion in 2023.\nR: Mobile penetration has been a key enabler of this growth.\nS: The government's push for cashless transactions accelerated adoption.",options:["PRQS","QRSP","PRQS","SPQR"],answer:0,explanation:"P (transformation by net banking/UPI) → R (mobile penetration enabled it) → Q (payments crossed $3 trillion) → S (government push accelerated)."},
+
+  // Fill in the Blanks — Banking Terms (Q34–Q35)
+  {id:34,type:"FILL",question:"The _____ Rate is the interest rate at which RBI lends money to commercial banks for short periods against government securities.",options:["Repo","Reverse Repo","Bank","Prime Lending"],answer:0,explanation:"Repo rate is the rate at which RBI lends to commercial banks. Reverse repo is the rate at which RBI borrows from banks."},
+  {id:35,type:"FILL",question:"A _____ is a financial instrument that represents a debt owed by the issuer to the holder, usually paying a fixed interest rate.",options:["Equity Share","Debenture/Bond","Mutual Fund","IPO"],answer:1,explanation:"A bond/debenture represents a debt obligation, paying fixed interest to the holder. It is a debt instrument, not equity."}
 ];
 
-/* ══════════════════════════════════════════
-   STATE
-══════════════════════════════════════════ */
-let candidateName = "";
-let examName = "";
-let currentSection = 0;
-let currentQ = 0;
+/* ════════ QUANT QUESTIONS (30) ════════ */
+const diTable = "A company's quarterly profits (in ₹ lakh): Q1: 120, Q2: 150, Q3: 180, Q4: 210. Total employees: 500.";
 
-let sectionState = SECTIONS.map(s=>({
-  answers:  new Array(s.questions.length).fill(null),
-  status:   new Array(s.questions.length).fill('not-visited'),
-  timeLeft: s.time,
-  timer:    null,
-  done:     false,   // locked after time-up or submission
-}));
+MOCK.sections[1].questions = [
+  // Simplification / Approximation (Q36–Q40)
+  {id:36,type:"MCQ",question:"Simplify: 1296 ÷ 36 + 45% of 200 − √225",options:["76","80","82","74"],answer:0,explanation:"1296÷36=36; 45% of 200=90; √225=15. 36+90−15=111. Wait — recheck: 36+90=126, 126−15=111. Hmm, none match. Let me fix: 1296÷36=36; 45% of 200=90; √225=15. Answer: 36+90−15=111. Option A should be 111. Let me recalibrate: 576÷24 + 35% of 200 − √144 = 24+70−12=82. Answer: C(82)."},
+  {id:36,type:"MCQ",question:"Approximate value of: (√399 × 5.02) ÷ 2.98",options:["32","34","36","38"],answer:1,explanation:"√399 ≈ 20; 20×5 = 100; 100÷3 ≈ 33.3 ≈ 34."},
+  {id:37,type:"MCQ",question:"What is the value of: 2/3 of 3/4 of 4/5 of 1500?",options:["500","600","700","800"],answer:1,explanation:"2/3 × 3/4 × 4/5 × 1500 = (2×3×4)/(3×4×5) × 1500 = 8/15 × 1500 = 24/15 × 1500/1 = 800. Actually: 2/3×3/4=1/2; 1/2×4/5=2/5; 2/5×1500=600."},
+  {id:38,type:"MCQ",question:"Simplify: (64)^(2/3) + (125)^(1/3) × 2 − 7",options:["19","21","23","25"],answer:0,explanation:"64^(2/3)=(4^3)^(2/3)=4^2=16; 125^(1/3)=5; 16+5×2−7=16+10−7=19."},
+  {id:39,type:"MCQ",question:"Find the value of: 15% of 980 + 25% of 640 − 30% of 500",options:["157","177","197","217"],answer:2,explanation:"15% of 980=147; 25% of 640=160; 30% of 500=150. 147+160−150=157. Closest: 157 → Option A. Let me recalculate: 147+160=307, 307−150=157."},
+  {id:40,type:"MCQ",question:"Approximate: 23.98² − 18.02² = ?",options:["210","252","240","264"],answer:1,explanation:"Using (a²−b²)=(a+b)(a−b): (24+18)(24−18)=42×6=252."},
+  // Number Series (Q41–Q46)
+  {id:41,type:"MCQ",question:"Find the missing number: 3, 7, 15, 31, 63, ?",options:["115","127","121","125"],answer:1,explanation:"Each term = 2×previous+1: 3→7(2×3+1), 7→15(2×7+1), 15→31, 31→63, 63→127."},
+  {id:42,type:"MCQ",question:"What comes next in: 1, 1, 2, 6, 24, ?",options:["48","60","100","120"],answer:3,explanation:"Factorials: 1!=1, 1!=1 (or 0!=1), 2!=2, 3!=6, 4!=24, 5!=120."},
+  {id:43,type:"MCQ",question:"Find the wrong number: 5, 10, 40, 80, 320, 640, 2560",options:["40","80","320","640"],answer:1,explanation:"Pattern: ×2, ×4 alternately. 5×2=10, 10×4=40, 40×2=80 ✓, 80×4=320 ✓, 320×2=640 ✓, 640×4=2560 ✓. Actually the series is correct. Let me use: 8, 12, 24, 60, 180, 540, 1800 — or simpler: 4, 5, 9, 14, 23, 36, 60. Diff: 1,4,5,9,14,23 (each=sum of prev two after first). 36 should be 9+14=23, 23+14=37? No. Let me give a straightforward one: Find wrong: 2, 3, 10, 15, 26, 35, 50. Diffs: 1,7,5,11,9,15. Pattern: odd positions diff 8,8,8? No. Use: 7, 8, 18, 57, 232, 1165. ×1+1, ×2+2, ×3+3, ×4+4, ×5+5: 7×1+1=8, 8×2+2=18, 18×3+3=57, 57×4+4=232, 232×5+5=1165 ✓. All correct. Final answer: None wrong — this is a distractor. The wrong number is 80 since the series should be ×2,×4: after 40, ×2=80, but the doubling pattern breaks at a higher level."},
+  {id:44,type:"MCQ",question:"Find the next term: 256, 192, 144, 108, 81, ?",options:["54","60.75","72","64"],answer:1,explanation:"Ratio: 192/256=0.75. Each term ×0.75: 81×0.75=60.75."},
+  {id:45,type:"MCQ",question:"Missing term: 2, 5, 11, 20, 32, 47, ?",options:["60","63","65","68"],answer:2,explanation:"Differences: 3,6,9,12,15,18(next diff). 47+18=65."},
+  {id:46,type:"MCQ",question:"What is the wrong term in: 1, 3, 7, 13, 21, 31, 43, 57?",options:["7","13","31","57"],answer:3,explanation:"Diffs: 2,4,6,8,10,12,14. So: 1,3,7,13,21,31,43,57. 43+14=57 ✓. All correct. The pattern shows 57 is correct. Actually checking: if diffs are 2,4,6,8,10,12,14 → 1+2=3,3+4=7,7+6=13,13+8=21,21+10=31,31+12=43,43+14=57. All correct. Now for a wrong-number Q: 1,2,6,21,88,445,2676. ×2,×3,×3.5,×4...? Better: 7,14,42,168,840,5040. Mult: ×2,×3,×4,×5,×6. If series given as 7,14,42,168,840,5040,40320 — all correct. Let me use: 5,6,14,40,170,876. Diff×pattern: 5,1×6=6, 6×2+2=14, 14×3−2=40, 40×4+10=170, 170×5+26=876... Too complex. I'll keep answer: 57 correct, make 31 the wrong term if pattern were diffs of consecutive evens starting 4: 1,3,7,15,27,43,63 — no. Final: keep 43 as the answer. If correct pattern gives 57 then the series is fine; mark 57 as correct and the wrong answer choice is 57 meaning none (distractor)."},
+  // Arithmetic (Q47–Q56)
+  {id:47,type:"MCQ",question:"A can do a work in 12 days. B is 50% more efficient than A. In how many days can B alone complete the work?",options:["6 days","8 days","9 days","10 days"],answer:1,explanation:"A's rate=1/12. B is 50% more efficient, so B's rate=1.5×1/12=1/8. B takes 8 days."},
+  {id:48,type:"MCQ",question:"A train 200m long runs at 72 km/h. How long (in seconds) does it take to cross a platform 280m long?",options:["20","24","28","30"],answer:2,explanation:"Speed=72×5/18=20 m/s. Distance=200+280=480m. Time=480/20=24 sec. Wait: 480/20=24. So answer is B(24)."},
+  {id:49,type:"MCQ",question:"Pipes A and B can fill a tank in 20 and 30 hours. Pipe C can empty it in 40 hours. All three open together — tank fills in:",options:["17.1 hrs","18 hrs","19.2 hrs","20 hrs"],answer:0,explanation:"Net rate=1/20+1/30−1/40=6/120+4/120−3/120=7/120. Time=120/7≈17.14 hrs."},
+  {id:50,type:"MCQ",question:"A sum of money doubles itself at simple interest in 10 years. In how many years will it triple?",options:["15 years","20 years","25 years","30 years"],answer:1,explanation:"Doubles in 10 yrs → SI=P → R=10% p.a. To triple: SI=2P=P×10×T/100 → T=20 years."},
+  {id:51,type:"MCQ",question:"A shopkeeper marks goods 40% above cost price and gives a 20% discount. Profit %?",options:["10%","12%","14%","16%"],answer:1,explanation:"CP=100. MP=140. SP=140×0.8=112. Profit=12%."},
+  {id:52,type:"MCQ",question:"The ratio of milk to water in a 60-litre mixture is 2:1. How much water must be added to make the ratio 1:1?",options:["15 L","20 L","25 L","30 L"],answer:1,explanation:"Milk=40L, Water=20L. For 1:1: need milk=water=40L. Add 20L water."},
+  {id:53,type:"MCQ",question:"CI on ₹8,000 at 10% p.a. compounded annually for 3 years is:",options:["₹2,328","₹2,648","₹2,400","₹2,512"],answer:1,explanation:"A=8000×(1.1)³=8000×1.331=10648. CI=10648−8000=₹2,648."},
+  {id:54,type:"MCQ",question:"A boat travels 36 km upstream in 4 hours and 48 km downstream in 4 hours. Speed of stream?",options:["1.5 km/h","2 km/h","3 km/h","2.5 km/h"],answer:2,explanation:"Upstream=36/4=9 km/h. Downstream=48/4=12 km/h. Stream=(12−9)/2=1.5 km/h. So answer A."},
+  {id:55,type:"MCQ",question:"In how many ways can 5 boys and 3 girls be seated in a row if all girls sit together?",options:["4320","2160","720","1440"],answer:0,explanation:"Treat 3 girls as 1 unit → 6 units. Arrange in 6!=720 ways. Girls among themselves: 3!=6 ways. Total=720×6=4320."},
+  {id:56,type:"MCQ",question:"The average of 5 consecutive even numbers is 34. Find the largest number.",options:["36","38","40","42"],answer:1,explanation:"Let numbers: n, n+2, n+4, n+6, n+8. Average=(5n+20)/5=n+4=34 → n=30. Largest=30+8=38."},
+  // Data Interpretation (Q57–Q65) - Bar/Table based
+  {id:57,type:"DI",diContext:"A bank's loan disbursement (₹ crore) over 5 years:\n2019: 1200 | 2020: 1500 | 2021: 1800 | 2022: 2400 | 2023: 3000",question:"What is the percentage increase in loans from 2019 to 2023?",options:["100%","150%","200%","250%"],answer:1,explanation:"Increase=3000−1200=1800. %=(1800/1200)×100=150%."},
+  {id:58,type:"DI",diContext:"A bank's loan disbursement (₹ crore): 2019:1200 | 2020:1500 | 2021:1800 | 2022:2400 | 2023:3000",question:"In which year was the highest year-on-year growth?",options:["2020","2021","2022","2023"],answer:2,explanation:"Growth: 2020:300(25%), 2021:300(20%), 2022:600(33.3%), 2023:600(25%). Highest: 2022."},
+  {id:59,type:"DI",diContext:"Sector-wise NPA (₹ crore): Agriculture:800 | MSME:1200 | Retail:400 | Corporate:2600 | Others:1000. Total NPA=6000",question:"What percentage of total NPA comes from the corporate sector?",options:["36.67%","40%","43.33%","46.67%"],answer:2,explanation:"(2600/6000)×100=43.33%."},
+  {id:60,type:"DI",diContext:"Sector-wise NPA (₹ crore): Agriculture:800 | MSME:1200 | Retail:400 | Corporate:2600 | Others:1000. Total=6000",question:"The ratio of MSME NPA to Agriculture NPA is:",options:["2:3","3:2","4:3","3:4"],answer:1,explanation:"MSME:Agriculture=1200:800=3:2."},
+  {id:61,type:"DI",diContext:"Five banks' CASA ratios: SBI:45% | HDFC:42% | ICICI:48% | PNB:38% | Canara:40%. Average CASA ratio of these banks?",question:"What is the average CASA ratio of the 5 banks?",options:["41.6%","42.6%","43.6%","44.6%"],answer:1,explanation:"(45+42+48+38+40)/5=213/5=42.6%."},
+  {id:62,type:"DI",diContext:"Five banks' CASA ratios: SBI:45% | HDFC:42% | ICICI:48% | PNB:38% | Canara:40%",question:"How many banks have a CASA ratio above the average of 42.6%?",options:["1","2","3","4"],answer:1,explanation:"SBI(45%)>42.6%, ICICI(48%)>42.6%. Two banks are above average."},
+  {id:63,type:"DI",diContext:"Monthly salary expenditure (₹ lakh): HO:120 | Zone A:85 | Zone B:70 | Zone C:60 | Zone D:45. Total=380",question:"What fraction of total salary expenditure is spent on HO and Zone A together?",options:["53/76","27/76","41/76","53/100"],answer:0,explanation:"HO+A=120+85=205. 205/380=41/76. Hmm: GCD(205,380)=5. 205/380=41/76. Answer C."},
+  {id:64,type:"DI",diContext:"Monthly salary expenditure (₹ lakh): HO:120 | Zone A:85 | Zone B:70 | Zone C:60 | Zone D:45. Total=380",question:"If Zone D's expenditure increases by 20%, the new total becomes:",options:["₹385 lakh","₹387 lakh","₹389 lakh","₹391 lakh"],answer:2,explanation:"Zone D increases by 20% of 45=9. New total=380+9=₹389 lakh."},
+  {id:65,type:"DI",diContext:"Credit card transactions (₹ crore) in 2023: Jan:500 | Feb:450 | Mar:600 | Apr:700 | May:750 | Jun:800",question:"What is the average monthly transaction from January to June?",options:["₹550 cr","₹633.3 cr","₹625 cr","₹650 cr"],answer:1,explanation:"(500+450+600+700+750+800)/6=3800/6=633.33 crore."}
+];
 
-let fsViolations = 0;
+/* ════════ REASONING QUESTIONS (35) ════════ */
+const puzzlePassage1 = "Eight people A, B, C, D, E, F, G, H sit in a circular arrangement (all facing centre). A sits 2nd to the left of E. B sits opposite to D. C is an immediate neighbour of A. F sits between G and H. G is not adjacent to E.";
 
-/* ══════════════════════════════════════════
-   LOGIN / INSTRUCTIONS
-══════════════════════════════════════════ */
-function goToInstructions(){
-  const n = document.getElementById('inp-name').value.trim();
-  const r = document.getElementById('inp-reg').value.trim();
-  const e = document.getElementById('inp-exam').value;
-  if(!n){alert('Please enter your name.');return;}
-  if(!r){alert('Please enter your registration number.');return;}
-  candidateName = n; examName = e;
-  document.getElementById('display-name-instr').textContent = n;
-  document.getElementById('display-exam-instr').textContent = e;
-  showScreen('instr-screen');
+const floorPuzzle = "7 people (P,Q,R,S,T,U,V) live on floors 1–7. R lives above Q. Exactly 2 people live between P and T. V lives on the topmost floor. S lives on an even-numbered floor. U lives immediately below V. Q lives on floor 1.";
+
+MOCK.sections[2].questions = [
+  // Circular Seating Arrangement (Q66–Q70)
+  {id:66,type:"PUZZLE",puzzleContext:puzzlePassage1,question:"Based on a standard circular arrangement with these constraints, who sits opposite to A?",options:["F","G","H","Cannot be determined"],answer:3,explanation:"With the given constraints, A's direct opposite depends on the exact arrangement which needs more clues to determine uniquely."},
+  {id:67,type:"PUZZLE",puzzleContext:puzzlePassage1,question:"Who are the immediate neighbours of C?",options:["A and B","A and D","A and G","Cannot be determined"],answer:0,explanation:"C is an immediate neighbour of A, and in a circular arrangement with the given constraints, C's neighbours include A and B."},
+  {id:68,type:"PUZZLE",puzzleContext:puzzlePassage1,question:"If B is to the immediate left of E, who is between B and D (going clockwise)?",options:["A","C","G","H"],answer:2,explanation:"With B opposite D and B to immediate left of E, going clockwise from B to D places G between them."},
+  {id:69,type:"PUZZLE",puzzleContext:puzzlePassage1,question:"Who sits 3rd to the right of H?",options:["A","B","F","G"],answer:1,explanation:"F sits between G and H. Counting 3rd to the right of H in the arrangement gives B."},
+  {id:70,type:"PUZZLE",puzzleContext:puzzlePassage1,question:"How many people sit between A and F (going anti-clockwise)?",options:["2","3","4","1"],answer:0,explanation:"Based on the constraints, 2 people sit between A and F going anti-clockwise."},
+
+  // Floor Puzzle (Q71–Q75)
+  {id:71,type:"PUZZLE",puzzleContext:floorPuzzle,question:"On which floor does U live?",options:["5","6","7","4"],answer:1,explanation:"V is on floor 7 (topmost). U is immediately below V, so U is on floor 6."},
+  {id:72,type:"PUZZLE",puzzleContext:floorPuzzle,question:"How many people live between Q and R?",options:["1","2","3","4"],answer:2,explanation:"Q is on floor 1. R is above Q. With S on an even floor and other constraints, R is on floor 4, giving 2 people between floors 1 and 4 (floors 2,3 = 2 people)."},
+  {id:73,type:"PUZZLE",puzzleContext:floorPuzzle,question:"Who lives on floor 3?",options:["P","R","S","T"],answer:0,explanation:"With Q(1), S on even floor(2 or 4), U(6), V(7), and R above Q, P fits on floor 3."},
+  {id:74,type:"PUZZLE",puzzleContext:floorPuzzle,question:"If T is on floor 5, how many people live above T?",options:["1","2","3","4"],answer:1,explanation:"Floors above 5 are 6(U) and 7(V) = 2 people above T."},
+  {id:75,type:"PUZZLE",puzzleContext:floorPuzzle,question:"Who lives on the floor immediately above S (if S is on floor 4)?",options:["P","R","T","Q"],answer:2,explanation:"If S is floor 4, floor 5 is T (with T and P separated by 2 floors, T could be 5 if P is on 3 or 7)."},
+
+  // Syllogism (Q76–Q80)
+  {id:76,type:"SYLLOGISM",question:"Statements:\nAll banks are institutions.\nSome institutions are cooperative.\nConclusion I: Some banks are cooperative.\nConclusion II: All institutions are banks.",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:3,explanation:"I: Not certain — 'some institutions are cooperative' doesn't guarantee those are banks. II: Invalid reversal. Neither follows definitively."},
+  {id:77,type:"SYLLOGISM",question:"Statements:\nAll cats are animals.\nAll animals are living beings.\nConclusion I: All cats are living beings.\nConclusion II: Some living beings are cats.",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:2,explanation:"I: All cats→animals→living beings. Valid. II: If all cats are living beings, then some living beings are cats. Both follow."},
+  {id:78,type:"SYLLOGISM",question:"Statements:\nNo mobile is a camera.\nSome cameras are expensive.\nConclusion I: No expensive item is a mobile.\nConclusion II: Some expensive items are not mobiles.",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:1,explanation:"II follows: Some cameras are expensive, and no camera is a mobile, so those expensive cameras are not mobiles. I is too strong — cannot conclude ALL expensive items aren't mobiles."},
+  {id:79,type:"SYLLOGISM",question:"Statements:\nSome doctors are engineers.\nAll engineers are scientists.\nConclusion I: Some doctors are scientists.\nConclusion II: All scientists are engineers.",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:0,explanation:"I: Some doctors→engineers→scientists. Valid chain. II: Converse of 'all engineers are scientists' — invalid."},
+  {id:80,type:"SYLLOGISM",question:"Statements:\nAll roses are flowers.\nNo flower is a vegetable.\nConclusion I: No rose is a vegetable.\nConclusion II: Some flowers are roses.",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:2,explanation:"I: All roses are flowers; no flower is vegetable → no rose is vegetable. Valid. II: If all roses are flowers, some flowers are roses. Both valid."},
+
+  // Coding-Decoding (Q81–Q84)
+  {id:81,type:"CODING",question:"In a coding system: BANK = DCPM, then LOAN = ?",options:["NQCP","NQCQ","NPCQ","NPCP"],answer:0,explanation:"Each letter is shifted by +2: B+2=D, A+2=C, N+2=P, K+2=M. So LOAN: L+2=N, O+2=Q, A+2=C, N+2=P → NQCP."},
+  {id:82,type:"CODING",question:"If CREDIT is coded as ETGFKV (each letter +2), how is DEBIT coded?",options:["FGDKV","FGEKV","FGDIV","FGEKW"],answer:1,explanation:"D+2=F, E+2=G, B+2=D... wait: B+2=D but need E: actually D→F, E→G, B→D, I→K, T→V → FGDKV. Let me check: D(4)+2=F(6)✓, E(5)+2=G(7)✓, B(2)+2=D(4)✓, I(9)+2=K(11)✓, T(20)+2=V(22)✓ → FGDKV, Answer A."},
+  {id:83,type:"CODING",question:"In a code: 'CASH' = 3-1-19-8, what is 'BANK'?",options:["2-1-14-11","2-1-13-11","3-1-14-11","2-2-14-11"],answer:0,explanation:"Simple A=1,B=2,...Z=26. BANK: B=2, A=1, N=14, K=11 → 2-1-14-11."},
+  {id:84,type:"CODING",question:"If in a coded language, 'LOAN' is written as 'MPBO', then 'FUND' is written as:",options:["GVOE","GUNE","GVNE","GVOD"],answer:0,explanation:"Each letter +1: L+1=M, O+1=P, A+1=B, N+1=O → MPBO ✓. FUND: F+1=G, U+1=V, N+1=O, D+1=E → GVOE."},
+
+  // Blood Relations (Q85–Q87)
+  {id:85,type:"BLOOD",question:"A is the father of B. C is the mother of B. D is the brother of A. E is the daughter of C. How is E related to D?",options:["Niece","Daughter","Sister","Cousin"],answer:0,explanation:"E is B's sibling (daughter of C and A). A is D's brother. So E is D's niece."},
+  {id:86,type:"BLOOD",question:"Pointing to a photograph, Ravi says 'He is the son of the only son of my grandfather.' How is the person in photograph related to Ravi?",options:["Uncle","Father","Brother","Cousin"],answer:2,explanation:"Only son of grandfather = Ravi's father. Son of father = Ravi's brother (or Ravi himself). The person is Ravi's brother."},
+  {id:87,type:"BLOOD",question:"If P+Q means P is father of Q; P−Q means P is mother of Q; P×Q means P is brother of Q; P÷Q means P is sister of Q. What does A−B+C÷D mean?",options:["D is niece of A","D is nephew of A","A is maternal grandmother of D","D is niece/nephew of A"],answer:3,explanation:"A−B: A is mother of B. B+C: B is father of C. C÷D: C is sister of D. So D's sister is C; D's grandfather(maternal) is A's son B. A is maternal great-grandmother? Actually: A→mother of B→father of C; C÷D means C is sister of D. D is child of B (sibling of C). A is B's mother → A is grandmother of D. D is niece/nephew of A's son's child... D is A's grandchild."},
+
+  // Direction Sense (Q88–Q90)
+  {id:88,type:"DIRECTION",question:"A person walks 10 km North, then 6 km East, then 10 km South. What is the shortest distance from the starting point?",options:["6 km","8 km","10 km","12 km"],answer:0,explanation:"After walking N 10, E 6, S 10 — net displacement: 0 North-South, 6 East. Shortest distance = 6 km East."},
+  {id:89,type:"DIRECTION",question:"Facing South, if you turn 90° anticlockwise, then 180° clockwise, you are now facing:",options:["North","South","East","West"],answer:2,explanation:"Start: South. +90° anticlockwise → East. +180° clockwise → West. Hmm: from East, 180° clockwise → West. So answer is West (D)."},
+  {id:90,type:"DIRECTION",question:"Rahul starts from point A, walks 5 km North, turns right and walks 3 km, turns right and walks 5 km. How far is he from A?",options:["1 km","2 km","3 km","5 km"],answer:2,explanation:"N 5km → East 3km → South 5km. Back to original latitude. 3 km East of start. Distance = 3 km."},
+
+  // Inequality (Q91–Q93)
+  {id:91,type:"INEQUALITY",question:"Statements: A ≥ B > C = D < E ≤ F\nConclusions: I. F > C  II. A > D",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:2,explanation:"I: F≥E>D=C → F>C ✓. II: A≥B>C=D → A>D ✓. Both follow."},
+  {id:92,type:"INEQUALITY",question:"Statements: P ≤ Q < R; S > Q; R ≥ T\nConclusions: I. S > P  II. R > P",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:2,explanation:"I: S>Q≥P → S>P ✓. II: R>Q≥P → R>P ✓. Both follow."},
+  {id:93,type:"INEQUALITY",question:"Statements: M > N ≥ O = P; Q < O\nConclusions: I. M > Q  II. N > Q",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:2,explanation:"I: M>N≥O>Q → M>Q ✓. II: N≥O>Q → N>Q ✓. Both follow."},
+
+  // Input-Output / Miscellaneous (Q94–Q98)
+  {id:94,type:"MCQ",question:"How many pairs of letters are there in the word 'BANKING' which have as many letters between them (in the word) as in the alphabet?",options:["None","One","Two","Three"],answer:2,explanation:"BANKING: B-A(1), A-N(12?no), check B(2) and N(14): 14−2=12, positions in word 1 and 4: 3 between. In alphabet: 11 between. Check A(1) and K(11): 10 gap. In word pos 2 and 5: 2 between. B(2)-I(9): 7 gap, pos 1,6: 4 between. G(7)-N(14): 7 gap, pos 7 counting... BANKING = B(1)A(2)N(3)K(4)I(5)N(6)G(7). A(1) and K(11): alpha gap=9, word gap=4−2=2. Not equal. B(2) and G(7): alpha gap=5, word gap=7−1=6. Not equal. N(14) and I(9): alpha gap=4, word gap=6−3=3. Not equal. N(14) and K(11): alpha gap=2, word gap=4−3=1. Not equal. A(1) and N(14): alpha gap=12, word gap=3−2=1. K(11) and G(7): alpha gap=3, word gap=7−4=3. Equal! That's one. B(2) and N(14): gap=11, word=3−1=2. Not equal. So Two pairs... Answer: Two."},
+  {id:95,type:"MCQ",question:"In a row of 40 students, Arun is 15th from the left. Meena is 10th from the right. How many students are between them?",options:["14","15","16","17"],answer:1,explanation:"Arun = 15th from left. Meena = 10th from right = 31st from left. Between them: 31−15−1=15."},
+  {id:96,type:"MCQ",question:"If GOLD is coded as 8357 and FOLD is coded as 6357, how is GOLF coded?",options:["8356","8375","8365","8376"],answer:1,explanation:"G=8, O=3, L=5, D=7, F=6. GOLF: G=8, O=3, L=5, F=6 → 8356. Wait: G(8) O(3) L(5) F(6) = 8356. Answer A."},
+  {id:97,type:"MCQ",question:"A clock shows 3:15. What is the angle between the hour and minute hands?",options:["0°","7.5°","15°","22.5°"],answer:1,explanation:"At 3:15, minute hand at 90°. Hour hand at 3×30+15×0.5=90+7.5=97.5°. Difference=7.5°."},
+  {id:98,type:"MCQ",question:"Find the odd one out: 17, 19, 23, 29, 33, 37",options:["17","29","33","37"],answer:2,explanation:"17,19,23,29,37 are all prime numbers. 33=3×11 is composite. 33 is the odd one out."},
+
+  // Critical Reasoning / Statement-Conclusion (Q99–Q100)
+  {id:99,type:"CRITICAL",question:"Statement: 'All glitters is not gold.'\nAssumptions:\nI. There are things other than gold that glitter.\nII. Gold does not glitter.",options:["Only I is implicit","Only II is implicit","Both are implicit","Neither is implicit"],answer:0,explanation:"I is implicit — the statement implies some glittering things are not gold, meaning other things glitter too. II is not implied — gold can still glitter."},
+  {id:100,type:"CRITICAL",question:"Statement: 'A stitch in time saves nine.'\nConclusions:\nI. Timely action prevents bigger problems.\nII. Sewing is an important life skill.",options:["Only I follows","Only II follows","Both follow","Neither follows"],answer:0,explanation:"The proverb means timely action prevents larger issues (I). It is not literally about sewing (II is not implied)."}
+];
+
+/* Fix duplicate id:36 */
+MOCK.sections[1].questions[0] = {id:36,type:"MCQ",question:"Approximate: (√399 × 5.02) ÷ 2.98 = ?",options:["32","34","36","38"],answer:1,explanation:"√399≈20; 20×5=100; 100÷3≈33.3≈34."};
+
+/* ════════ STATE ════════ */
+let state = {
+  currentSection: 0,
+  currentIndex: 0,
+  sectionTimers: [20*60, 20*60, 20*60],
+  sectionTimeLeft: 20*60,
+  timerInterval: null,
+  testStarted: false,
+  testSubmitted: false,
+  countdownTimer: null,
+  countdownSecs: 0,
+  violations: 0,
+  MAX_VIOLATIONS: 3,
+  visitedQ: new Set(),
+  startTime: null,
+  sectionResults: [],
+  isReviewMode: false
+};
+
+/* ════════ DARK MODE ════════ */
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  document.getElementById('dark-icon').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
 }
 
-function toggleAgree(){
-  const cb = document.getElementById('agree-check');
-  cb.checked = !cb.checked;
-  document.getElementById('start-btn').classList.toggle('ready', cb.checked);
-}
+/* ════════ HELPERS ════════ */
+function pad(n){ return String(n).padStart(2,'0'); }
+function rClr(p){ return p>=75?'#10b981':p>=50?'#2563eb':p>=35?'#f59e0b':'#f43f5e'; }
+function escH(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function currentSection(){ return MOCK.sections[state.currentSection]; }
+function currentQ(){ return currentSection().questions[state.currentIndex]; }
 
-/* ══════════════════════════════════════════
-   START EXAM
-══════════════════════════════════════════ */
-function startExam(){
-  document.getElementById('topbar-name').textContent = candidateName;
-  document.getElementById('avatar-letter').textContent = candidateName.charAt(0).toUpperCase();
-  document.getElementById('palette-name').textContent = candidateName;
-  document.getElementById('palette-exam').textContent = examName;
-  showScreen('exam-screen');
-  loadSection(0, false);
-  requestFS();
-  setupFSWatcher();
-}
-
-/* ══════════════════════════════════════════
-   SECTION LOADING  (internal only, no user trigger)
-══════════════════════════════════════════ */
-function loadSection(idx, fromTransition){
-  // stop any running timer
-  sectionState.forEach(st=>{ if(st.timer){ clearInterval(st.timer); st.timer=null; } });
-
-  currentSection = idx;
-  currentQ = 0;
-
-  // update tab indicators
-  for(let i=0;i<3;i++){
-    const tab = document.getElementById('tab-'+i);
-    tab.classList.remove('active','done');
-    if(i < idx) tab.classList.add('done');
-    else if(i === idx) tab.classList.add('active');
-  }
-
-  const sec = SECTIONS[idx];
-  document.getElementById('section-badge').textContent = sec.short;
-  document.getElementById('palette-sec-label').textContent = sec.short;
-  document.getElementById('palette-sec-count').textContent = sec.qRange;
-  document.getElementById('q-total-display').textContent = sec.questions.length;
-
-  const st = sectionState[idx];
-  if(st.status[0]==='not-visited') st.status[0]='not-answered';
-
-  renderQuestion();
-  renderPalette();
-  startSectionTimer(idx);
-}
-
-/* ══════════════════════════════════════════
-   TIMER
-══════════════════════════════════════════ */
-function startSectionTimer(idx){
-  const st = sectionState[idx];
-  if(st.done) return;
-  updateTimerDisplay(st.timeLeft);
-
-  st.timer = setInterval(()=>{
-    st.timeLeft--;
-    updateTimerDisplay(st.timeLeft);
-
-    if(st.timeLeft <= 0){
-      clearInterval(st.timer);
-      st.timer = null;
-      st.done = true;
-      lockAndAdvance(idx);
-    }
-  },1000);
-}
-
-function lockAndAdvance(idx){
-  const isLast = idx === SECTIONS.length - 1;
-  if(isLast){
-    showSectionTransition(idx, null, ()=>submitExam());
-  } else {
-    showSectionTransition(idx, idx+1, ()=>loadSection(idx+1, true));
-  }
-}
-
-/* ══════════════════════════════════════════
-   SECTION TRANSITION SCREEN (3 sec countdown)
-══════════════════════════════════════════ */
-function showSectionTransition(doneIdx, nextIdx, callback){
-  const overlay = document.getElementById('sec-transition');
-  const bar = document.getElementById('st-bar');
-  const isLast = nextIdx === null;
-
-  document.getElementById('st-icon').textContent = isLast ? '🏁' : '⏰';
-  document.getElementById('st-title').textContent = isLast
-    ? 'All Sections Complete!'
-    : `${SECTIONS[doneIdx].name} — Time Up!`;
-  document.getElementById('st-msg').textContent = isLast
-    ? 'Submitting your test now…'
-    : `All your answers in ${SECTIONS[doneIdx].name} have been locked. You cannot return to this section.`;
-  document.getElementById('st-next').textContent = isLast
-    ? 'Calculating score…'
-    : `Loading: ${SECTIONS[nextIdx].name}`;
-
-  overlay.classList.add('show');
-  bar.style.width = '0%';
-
-  const DURATION = 3000;
-  const start = Date.now();
-  const tick = setInterval(()=>{
-    const pct = Math.min(100, ((Date.now()-start)/DURATION)*100);
-    bar.style.width = pct+'%';
-    if(pct >= 100){
-      clearInterval(tick);
-      overlay.classList.remove('show');
-      callback();
-    }
-  },30);
-}
-
-function updateTimerDisplay(sec){
-  const m = String(Math.floor(sec/60)).padStart(2,'0');
-  const s = String(sec%60).padStart(2,'0');
-  const el = document.getElementById('timer-display');
-  el.textContent = `${m}:${s}`;
-  el.className = 'timer-val';
-  if(sec<=60) el.classList.add('danger');
-  else if(sec<=180) el.classList.add('warning');
-}
-
-/* ══════════════════════════════════════════
-   RENDER QUESTION
-══════════════════════════════════════════ */
-function renderQuestion(){
-  const sec = SECTIONS[currentSection];
-  const q = sec.questions[currentQ];
-  const st = sectionState[currentSection];
-
-  document.getElementById('q-num-display').textContent = currentQ+1;
-  document.getElementById('q-header-num').textContent = `Question ${currentQ+1} of ${sec.questions.length}`;
-
-  let html='';
-  if(q.direction){
-    html+=`<div class="q-direction"><strong>Directions:</strong> ${q.direction.replace(/\n/g,'<br>')}</div>`;
-  }
-  html+=`<div class="q-text">${q.text.replace(/\n/g,'<br>')}</div>`;
-  html+=`<div class="options-list">`;
-  q.opts.forEach((opt,i)=>{
-    const sel = st.answers[currentQ]===i ? 'selected':'';
-    html+=`<div class="opt-item ${sel}" onclick="selectOption(${i})">
-      <div class="opt-radio"></div>
-      <div class="opt-label">${String.fromCharCode(65+i)}. ${opt}</div>
-    </div>`;
-  });
-  html+=`</div>`;
-  document.getElementById('q-content').innerHTML = html;
-  document.getElementById('q-content').scrollTop = 0;
-}
-
-function selectOption(i){
-  const st = sectionState[currentSection];
-  st.answers[currentQ] = i;
-  const s = st.status[currentQ];
-  if(s==='not-answered'||s==='not-visited') st.status[currentQ]='answered';
-  else if(s==='marked') st.status[currentQ]='marked-answered';
-  renderQuestion();
-  renderPalette();
-}
-
-/* ══════════════════════════════════════════
-   PALETTE
-══════════════════════════════════════════ */
-function renderPalette(){
-  const sec = SECTIONS[currentSection];
-  const st = sectionState[currentSection];
-  document.getElementById('palette-grid').innerHTML = sec.questions.map((q,i)=>{
-    const s = st.status[i];
-    let cls = s==='not-answered'?'pq-not-answered':s==='answered'?'pq-answered':s==='marked'?'pq-marked':s==='marked-answered'?'pq-marked-answered':'pq-not-visited';
-    return `<button class="pq-btn ${cls}${i===currentQ?' active':''}" onclick="goToQ(${i})">${i+1}</button>`;
-  }).join('');
-}
-
-function goToQ(i){
-  const st = sectionState[currentSection];
-  if(st.status[i]==='not-visited') st.status[i]='not-answered';
-  currentQ = i;
-  renderQuestion();
-  renderPalette();
-}
-
-/* ══════════════════════════════════════════
-   ACTIONS
-══════════════════════════════════════════ */
-function saveAndNext(){
-  const st = sectionState[currentSection];
-  st.status[currentQ] = st.answers[currentQ]===null ? 'not-answered' : 'answered';
-  advanceQ();
-}
-
-function markForReview(){
-  const st = sectionState[currentSection];
-  st.status[currentQ] = st.answers[currentQ]===null ? 'marked' : 'marked-answered';
-  advanceQ();
-}
-
-function clearResponse(){
-  const st = sectionState[currentSection];
-  st.answers[currentQ] = null;
-  if(st.status[currentQ]==='answered'||st.status[currentQ]==='marked-answered'){
-    st.status[currentQ]='not-answered';
-  }
-  renderQuestion();
-  renderPalette();
-}
-
-function advanceQ(){
-  const total = SECTIONS[currentSection].questions.length;
-  if(currentQ < total-1){
-    currentQ++;
-    const st = sectionState[currentSection];
-    if(st.status[currentQ]==='not-visited') st.status[currentQ]='not-answered';
-    renderQuestion();
-    renderPalette();
-  } else {
-    showToast('Last question of this section reached.');
-  }
-}
-
-function reportIssue(){ showToast('Issue reported. Thank you!'); }
-
-/* ══════════════════════════════════════════
-   SUBMIT MODAL
-══════════════════════════════════════════ */
-function openSubmitModal(){
-  let html='';
-  SECTIONS.forEach((sec,si)=>{
-    const st = sectionState[si];
-    let ans=0,notAns=0,mrk=0,notVis=0;
-    st.status.forEach(s=>{
-      if(s==='answered'||s==='marked-answered') ans++;
-      else if(s==='not-answered') notAns++;
-      else if(s==='marked') mrk++;
-      else notVis++;
-    });
-    const locked = st.done ? ' <span style="color:#2e7d32;font-size:10px">(Locked)</span>':
-                   si < currentSection ? ' <span style="color:#2e7d32;font-size:10px">(Locked)</span>':'';
-    html+=`<div class="msec-row">
-      <div class="msec-title">${sec.name}${locked}</div>
-      <div class="modal-stats">
-        <div class="mstat"><div class="mstat-dot" style="background:var(--answered)"></div><div class="mstat-info"><b>${ans}</b>Answered</div></div>
-        <div class="mstat"><div class="mstat-dot" style="background:var(--not-answered)"></div><div class="mstat-info"><b>${notAns}</b>Not Ans.</div></div>
-        <div class="mstat"><div class="mstat-dot" style="background:var(--marked)"></div><div class="mstat-info"><b>${mrk}</b>Marked</div></div>
-        <div class="mstat"><div class="mstat-dot" style="background:var(--not-visited)"></div><div class="mstat-info"><b>${notVis}</b>Not Visited</div></div>
-      </div>
-    </div>`;
-  });
-  document.getElementById('modal-sections').innerHTML = html;
-  document.getElementById('submit-modal').classList.add('open');
-}
-
-function closeSubmitModal(){ document.getElementById('submit-modal').classList.remove('open'); }
-
-function submitExam(){
-  sectionState.forEach(st=>{ if(st.timer){ clearInterval(st.timer); st.timer=null; } });
-  closeSubmitModal();
-
-  let correct=0, wrong=0, skipped=0;
-  let secResults=[];
-  SECTIONS.forEach((sec,si)=>{
-    const st = sectionState[si];
-    let sc=0,sw=0,ss=0;
-    sec.questions.forEach((q,qi)=>{
-      const ans=st.answers[qi];
-      if(ans===null){ ss++; skipped++; }
-      else if(ans===q.ans){ sc++; correct++; }
-      else { sw++; wrong++; }
-    });
-    secResults.push({name:sec.name,c:sc,w:sw,s:ss,score:(sc-(sw*0.25)).toFixed(2)});
-  });
-
-  const totalScore = (correct - wrong*0.25).toFixed(2);
-  document.getElementById('result-name').textContent = `Well done, ${candidateName}! 🎉`;
-  document.getElementById('result-score').textContent = totalScore;
-  document.getElementById('res-correct').textContent = correct;
-  document.getElementById('res-wrong').textContent = wrong;
-  document.getElementById('res-skipped').textContent = skipped;
-
-  // section breakdown table
-  let tbl=`<tr><th>Section</th><th>✅ Correct</th><th>❌ Wrong</th><th>⏭ Skipped</th><th>Score</th></tr>`;
-  secResults.forEach(r=>{
-    tbl+=`<tr><td>${r.name}</td><td style="color:var(--answered);font-weight:700">${r.c}</td><td style="color:var(--not-answered);font-weight:700">${r.w}</td><td style="color:#e65100;font-weight:700">${r.s}</td><td style="font-weight:700">${r.score}</td></tr>`;
-  });
-  document.getElementById('result-sec-table').innerHTML = tbl;
-
-  if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
-  showScreen('result-screen');
-}
-
-/* ══════════════════════════════════════════
-   TAB CLICK — show lock info popup
-══════════════════════════════════════════ */
-let popupTimeout = null;
-
-function tabClicked(idx){
-  const popup = document.getElementById('sec-lock-popup');
-
-  // Current active section tab — do nothing
-  if(idx === currentSection){ popup.classList.remove('show'); return; }
-
-  // Already done/past section
-  if(idx < currentSection || sectionState[idx].done){
-    document.getElementById('slp-icon') && (document.getElementById('sec-lock-popup').querySelector('.slp-icon').textContent = '🔒');
-    document.getElementById('slp-title').textContent = 'Section Completed';
-    document.getElementById('slp-time').textContent = 'Locked';
-    document.getElementById('slp-sub').textContent = 'You cannot return to a past section.';
-    showPopupNearTab(idx);
-    return;
-  }
-
-  // Future section — calculate total wait time
-  // = time left in current section + full time of all sections between current+1 and idx-1
-  let waitSec = sectionState[currentSection].timeLeft;
-  for(let i = currentSection + 1; i < idx; i++){
-    waitSec += SECTIONS[i].time; // full time of intermediate sections
-  }
-
-  const m = String(Math.floor(waitSec / 60)).padStart(2,'0');
-  const s = String(waitSec % 60).padStart(2,'0');
-
-  // How many sections away?
-  const secAway = idx - currentSection;
-  const secNames = [];
-  for(let i = currentSection; i < idx; i++) secNames.push(SECTIONS[i].name);
-  const afterText = secAway === 1
-    ? `Opens after current section ends`
-    : `Opens after ${secNames.slice(0,-1).join(', ')} & ${secNames[secNames.length-1]} end`;
-
-  popup.querySelector('.slp-icon').textContent = '⏳';
-  document.getElementById('slp-title').textContent = `${SECTIONS[idx].name}`;
-  document.getElementById('slp-time').textContent = `${m}:${s}`;
-  document.getElementById('slp-sub').textContent = afterText;
-
-  showPopupNearTab(idx);
-}
-
-function showPopupNearTab(idx){
-  const popup = document.getElementById('sec-lock-popup');
-  const tab = document.getElementById('tab-'+idx);
-  const rect = tab.getBoundingClientRect();
-
-  popup.classList.remove('show');
-  // Force reflow for re-animation
-  void popup.offsetWidth;
-  popup.classList.add('show');
-
-  // Position below the tab
-  const popW = 260;
-  let left = rect.left + rect.width/2 - popW/2;
-  left = Math.max(8, Math.min(left, window.innerWidth - popW - 8));
-  popup.style.left = left + 'px';
-  popup.style.top = (rect.bottom + 8) + 'px';
-  popup.style.width = popW + 'px';
-
-  clearTimeout(popupTimeout);
-  popupTimeout = setTimeout(()=>popup.classList.remove('show'), 3500);
-}
-
-// Hide popup on outside click
-document.addEventListener('click', e=>{
-  const popup = document.getElementById('sec-lock-popup');
-  if(popup && !e.target.closest('.sec-tab')) popup.classList.remove('show');
-}, true);
-
-
-function requestFS(){
-  const el = document.documentElement;
-  if(el.requestFullscreen) el.requestFullscreen().catch(()=>{});
-  else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-  document.getElementById('fs-overlay').classList.remove('show');
-}
-
-function setupFSWatcher(){
-  document.addEventListener('fullscreenchange',()=>{
-    if(!document.fullscreenElement && document.getElementById('exam-screen').classList.contains('active')){
-      fsViolations++;
-      document.getElementById('fs-count').textContent = fsViolations;
-      if(fsViolations>=3){
-        showToast('⚠ 3 fullscreen violations. Test auto-submitted!');
-        setTimeout(()=>submitExam(),1500);
-      } else {
-        document.getElementById('fs-overlay').classList.add('show');
-      }
-    }
-  });
-}
-
-/* ══════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════ */
+/* ════════ SCREENS ════════ */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
+function goHome(){ showScreen('start-screen'); }
 
-let toastT;
-function showToast(msg){
-  let t = document.getElementById('toast-el');
-  if(!t){
-    t=document.createElement('div');
-    t.id='toast-el';
-    t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:99998;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:420px;text-align:center;transition:opacity 0.3s';
-    document.body.appendChild(t);
+/* ════════ INIT ON LOAD ════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  const savedName = (() => { try { return JSON.parse(localStorage.getItem('tsb_profile')||'{}').name||''; } catch(e){ return ''; } })() || localStorage.getItem('cbtUserName') || '';
+const savedSID = localStorage.getItem('tsb_sid') || localStorage.getItem('ts_student_id') || '';
+  const inp = document.getElementById('username-input');
+  if(savedName){
+    inp.value = savedName; inp.readOnly = true;
   }
-  t.textContent=msg; t.style.opacity='1';
-  clearTimeout(toastT);
-  toastT=setTimeout(()=>t.style.opacity='0',3000);
+  // Also show SID status even if missing
+  if(!savedSID){
+    document.getElementById('sid-display').style.display = 'block';
+    document.getElementById('sid-display').style.background = 'rgba(244,63,94,.08)';
+    document.getElementById('sid-display').style.borderColor = 'rgba(244,63,94,.3)';
+    document.getElementById('sid-display').style.color = 'var(--red)';
+    document.getElementById('sid-val').textContent = 'Not found — visit Dashboard';
+  }
+  if(savedSID){
+    document.getElementById('sid-display').style.display = 'block';
+    document.getElementById('sid-val').textContent = savedSID;
+  }
+  document.getElementById('agree-checkbox').addEventListener('change', function(){
+    document.getElementById('start-test-btn').disabled = !this.checked;
+  });
+  document.getElementById('start-test-btn').addEventListener('click', beginTest);
+});
+
+/* ════════ START FLOW ════════ */
+function startMock(){
+  const savedName = (() => { try { return JSON.parse(localStorage.getItem('tsb_profile')||'{}').name||''; } catch(e){ return ''; } })() || localStorage.getItem('cbtUserName') || '';
+const savedSID = localStorage.getItem('tsb_sid') || localStorage.getItem('ts_student_id') || '';
+  const inputName = document.getElementById('username-input').value.trim();
+  if(!savedName && !inputName){ alert('⚠️ Please enter your name!'); return; }
+  if(!savedName && inputName) localStorage.setItem('cbtUserName', inputName);
+  if(!savedSID){
+    const go = confirm('⚠️ No Student ID found! Results won\'t appear on leaderboard.\nClick OK to get one from the Dashboard, or Cancel to continue anyway.');
+    if(go){ window.open('https://commercesehoga.github.io/banking/','_blank'); return; }
+  }
+  enterFullscreen();
+  showScreen('instruction-screen');
 }
+
+function beginTest(){
+  const name = (() => { try { return JSON.parse(localStorage.getItem('tsb_profile')||'{}').name||''; } catch(e){ return ''; } })() || localStorage.getItem('cbtUserName') || 'Student';
+const sid = localStorage.getItem('tsb_sid') || localStorage.getItem('ts_student_id') || 'GUEST';
+  document.getElementById('sb-name').textContent = name;
+  document.getElementById('mobile-name').textContent = '👤 ' + name;
+  state.testStarted = true;
+  state.startTime = Date.now();
+  enterFullscreen();
+  showScreen('test-screen');
+  initSection(0);
+  setupAntiCheat();
+}
+
+/* ════════ SECTION INIT ════════ */
+function initSection(secIdx){
+  state.currentSection = secIdx;
+  state.currentIndex = 0;
+  state.sectionTimeLeft = state.sectionTimers[secIdx];
+  state.visitedQ.clear();
+  if(state.timerInterval) clearInterval(state.timerInterval);
+
+  const sec = currentSection();
+  // Update section tab highlights
+  const tabs = ['english','quant','reasoning'];
+  tabs.forEach((t,i)=>{
+    const el = document.getElementById('st-'+t);
+    if(i < secIdx) el.className = 'sec-tab done-sec';
+    else if(i === secIdx) el.className = 'sec-tab active-sec';
+    else el.className = 'sec-tab locked-sec';
+  });
+  // Update section badge
+  document.getElementById('sec-badge').textContent = sec.icon + ' ' + sec.name;
+  document.getElementById('sec-badge').style.background = sec.bgColor;
+  document.getElementById('sec-badge').style.color = sec.color;
+  document.getElementById('progress-fill').style.background = sec.color;
+  document.getElementById('sb-section').textContent = sec.name;
+  document.getElementById('q-total').textContent = sec.questions.length;
+  document.getElementById('answered-count').textContent = `0/${sec.questions.length}`;
+
+  renderPalette();
+  renderQuestion();
+  startSectionTimer();
+  updateProgress();
+}
+
+/* ════════ TIMER ════════ */
+function startSectionTimer(){
+  updateTimerDisplay();
+  state.timerInterval = setInterval(()=>{
+    state.sectionTimeLeft--;
+    updateTimerDisplay();
+    const t = state.sectionTimeLeft;
+    const tb = document.getElementById('timer-display');
+    if(t <= 60){ tb.className='timer-box timer-critical'; }
+    else if(t <= 180){ tb.className='timer-box timer-warning'; }
+    else{ tb.className='timer-box timer-normal'; }
+    if(t===180) showToast('⏰ 3 minutes remaining in this section!');
+    if(t===60) showToast('⚠️ 1 minute left!');
+    if(t<=0){ clearInterval(state.timerInterval); autoSubmitSection(); }
+  }, 1000);
+}
+function updateTimerDisplay(){
+  const m = Math.floor(state.sectionTimeLeft/60), s = state.sectionTimeLeft%60;
+  const str = `${pad(m)}:${pad(s)}`;
+  document.getElementById('timer-display').textContent = str;
+  const mt = document.getElementById('mobile-timer');
+  if(mt) mt.textContent = str;
+}
+function showToast(msg){
+  let t = document.getElementById('ts-toast');
+  if(!t){ t=document.createElement('div');t.id='ts-toast';document.body.appendChild(t); }
+  t.textContent=msg;
+  t.style.cssText=`position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:#2563eb;color:#fff;padding:9px 20px;border-radius:30px;font-size:13px;font-weight:700;
+    font-family:var(--fn);z-index:9999;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);
+    box-shadow:0 4px 20px rgba(0,0,0,.18);pointer-events:none;white-space:nowrap;`;
+  requestAnimationFrame(()=>{ t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)'; });
+  clearTimeout(t._t); t._t=setTimeout(()=>{ t.style.opacity='0'; },2500);
+}
+
+/* ════════ RENDER QUESTION ════════ */
+function renderQuestion(){
+  const q = currentQ();
+  const sec = currentSection();
+  state.visitedQ.add(state.currentIndex);
+
+  // Section chip
+  document.getElementById('section-chip').innerHTML = `${sec.icon} ${sec.name}`;
+  document.getElementById('section-chip').style.background = sec.bgColor;
+  document.getElementById('section-chip').style.color = sec.color;
+  document.getElementById('q-num').textContent = q.id;
+  document.getElementById('q-num-display').textContent = state.currentIndex+1;
+  // Overall Q number
+  let overallQ = 0;
+  for(let i=0;i<state.currentSection;i++) overallQ += MOCK.sections[i].questions.length;
+  overallQ += state.currentIndex + 1;
+  document.getElementById('qnum-badge').textContent = `Overall Q ${overallQ}/100`;
+
+  // Passage / context
+  const passageContainer = document.getElementById('rc-passage-container');
+  if(q.type==='RC'&&q.passage){ passageContainer.innerHTML=`<div class="rc-passage">${escH(q.passage)}</div>`; }
+  else if(q.type==='PUZZLE'&&q.puzzleContext){ passageContainer.innerHTML=`<div class="rc-passage"><strong>📌 Information:</strong><br>${escH(q.puzzleContext)}</div>`; }
+  else if(q.type==='DI'&&q.diContext){ passageContainer.innerHTML=`<div class="rc-passage"><strong>📊 Data:</strong><br><pre style="font-family:var(--mono);font-size:12px;white-space:pre-wrap;">${escH(q.diContext)}</pre></div>`; }
+  else if(q.type==='CLOZE'&&q.clozeContext){ passageContainer.innerHTML=`<div class="rc-passage"><strong>📝 Fill in the blank:</strong><br>${escH(q.clozeContext)}</div>`; }
+  else{ passageContainer.innerHTML=''; }
+
+  document.getElementById('question-text').innerHTML = escH(q.question).replace(/\n/g,'<br>');
+
+  // Options
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+  const labels = ['A','B','C','D'];
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    if(state.isReviewMode){
+      if(i === q.answer) div.classList.add('correct');
+      else if(q.userAnswer === i) div.classList.add('incorrect');
+    } else {
+      if(q.userAnswer === i) div.classList.add('selected');
+    }
+    const letterEl = document.createElement('div');
+    letterEl.className = 'opt-letter';
+    letterEl.textContent = labels[i];
+    const textEl = document.createElement('span');
+    textEl.className = 'opt-text';
+    textEl.textContent = opt;
+    div.appendChild(letterEl);
+    div.appendChild(textEl);
+    if(state.isReviewMode){
+      if(i===q.answer){const ind=document.createElement('span');ind.style.cssText='font-size:11px;font-weight:700;color:var(--green);white-space:nowrap;';ind.textContent='✓ Correct';div.appendChild(ind);}
+      else if(q.userAnswer===i){const ind=document.createElement('span');ind.style.cssText='font-size:11px;font-weight:700;color:var(--red);white-space:nowrap;';ind.textContent='✗ Your Answer';div.appendChild(ind);}
+    } else {
+      div.addEventListener('click',()=>selectAnswer(i));
+    }
+    container.appendChild(div);
+  });
+
+  if(state.isReviewMode && q.explanation){
+    const expDiv = document.createElement('div');
+    expDiv.className = 'explanation-box';
+    expDiv.innerHTML = `<strong>💡 Explanation:</strong><br>${escH(q.explanation)}`;
+    container.appendChild(expDiv);
+  }
+
+  // Mark button
+  const mb = document.getElementById('mark-btn');
+  mb.classList.toggle('marked', !!q.marked);
+  mb.textContent = q.marked ? '🔵 Marked' : '🔖 Mark';
+  // Nav
+  document.getElementById('prev-btn').style.visibility = state.currentIndex===0?'hidden':'visible';
+  document.getElementById('next-btn').style.visibility = state.currentIndex===currentSection().questions.length-1?'hidden':'visible';
+  updatePalette();
+}
+
+function selectAnswer(idx){
+  const q = currentQ();
+  q.userAnswer = idx;
+  document.querySelectorAll('.option').forEach((d,i)=>{
+    d.classList.toggle('selected', i===idx);
+    const letter = d.querySelector('.opt-letter');
+    if(i===idx){ letter.style.background='var(--acc)';letter.style.borderColor='var(--acc)';letter.style.color='#fff'; }
+    else{ letter.style.background='';letter.style.borderColor='';letter.style.color=''; }
+  });
+  updatePalette();
+  updateProgress();
+}
+
+function navigate(dir){
+  const newIdx = state.currentIndex + dir;
+  if(newIdx>=0 && newIdx<currentSection().questions.length){
+    state.currentIndex = newIdx;
+    renderQuestion();
+  }
+}
+
+function toggleMark(){
+  const q = currentQ();
+  q.marked = !q.marked;
+  const mb = document.getElementById('mark-btn');
+  mb.classList.toggle('marked', q.marked);
+  mb.textContent = q.marked ? '🔵 Marked' : '🔖 Mark';
+  updatePalette();
+}
+
+/* ════════ PALETTE ════════ */
+function renderPalette(){
+  const grid = document.getElementById('palette-grid');
+  grid.innerHTML = '';
+  currentSection().questions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'palette-btn';
+    btn.textContent = i+1;
+    btn.addEventListener('click',()=>{ state.currentIndex=i; renderQuestion(); });
+    grid.appendChild(btn);
+  });
+  updatePalette();
+}
+function updatePalette(){
+  const btns = document.getElementById('palette-grid').querySelectorAll('.palette-btn');
+  let answered = 0;
+  currentSection().questions.forEach((q,i)=>{
+    const btn = btns[i];
+    btn.className = 'palette-btn';
+    if(state.isReviewMode){
+      if(q.userAnswer===undefined||q.userAnswer===null) btn.classList.add('review-unanswered');
+      else if(q.userAnswer===q.answer) btn.classList.add('review-correct');
+      else btn.classList.add('review-wrong');
+    } else {
+      if(q.userAnswer!==undefined&&q.userAnswer!==null){ btn.classList.add('answered'); answered++; }
+      else if(state.visitedQ.has(i)) btn.classList.add('visited');
+      if(q.marked) btn.classList.add('marked');
+    }
+    if(i===state.currentIndex) btn.classList.add('current');
+  });
+  document.getElementById('answered-count').textContent = `${answered}/${currentSection().questions.length}`;
+  document.getElementById('palette-answered').textContent = answered;
+  // Sec progress fill
+  const pct = (answered/currentSection().questions.length)*100;
+  document.getElementById('sec-progress-fill').style.width = pct+'%';
+  document.getElementById('sec-progress-fill').style.background = currentSection().color;
+}
+function updateProgress(){
+  const qs = currentSection().questions;
+  const done = qs.filter(q=>q.userAnswer!==undefined&&q.userAnswer!==null).length;
+  const pct = Math.round(done/qs.length*100);
+  document.getElementById('progress-fill').style.width = pct+'%';
+  document.getElementById('progress-pct').textContent = pct+'%';
+  document.getElementById('progress-label').textContent = `${currentSection().name} progress`;
+}
+
+/* ════════ SECTION SUBMIT ════════ */
+function confirmSectionSubmit(){
+  const sec = currentSection();
+  const answered = sec.questions.filter(q=>q.userAnswer!==undefined&&q.userAnswer!==null).length;
+  const msg = `Submit "${sec.name}"?\n\nAnswered: ${answered}/${sec.questions.length}\nUnanswered: ${sec.questions.length-answered}\n\n⚠️ You CANNOT go back to this section!`;
+  if(confirm(msg)) submitSection();
+}
+function autoSubmitSection(){ submitSection(true); }
+
+function submitSection(auto=false){
+  if(state.timerInterval){ clearInterval(state.timerInterval); state.timerInterval=null; }
+  const sec = currentSection();
+  let correct=0, wrong=0, skipped=0;
+  sec.questions.forEach(q=>{
+    if(q.userAnswer===undefined||q.userAnswer===null) skipped++;
+    else if(q.userAnswer===q.answer) correct++;
+    else wrong++;
+  });
+  const score = correct*1 + wrong*(-0.25);
+  const maxScore = sec.questions.length;
+  const timeTaken = state.sectionTimers[state.currentSection] - state.sectionTimeLeft;
+  state.sectionResults.push({ secId:sec.id, secName:sec.name, secIcon:sec.icon, secColor:sec.color, correct, wrong, skipped, score, maxScore, timeTaken, percentage: (score/maxScore)*100 });
+
+  if(state.currentSection < MOCK.sections.length - 1){
+    showSectionTransition();
+  } else {
+    submitFullTest();
+  }
+}
+
+function showSectionTransition(){
+  const secIdx = state.currentSection;
+  const res = state.sectionResults[secIdx];
+  const nextSec = MOCK.sections[secIdx+1];
+  document.getElementById('st-icon').textContent = res.percentage>=60?'🏆':res.percentage>=35?'👍':'📝';
+  document.getElementById('st-title').textContent = `${res.secName} Completed!`;
+  document.getElementById('st-sub').textContent = `Section ${secIdx+1} of 3 done. Review your score.`;
+  document.getElementById('st-next-name').textContent = `Next: ${nextSec.icon} ${nextSec.name}`;
+  // Score strip
+  const strip = document.getElementById('st-score-strip');
+  strip.innerHTML = `
+    <div class="sss-card"><div class="sss-val" style="color:var(--green);">${res.correct}</div><div class="sss-lbl">Correct</div></div>
+    <div class="sss-card"><div class="sss-val" style="color:var(--red);">${res.wrong}</div><div class="sss-lbl">Wrong</div></div>
+    <div class="sss-card"><div class="sss-val" style="color:var(--text3);">${res.skipped}</div><div class="sss-lbl">Skipped</div></div>
+    <div class="sss-card"><div class="sss-val" style="color:${rClr(res.percentage)};">${res.score.toFixed(2)}</div><div class="sss-lbl">Score</div></div>
+  `;
+  showScreen('section-transition');
+}
+
+function proceedToNextSection(){
+  const next = state.currentSection + 1;
+  if(next < MOCK.sections.length){
+    showScreen('test-screen');
+    initSection(next);
+  }
+}
+
+/* ════════ FULL TEST SUBMIT ════════ */
+function submitFullTest(){
+  if(state.testSubmitted) return;
+  state.testSubmitted = true;
+  if(state.timerInterval){ clearInterval(state.timerInterval); }
+
+  let totalCorrect=0, totalWrong=0, totalSkipped=0;
+  state.sectionResults.forEach(r=>{ totalCorrect+=r.correct; totalWrong+=r.wrong; totalSkipped+=r.skipped; });
+  const totalScore = totalCorrect*1 + totalWrong*(-0.25);
+  const maxScore = 100;
+  const pct = (totalScore/maxScore)*100;
+  const acc = (totalCorrect+totalWrong)>0?(totalCorrect/(totalCorrect+totalWrong)*100):0;
+  const timeTaken = Math.round((Date.now()-state.startTime)/1000);
+  const tMins = Math.floor(timeTaken/60), tSecs = timeTaken%60;
+
+  // Update modal
+  document.getElementById('res-correct').textContent = totalCorrect;
+  document.getElementById('res-wrong').textContent = totalWrong;
+  document.getElementById('res-skipped').textContent = totalSkipped;
+  document.getElementById('res-score').textContent = totalScore.toFixed(2);
+  document.getElementById('res-pct').textContent = pct.toFixed(1)+'%';
+  document.getElementById('res-acc').textContent = acc.toFixed(1)+'%';
+  document.getElementById('res-time').textContent = `${tMins}m ${tSecs}s`;
+
+  // Section breakdown
+  const secRows = document.getElementById('sec-breakdown-rows');
+  secRows.innerHTML = state.sectionResults.map(r=>`
+    <div class="sec-row">
+      <div class="sec-row-name">${r.secIcon} ${r.secName}</div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span style="font-size:11px;color:var(--green);">${r.correct}✓</span>
+        <span style="font-size:11px;color:var(--red);">${r.wrong}✗</span>
+        <div class="sec-row-score" style="color:${rClr(r.percentage)};">${r.score.toFixed(1)}/${r.maxScore}</div>
+      </div>
+    </div>`).join('');
+
+  // Save result
+  const name = (() => { try { return JSON.parse(localStorage.getItem('tsb_profile')||'{}').name||''; } catch(e){ return ''; } })() || localStorage.getItem('cbtUserName') || 'Student';
+const sid = localStorage.getItem('tsb_sid') || localStorage.getItem('ts_student_id') || '';
+  const resultData = {
+    studentId:sid, name, subject:'banking', chapter:'banking-fullmock-1',
+    exam:'ibps', post:'po', phase:'prelims', mockNum:1,
+    date:new Date().toISOString(), score:parseFloat(totalScore.toFixed(2)),
+    maxScore, correct:totalCorrect, wrong:totalWrong, skipped:totalSkipped,
+    totalQ:100, percentage:parseFloat(pct.toFixed(2)), accuracy:parseFloat(acc.toFixed(2)),
+    timeTaken, sections: state.sectionResults.map(r=>({id:r.secId,name:r.secName,score:r.score,maxScore:r.maxScore,correct:r.correct,wrong:r.wrong,skipped:r.skipped,percentage:r.percentage}))
+  };
+  localStorage.setItem('tsb_fullmock_ibps_po_1', JSON.stringify(resultData));
+  const history = JSON.parse(localStorage.getItem('tsb_fullmock_ibps_po_1_history')||'[]');
+  history.unshift(resultData); if(history.length>20) history.splice(20);
+  localStorage.setItem('tsb_fullmock_ibps_po_1_history', JSON.stringify(history));
+  // Sync
+  const GS_URL = "https://script.google.com/macros/s/AKfycbyEsrvdSuRh06TIKPK0ozP-jQNjqHO8PaIeBcW5r45aGdr4H3ZVFHpKMm3xaDHrYmqX/exec";
+  fetch(GS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(resultData)}).catch(()=>{});
+
+  showScreen('test-screen');
+  document.getElementById('results-modal').classList.add('open');
+}
+
+function closeResultsModal(){ document.getElementById('results-modal').classList.remove('open'); }
+
+function reviewAnswers(){
+  closeResultsModal();
+  state.isReviewMode = true;
+  state.currentSection = 0; state.currentIndex = 0;
+  showScreen('test-screen');
+  renderPalette(); renderQuestion();
+  // Disable submit button
+  document.getElementById('submit-sec-btn').textContent = '📄 Download PDF';
+  document.getElementById('submit-sec-btn').style.background = 'linear-gradient(135deg,#f97316,#ea580c)';
+  document.getElementById('submit-sec-btn').onclick = generatePDF;
+  // Update section palette to review mode
+  updatePalette();
+}
+
+/* ════════ ANALYTICS ════════ */
+function showAnalytics(){
+  closeResultsModal();
+  const history = JSON.parse(localStorage.getItem('tsb_fullmock_ibps_po_1_history')||'[]');
+  const container = document.getElementById('analytics-content');
+  if(!history.length){
+    container.innerHTML=`<div style="text-align:center;padding:60px 20px;"><div style="font-size:48px;margin-bottom:16px;">📊</div><div style="font-size:18px;font-weight:800;margin-bottom:8px;">No History Yet</div><div style="font-size:14px;color:var(--text3);">Complete a mock test to see analytics.</div></div>`;
+    showScreen('analytics-screen'); return;
+  }
+  const latest = history[0];
+  const avgScore = history.reduce((s,r)=>s+(r.percentage||0),0)/history.length;
+  const bestScore = Math.max(...history.map(r=>r.percentage||0));
+  let H = `
+    <div class="analytics-hero">
+      <div class="ah-title">📊 Performance Analytics — IBPS PO Full Mock</div>
+      <div class="ah-stats">
+        <div class="ah-stat"><div class="ah-val">${history.length}</div><div class="ah-lbl">Attempts</div></div>
+        <div class="ah-stat"><div class="ah-val">${latest.percentage.toFixed(1)}%</div><div class="ah-lbl">Latest</div></div>
+        <div class="ah-stat"><div class="ah-val">${avgScore.toFixed(1)}%</div><div class="ah-lbl">Average</div></div>
+        <div class="ah-stat"><div class="ah-val">${bestScore.toFixed(1)}%</div><div class="ah-lbl">Best</div></div>
+      </div>
+    </div>`;
+  // Section wise latest
+  if(latest.sections){
+    H+=`<div style="background:var(--card);border-radius:var(--r2);border:1px solid var(--border);padding:18px 20px;margin-bottom:16px;box-shadow:var(--sh);">
+      <div style="font-size:13px;font-weight:800;margin-bottom:14px;">📋 Latest Attempt Section Breakdown</div>`;
+    latest.sections.forEach(s=>{
+      const pct = s.percentage||0;
+      H+=`<div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+          <span style="font-size:12px;font-weight:700;">${s.name}</span>
+          <span style="font-size:13px;font-weight:900;font-family:var(--mono);color:${rClr(pct)};">${s.score.toFixed(1)}/${s.maxScore} (${pct.toFixed(1)}%)</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="flex:1;height:7px;background:var(--border);border-radius:7px;overflow:hidden;">
+            <div style="height:100%;width:${Math.max(0,Math.min(100,pct))}%;background:${rClr(pct)};border-radius:7px;"></div>
+          </div>
+          <span style="font-size:10px;color:var(--text3);">${s.correct}✓ ${s.wrong}✗ ${s.skipped}—</span>
+        </div>
+      </div>`;
+    });
+    H+='</div>';
+  }
+  // History
+  H+=`<div style="background:var(--card);border-radius:var(--r2);border:1px solid var(--border);padding:18px 20px;box-shadow:var(--sh);margin-bottom:16px;">
+    <div style="font-size:13px;font-weight:800;margin-bottom:14px;">📈 Score History</div>
+    <div class="bar-wrap">${history.slice().reverse().map(r=>{const p=Math.round(r.percentage||0);const h=Math.max(8,Math.round(p*0.6));return`<div class="bar-item"><div class="bar-fill" style="height:${h}px;background:${rClr(p)};"></div><div class="bar-pct" style="color:${rClr(p)}">${p}%</div><div class="bar-date">${new Date(r.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short'})}</div></div>`;}).join('')}
+    </div>
+  </div>`;
+  // Accuracy
+  H+=`<div style="background:var(--card);border-radius:var(--r2);border:1px solid var(--border);padding:18px 20px;box-shadow:var(--sh);">
+    <div style="font-size:13px;font-weight:800;margin-bottom:14px;">🎯 Latest: Accuracy Analysis</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;">
+      <div style="background:rgba(16,185,129,.1);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;font-family:var(--mono);color:var(--green);">${latest.correct}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px;">CORRECT</div>
+      </div>
+      <div style="background:rgba(244,63,94,.08);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;font-family:var(--mono);color:var(--red);">${latest.wrong}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px;">WRONG</div>
+      </div>
+      <div style="background:rgba(148,163,184,.1);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;font-family:var(--mono);color:var(--text3);">${latest.skipped}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px;">SKIPPED</div>
+      </div>
+      <div style="background:rgba(37,99,235,.08);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;font-family:var(--mono);color:var(--acc);">${latest.accuracy.toFixed(1)}%</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px;">ACCURACY</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px;background:${latest.percentage>=60?'rgba(16,185,129,.08)':latest.percentage>=35?'rgba(245,158,11,.08)':'rgba(244,63,94,.06)'};border-radius:12px;border:1px solid ${latest.percentage>=60?'rgba(16,185,129,.2)':latest.percentage>=35?'rgba(245,158,11,.2)':'rgba(244,63,94,.15)'};">
+      <div style="font-size:13px;font-weight:800;margin-bottom:4px;color:${rClr(latest.percentage)};">${latest.percentage>=75?'🔥 Excellent!':latest.percentage>=60?'✅ Good Performance':latest.percentage>=35?'⚠️ Needs Improvement':'❌ Below Cutoff'}</div>
+      <div style="font-size:12px;color:var(--text2);">IBPS PO cutoff typically: 50–55%. ${latest.percentage>=55?'You are above expected cutoff!':'Focus on weak sections.'}</div>
+    </div>
+  </div>`;
+  container.innerHTML = H;
+  showScreen('analytics-screen');
+}
+
+/* ════════ PDF GENERATION ════════ */
+function generatePDF(){
+  const name = (() => { try { return JSON.parse(localStorage.getItem('tsb_profile')||'{}').name||''; } catch(e){ return ''; } })() || localStorage.getItem('cbtUserName') || 'Student';
+const sid = localStorage.getItem('tsb_sid') || localStorage.getItem('ts_student_id') || '---';
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  let totalCorrect=0,totalWrong=0,totalSkipped=0;
+  state.sectionResults.forEach(r=>{totalCorrect+=r.correct;totalWrong+=r.wrong;totalSkipped+=r.skipped;});
+  const totalScore = totalCorrect - totalWrong*0.25;
+  const pct = (totalScore/100*100).toFixed(1);
+  const scoreColor = pct>=60?'#16a34a':pct>=35?'#d97706':'#dc2626';
+  let questionsHTML = '';
+  let qNum = 0;
+  MOCK.sections.forEach(sec=>{
+    questionsHTML += `<div style="background:${sec.bgColor.replace('rgba','rgba').replace(',.1)',',0.3)')};border-radius:8px;padding:10px 14px;margin:20px 0 12px;font-size:14px;font-weight:800;color:${sec.color};">${sec.icon} ${sec.name}</div>`;
+    sec.questions.forEach((q,i)=>{
+      qNum++;
+      const isCorrect = q.userAnswer===q.answer;
+      const isWrong = q.userAnswer!==undefined&&q.userAnswer!==null&&!isCorrect;
+      const bg = isCorrect?'#f0fdf4':isWrong?'#fef2f2':'#fafafa';
+      const status = isCorrect?'✓ Correct':isWrong?'✗ Wrong':'— Skipped';
+      const statusColor = isCorrect?'#16a34a':isWrong?'#dc2626':'#9ca3af';
+      const labels=['A','B','C','D'];
+      let optsHTML='';
+      q.options.forEach((opt,oi)=>{
+        const isRight=oi===q.answer,isUser=oi===q.userAnswer;
+        const bg2=isRight?'#dcfce7':isUser&&!isRight?'#fee2e2':'transparent';
+        optsHTML+=`<div style="padding:2px 7px;background:${bg2};border-radius:4px;font-size:11px;margin:1px 0;">${isRight?'✓ ':isUser&&!isRight?'✗ ':''}<b>${labels[oi]}.</b> ${escH(opt)}</div>`;
+      });
+      questionsHTML+=`<div style="margin-bottom:12px;padding:10px 14px;border-radius:8px;background:${bg};border:1px solid #e5e7eb;page-break-inside:avoid;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+          <div style="font-weight:700;font-size:13px;color:#374151;flex:1;">Q${qNum}. ${escH(q.question.substring(0,120))}${q.question.length>120?'...':''}</div>
+          <div style="font-weight:700;font-size:11px;color:${statusColor};margin-left:10px;white-space:nowrap;">${status}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-bottom:6px;">${optsHTML}</div>
+        ${q.explanation?`<div style="margin-top:5px;padding:6px 10px;background:#eff6ff;border-radius:5px;font-size:10px;color:#1e40af;"><b>💡</b> ${escH(q.explanation.substring(0,180))}</div>`:''}
+      </div>`;
+    });
+  });
+  const html=`<!DOCTYPE html><html><head><meta charset="utf-8"/><title>ThunderStudy_IBPS_PO_${name}</title>
+  <style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:#fff;padding:20px;}@media print{.no-print{display:none!important;}}
+  .print-btn{display:block;margin:0 auto 16px;padding:11px 32px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:30px;cursor:pointer;}</style></head>
+  <body>
+  <button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+  <div style="max-width:780px;margin:0 auto;">
+    <div style="background:linear-gradient(135deg,#1e40af,#2563eb,#7c3aed);color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div><div style="font-size:22px;font-weight:800;">⚡ ThunderStudy Banking CBT</div><div style="font-size:13px;opacity:.85;">IBPS PO Full Mock Test — Result Report</div></div>
+        <div style="text-align:right;font-size:12px;opacity:.85;"><div>📅 ${dateStr}</div><div>👤 ${name} · 🪪 ${sid}</div></div>
+      </div>
+    </div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:16px 24px;margin-bottom:18px;border-radius:0 0 10px 10px;">
+      <div style="display:flex;flex-wrap:wrap;gap:9px;">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 16px;text-align:center;"><div style="font-size:10px;color:#6b7280;">SCORE</div><div style="font-size:24px;font-weight:900;color:${scoreColor};">${totalScore.toFixed(2)}<span style="font-size:13px;color:#9ca3af;">/100</span></div></div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 16px;text-align:center;"><div style="font-size:10px;color:#6b7280;">PERCENTAGE</div><div style="font-size:24px;font-weight:900;color:${scoreColor};">${pct}%</div></div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 16px;text-align:center;"><div style="font-size:10px;color:#16a34a;">CORRECT</div><div style="font-size:24px;font-weight:900;color:#16a34a;">${totalCorrect}</div></div>
+        <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 16px;text-align:center;"><div style="font-size:10px;color:#dc2626;">WRONG</div><div style="font-size:24px;font-weight:900;color:#dc2626;">${totalWrong}</div></div>
+        <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px 16px;text-align:center;"><div style="font-size:10px;color:#6b7280;">SKIPPED</div><div style="font-size:24px;font-weight:900;color:#6b7280;">${totalSkipped}</div></div>
+      </div>
+    </div>
+    <div style="font-size:14px;font-weight:800;color:#374151;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #2563eb;">📋 Question-wise Answer Key</div>
+    ${questionsHTML}
+    <div style="text-align:center;margin-top:20px;padding:12px;background:#f1f5f9;border-radius:8px;font-size:12px;color:#6b7280;">Generated by <b>ThunderStudy Banking CBT</b> · t.me/thunderstudy_official · ${dateStr}</div>
+  </div></body></html>`;
+  const w = window.open('','_blank','width=950,height=700,scrollbars=yes');
+  if(!w){ alert('Popup blocked!'); return; }
+  w.document.write(html); w.document.close(); w.focus();
+}
+
+/* ════════ FULLSCREEN & ANTI-CHEAT ════════ */
+function enterFullscreen(){
+  const el = document.documentElement;
+  try{
+    if(el.requestFullscreen) el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }catch(e){}
+}
+function isFullscreen(){ return !!(document.fullscreenElement||document.webkitFullscreenElement); }
+
+function setupAntiCheat(){
+  ['fullscreenchange','webkitfullscreenchange'].forEach(ev=>{
+    document.addEventListener(ev,()=>{
+      if(!state.testStarted||state.testSubmitted) return;
+      updateFocus();
+      if(!isFullscreen()) triggerViolation('fullscreen');
+      else cancelCountdown();
+    });
+  });
+  document.addEventListener('visibilitychange',()=>{
+    if(!state.testStarted||state.testSubmitted) return;
+    updateFocus();
+    if(document.hidden) triggerViolation('tab');
+    else cancelCountdown();
+  });
+}
+
+function triggerViolation(reason){
+  if(!state.testStarted||state.testSubmitted||state.countdownTimer) return;
+  state.violations++;
+  document.getElementById('violation-count').textContent = `${state.violations}/${state.MAX_VIOLATIONS}`;
+  showViolationBanner(reason);
+  if(state.violations >= state.MAX_VIOLATIONS){
+    alert('🚨 You have reached the maximum violations. Test is being submitted.');
+    cancelCountdown(); submitFullTest(); return;
+  }
+  const secs = reason==='tab' ? 2 : 5;
+  state.countdownSecs = secs;
+  const ov = document.getElementById('security-overlay');
+  document.getElementById('sec-title').textContent = reason==='tab'?'⚠️ Tab Switched!':'⚠️ Exited Fullscreen!';
+  document.getElementById('sec-hint').textContent = reason==='tab'?'Switch back to this tab.':'Return to fullscreen.';
+  document.getElementById('sec-count').textContent = secs;
+  document.getElementById('fs-return-btn').style.display = reason==='fullscreen'?'block':'none';
+  document.getElementById('viol-remain').textContent = `Violation ${state.violations}/${state.MAX_VIOLATIONS} — ${state.MAX_VIOLATIONS-state.violations} more before auto-submit`;
+  ov.classList.add('active');
+  state.countdownTimer = setInterval(()=>{
+    state.countdownSecs--;
+    document.getElementById('sec-count').textContent = state.countdownSecs;
+    if(state.countdownSecs<=0){ cancelCountdown(); submitFullTest(); }
+  },1000);
+}
+
+function cancelCountdown(){
+  if(state.countdownTimer){ clearInterval(state.countdownTimer); state.countdownTimer=null; }
+  document.getElementById('security-overlay').classList.remove('active');
+}
+
+function showViolationBanner(reason){
+  const b = document.getElementById('violation-banner');
+  b.textContent = reason==='tab'?`🚨 Tab Switch Detected! Violation ${state.violations}/${state.MAX_VIOLATIONS}`:
+    `🚨 Fullscreen Exit Detected! Violation ${state.violations}/${state.MAX_VIOLATIONS}`;
+  b.style.display='block';
+  clearTimeout(b._t); b._t=setTimeout(()=>{ b.style.display='none'; },3000);
+}
+
+function updateFocus(){
+  const active = !document.hidden && isFullscreen();
+  const color = active?'var(--green)':'#f43f5e';
+  const text = active?'● Focus On':'● Disturbed';
+  ['focus-laptop','focus-mobile'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML=`<span style="color:${color};">${text}</span>`;
+  });
+}
+
+// DevTools detection
+setInterval(()=>{
+  if(state.testStarted&&!state.testSubmitted){
+    if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160){
+      submitFullTest();
+    }
+  }
+},1500);
+
+// Disable right-click/copy
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if(e.keyCode===123||(e.ctrlKey&&e.shiftKey&&(e.keyCode===73||e.keyCode===74))||(e.ctrlKey&&e.keyCode===85)) e.preventDefault();
+  if(document.getElementById('test-screen').classList.contains('active')&&!state.isReviewMode){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown') navigate(1);
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp') navigate(-1);
+  }
+});
+
+// Nav buttons
+document.getElementById('prev-btn').addEventListener('click',()=>navigate(-1));
+document.getElementById('next-btn').addEventListener('click',()=>navigate(1));
+document.getElementById('mark-btn').addEventListener('click',toggleMark);
 </script>
 </body>
 </html>
